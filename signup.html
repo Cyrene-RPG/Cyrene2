@@ -2,46 +2,131 @@
 <html>
 
 <head>
-<title>Create Character</title>
+<title>Create Account</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+
 body{
-background:black;
+margin:0;
+font-family:'Orbitron', Arial;
 color:white;
-font-family:Arial;
+
+background:
+linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+url('City.jpg');
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+.title{
 text-align:center;
-padding-top:100px;
+margin-top:60px;
+font-size:40px;
+color:#a855ff;
+text-shadow:0 0 20px #7a00ff, 0 0 40px #7a00ff;
+}
+
+.signupBox{
+margin:60px auto;
+width:90%;
+max-width:400px;
+padding:30px;
+
+border:2px solid #7a00ff;
+border-radius:12px;
+
+background:rgba(0,0,0,0.6);
+
+box-shadow:
+0 0 10px #7a00ff,
+0 0 40px #7a00ff,
+inset 0 0 10px #7a00ff;
+
+text-align:center;
 }
 
 input{
-padding:10px;
-margin:10px;
-width:200px;
+width:100%;
+padding:12px;
+margin:12px 0;
+
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+
+text-align:center;
+
+box-shadow:0 0 10px #39ff14;
 }
 
 button{
-padding:10px 20px;
+width:100%;
+padding:14px;
+margin-top:10px;
+
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+
 cursor:pointer;
+
+box-shadow:0 0 10px #39ff14;
 }
+
+button:hover{
+background:#39ff14;
+color:black;
+}
+
+.backBtn{
+margin-top:15px;
+font-size:12px;
+cursor:pointer;
+color:#ccc;
+}
+
+.backBtn:hover{
+color:white;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h1>Create Character</h1>
+<div class="title">Register to City</div>
 
-<input id="username" placeholder="Enter name"><br>
+<div class="signupBox">
 
-<button onclick="saveCharacter()">Create</button>
+<input id="username" placeholder="USERNAME">
+<input id="email" placeholder="EMAIL">
+<input id="password" type="password" placeholder="PASSWORD">
+
+<button onclick="createAccount()">
+> INITIALIZE IDENTITY
+</button>
+
+<div class="backBtn" onclick="location.href='index.html'">
+← RETURN
+</div>
+
+</div>
 
 <script>
-async function saveCharacter(){
-    const name = document.getElementById("username").value;
+async function createAccount(){
 
-    if(!name){
-        alert("Enter a name");
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if(!username || !email || !password){
+        alert("FILL ALL FIELDS");
         return;
     }
 
@@ -51,20 +136,24 @@ async function saveCharacter(){
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username: name })
+            body: JSON.stringify({
+                username,
+                email,
+                password
+            })
         });
 
         const data = await res.json();
 
         if(data.success){
-            alert("Character created!");
+            alert("ACCOUNT CREATED");
             window.location.href = "index.html";
         } else {
-            alert("Error creating character");
+            alert(data.message || "ERROR");
         }
 
     }catch(err){
-        alert("Server not running!");
+        alert("SERVER OFFLINE");
     }
 }
 </script>
