@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Username</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+box-sizing: border-box;
+}
+
+body{
+margin:0;
+font-family:'Orbitron', Arial;
+color:white;
+
+background:
+linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+url('City.jpg');
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+.title{
+text-align:center;
+margin-top:60px;
+font-size:40px;
+color:#a855ff;
+text-shadow:0 0 20px #7a00ff, 0 0 40px #7a00ff;
+}
+
+.box{
+margin:60px auto;
+width:90%;
+max-width:400px;
+padding:30px;
+
+border:2px solid #7a00ff;
+border-radius:12px;
+
+background:rgba(0,0,0,0.6);
+
+box-shadow:
+0 0 10px #7a00ff,
+0 0 40px #7a00ff,
+inset 0 0 10px #7a00ff;
+
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:12px 0;
+
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+
+text-align:center;
+
+box-shadow:0 0 10px #39ff14;
+}
+
+button{
+width:100%;
+padding:14px;
+
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+
+cursor:pointer;
+
+box-shadow:0 0 10px #39ff14;
+}
+
+button:hover{
+background:#39ff14;
+color:black;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="title">IDENTITY</div>
+
+<div class="box">
+
+<input id="accountName" placeholder="USERNAME">
+
+<button onclick="saveUsername()">
+> CONFIRM
+</button>
+
+</div>
+
+<script>
+async function saveUsername(){
+
+    const username = document.getElementById("accountName").value;
+
+    if(!username){
+        alert("ENTER USERNAME");
+        return;
+    }
+
+    try{
+        const res = await fetch("http://localhost:3001/set-username", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username })
+        });
+
+        const data = await res.json();
+
+        if(data.success){
+            window.location.href = "index.html";
+        } else {
+            alert("ERROR");
+        }
+
+    }catch(err){
+        alert("SERVER OFFLINE");
+    }
+}
+</script>
+
+</body>
+
+</html>
