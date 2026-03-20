@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Create Character</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+padding-top:100px;
+}
+
+input{
+padding:10px;
+margin:10px;
+width:200px;
+}
+
+button{
+padding:10px 20px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Create Character</h1>
+
+<input id="username" placeholder="Enter name"><br>
+
+<button onclick="saveCharacter()">Create</button>
+
+<script>
+async function saveCharacter(){
+    const name = document.getElementById("username").value;
+
+    if(!name){
+        alert("Enter a name");
+        return;
+    }
+
+    try{
+        const res = await fetch("http://localhost:3001/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: name })
+        });
+
+        const data = await res.json();
+
+        if(data.success){
+            alert("Character created!");
+            window.location.href = "index.html";
+        } else {
+            alert("Error creating character");
+        }
+
+    }catch(err){
+        alert("Server not running!");
+    }
+}
+</script>
+
+</body>
+
+</html>
