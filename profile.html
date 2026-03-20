@@ -22,31 +22,31 @@ background-position:center;
 background-attachment:fixed;
 }
 
-/* ===== TOP BAR ===== */
+/* TOP */
 
 .hamburger{
 position:fixed;
-top:20px;
-left:20px;
-font-size:28px;
+top:15px;
+left:15px;
+font-size:26px;
 color:#39ff14;
-cursor:pointer;
 z-index:1000;
+cursor:pointer;
 }
 
 .profileCircle{
 position:fixed;
-top:15px;
-right:20px;
-width:70px;
-height:70px;
+top:10px;
+right:15px;
+width:65px;
+height:65px;
 border-radius:50%;
 background:black;
 border:3px solid #a855ff;
-box-shadow:0 0 20px #a855ff, 0 0 40px #a855ff;
+box-shadow:0 0 20px #a855ff;
 }
 
-/* ===== SIDEBAR ===== */
+/* SIDEBAR */
 
 .sidebar{
 position:fixed;
@@ -58,15 +58,14 @@ background:black;
 padding-top:100px;
 transition:0.3s;
 z-index:999;
-
 box-shadow:0 0 30px #a855ff;
 }
 
 .sidebar button{
 display:block;
 width:80%;
-margin:15px auto;
-padding:15px;
+margin:12px auto;
+padding:12px;
 
 background:black;
 border:2px solid #39ff14;
@@ -74,7 +73,6 @@ color:#39ff14;
 
 cursor:pointer;
 font-family:'Orbitron';
-font-size:14px;
 
 box-shadow:0 0 10px #39ff14;
 }
@@ -84,43 +82,45 @@ background:#39ff14;
 color:black;
 }
 
-/* ===== MAIN CONTENT ===== */
+/* MAIN */
 
 .main{
 text-align:center;
-padding-top:120px;
+padding-top:100px;
 }
 
-/* Welcome box */
+/* Welcome */
 
 .welcomeBox{
 display:inline-block;
-padding:20px 40px;
-margin-bottom:60px;
+padding:15px 30px;
+margin-bottom:40px;
 
 background:black;
 border-radius:10px;
 
 box-shadow:
 0 0 10px #a855ff,
-0 0 30px #a855ff,
+0 0 25px #a855ff,
 inset 0 0 10px #a855ff;
 
-font-size:28px;
+font-size:22px;
 }
 
-/* Character cards */
+/* CHARACTER GRID */
 
 .characterContainer{
 display:flex;
 justify-content:center;
-gap:40px;
+gap:25px;
 flex-wrap:wrap;
 }
 
+/* CARDS */
+
 .characterCard{
-width:200px;
-height:260px;
+width:160px;
+height:200px;
 
 display:flex;
 align-items:center;
@@ -131,44 +131,48 @@ border-radius:12px;
 
 box-shadow:
 0 0 15px #a855ff,
-0 0 40px #a855ff;
+0 0 30px #a855ff;
 
 color:#39ff14;
+font-size:14px;
 cursor:pointer;
 }
 
-/* ===== MOBILE ===== */
+/* ===== MOBILE FIX (CLEAN + SMALL) ===== */
 
 @media (max-width:768px){
 
 .main{
-padding-top:100px;
+padding-top:90px;
 }
 
+/* Welcome tighter */
 .welcomeBox{
-font-size:20px;
+font-size:18px;
 width:85%;
+margin-bottom:25px;
 }
 
+/* STACK cards */
 .characterContainer{
 flex-direction:column;
 align-items:center;
-gap:25px;
+gap:18px;
 }
 
+/* SMALL CLEAN CARDS */
 .characterCard{
-width:80%;
-max-width:260px;
-height:180px;
+width:75%;
+max-width:220px;
+height:120px;
+
+font-size:14px;
 }
 
+/* smaller top UI */
 .profileCircle{
-width:60px;
-height:60px;
-}
-
-.sidebar{
-width:70%;
+width:55px;
+height:55px;
 }
 
 }
@@ -178,11 +182,9 @@ width:70%;
 
 <body>
 
-<!-- TOP -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 <div class="profileCircle"></div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 <button onclick="location.href='index.html'">Home</button>
 <button>Quests (Coming Soon)</button>
@@ -190,7 +192,6 @@ width:70%;
 <button onclick="logout()">Log Out</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="welcomeBox">
@@ -209,13 +210,11 @@ width:70%;
 
 <script>
 
-/* MENU */
 function toggleMenu(){
 const menu = document.getElementById("sidebar");
 menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
 }
 
-/* USERNAME */
 const username = localStorage.getItem("username");
 
 if(username){
@@ -223,7 +222,6 @@ document.getElementById("welcomeText").innerText =
 "Welcome, " + username + "!";
 }
 
-/* LOGOUT */
 function logout(){
 localStorage.removeItem("username");
 window.location.href = "index.html";
