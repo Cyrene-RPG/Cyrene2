@@ -27,7 +27,7 @@ background-position:center;
 background-attachment:fixed;
 }
 
-/* SIDEBAR (UPGRADED) */
+/* SIDEBAR */
 
 .sidebar{
 position:fixed;
@@ -39,16 +39,18 @@ height:100%;
 
 padding-top:120px;
 
-background:rgba(0,0,0,0.85);
+background:rgba(0,0,0,0.9);
 
 border-right:2px solid #7a00ff;
 
 box-shadow:
 0 0 25px #7a00ff,
 inset 0 0 15px #7a00ff;
+
+transition:0.3s;
 }
 
-/* SIDEBAR BUTTONS (BETTER LOOK) */
+/* BUTTONS */
 
 .sideBtn{
 display:block;
@@ -66,15 +68,27 @@ text-align:center;
 box-shadow:
 0 0 10px #39ff14,
 inset 0 0 5px #39ff14;
-
-transition:0.2s;
 }
 
 .sideBtn:hover{
 background:#39ff14;
 color:black;
-box-shadow:
-0 0 20px #39ff14;
+}
+
+/* HAMBURGER */
+
+.menuToggle{
+display:none;
+position:fixed;
+top:15px;
+left:15px;
+
+font-size:28px;
+color:#39ff14;
+cursor:pointer;
+
+z-index:1000;
+text-shadow:0 0 10px #39ff14;
 }
 
 /* TOP BAR */
@@ -89,10 +103,9 @@ height:100px;
 display:flex;
 justify-content:center;
 align-items:center;
-
 }
 
-/* WELCOME BOX (TOP CENTER) */
+/* WELCOME */
 
 .welcomeBox{
 padding:15px 40px;
@@ -109,7 +122,7 @@ box-shadow:
 font-size:22px;
 }
 
-/* PROFILE ICON (BIGGER + CLEANER) */
+/* PROFILE ICON */
 
 .profileIcon{
 position:fixed;
@@ -129,24 +142,24 @@ box-shadow:
 background:black;
 }
 
-/* MAIN CONTENT */
+/* MAIN */
 
 .main{
 margin-left:220px;
-margin-top:220px; /* MORE SPACE */
+margin-top:220px;
 
 display:flex;
 justify-content:center;
 }
 
-/* CHARACTER GRID */
+/* CHAR GRID */
 
 .charGrid{
 display:flex;
 gap:30px;
 }
 
-/* CHARACTER BOX */
+/* CHAR BOX */
 
 .charBox{
 width:180px;
@@ -168,84 +181,58 @@ justify-content:center;
 
 color:#39ff14;
 cursor:pointer;
-
-transition:0.2s;
 }
 
-.charBox:hover{
-background:#39ff14;
-color:black;
-box-shadow:
-0 0 25px #39ff14;
-}
+/* ===== MOBILE ===== */
 
-/* ===== MOBILE FIX ===== */
 @media (max-width: 768px){
 
-/* SIDEBAR → TOP BAR */
+/* SHOW MENU BUTTON */
+.menuToggle{
+display:block;
+}
+
+/* HIDE SIDEBAR */
 .sidebar{
-position:fixed;
-top:0;
+left:-220px;
+}
+
+/* OPEN SIDEBAR */
+.sidebar.active{
 left:0;
-width:100%;
-height:auto;
-
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-
-border-right:none;
-border-bottom:2px solid #7a00ff;
 }
 
-/* BUTTONS SMALLER */
-.sideBtn{
-width:auto;
-margin:0;
-padding:10px 8px;
-font-size:12px;
-}
-
-/* TOP BAR ADJUST */
+/* REMOVE SHIFT */
 .topBar{
 left:0;
-top:60px;
-height:auto;
+top:80px;
+}
+
+.main{
+margin-left:0;
+margin-top:180px;
 }
 
 /* PROFILE ICON */
 .profileIcon{
-top:10px;
-right:10px;
-width:60px;
-height:60px;
+top:15px;
+right:15px;
+width:55px;
+height:55px;
 }
 
-/* MAIN CONTENT */
-.main{
-margin-left:0;
-margin-top:160px;
-padding:10px;
-}
-
-/* CHARACTER GRID STACK */
+/* STACK */
 .charGrid{
 flex-direction:column;
 align-items:center;
-gap:20px;
+gap:25px;
 }
 
-/* CHARACTER BOX FULL WIDTH */
+/* SIZE */
 .charBox{
-width:90%;
-max-width:300px;
+width:85%;
+max-width:280px;
 height:180px;
-}
-
-/* WELCOME BOX SMALLER */
-.welcomeBox{
-font-size:16px;
-padding:10px 20px;
 }
 
 }
@@ -256,58 +243,41 @@ padding:10px 20px;
 
 <body>
 
+<!-- MENU BUTTON -->
+<div class="menuToggle" onclick="toggleMenu()">☰</div>
+
 <!-- SIDEBAR -->
 <div class="sidebar">
-
-<button class="sideBtn" onclick="location.href='index.html'">
-Home
-</button>
-
-<button class="sideBtn">
-Quests
-</button>
-
-<button class="sideBtn">
-City Guide
-</button>
-
-<button class="sideBtn">
-Log Out
-</button>
-
+<button class="sideBtn">Home</button>
+<button class="sideBtn">Quests</button>
+<button class="sideBtn">City Guide</button>
+<button class="sideBtn">Log Out</button>
 </div>
 
-<!-- TOP BAR -->
-<div class="topBar">
-    <div class="welcomeBox">
-        Welcome, User!
-    </div>
-</div>
-
-<!-- PROFILE ICON -->
+<!-- PROFILE -->
 <div class="profileIcon"></div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
+<!-- WELCOME -->
+<div class="topBar">
+<div class="welcomeBox">Welcome, User!</div>
+</div>
 
+<!-- MAIN -->
+<div class="main">
 <div class="charGrid">
 
-<div class="charBox">
-+ Add Character
-</div>
-
-<div class="charBox">
-+ Add Character
-</div>
-
-<div class="charBox">
-+ Add Character
-</div>
+<div class="charBox">+ Add Character</div>
+<div class="charBox">+ Add Character</div>
+<div class="charBox">+ Add Character</div>
 
 </div>
-
 </div>
+
+<script>
+function toggleMenu(){
+document.querySelector('.sidebar').classList.toggle('active');
+}
+</script>
 
 </body>
-
 </html>
