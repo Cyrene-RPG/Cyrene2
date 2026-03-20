@@ -1,238 +1,235 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cyrene - Profile</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyrene - Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 
-<style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
-body{
-margin:0;
-font-family:'Orbitron', Arial;
-color:white;
+  <style>
+  body{
+    margin:0;
+    font-family:'Orbitron', Arial, sans-serif;
+    color:white;
 
-background:
-linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
-url('City.jpg');
+    background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url('City.jpg');
 
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-}
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+  }
 
-/* ===== TOP CENTER WELCOME ===== */
+  .topWelcome{
+    position:fixed;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:1000;
 
-.topWelcome{
-position:fixed;
-top:10px;
-left:50%;
-transform:translateX(-50%);
-z-index:1000;
+    padding:12px 30px;
+    background:black;
+    border-radius:10px;
 
-padding:12px 30px;
+    box-shadow:
+    0 0 10px #a855ff,
+    0 0 25px #a855ff,
+    inset 0 0 10px #a855ff;
 
-background:black;
-border-radius:10px;
+    font-size:18px;
+  }
 
-box-shadow:
-0 0 10px #a855ff,
-0 0 25px #a855ff,
-inset 0 0 10px #a855ff;
+  .hamburger{
+    position:fixed;
+    top:60px;
+    left:15px;
+    font-size:26px;
+    color:#39ff14;
+    cursor:pointer;
+    z-index:1000;
+  }
 
-font-size:18px;
-}
+  .profileCircle{
+    position:fixed;
+    top:55px;
+    right:15px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:3px solid #a855ff;
+    box-shadow:0 0 20px #a855ff;
+    object-fit:cover;
+    background:black;
+  }
 
-/* ===== TOP ICONS ===== */
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:-260px;
+    width:260px;
+    height:100%;
+    background:black;
+    padding-top:120px;
+    transition:0.3s;
+    z-index:999;
 
-.hamburger{
-position:fixed;
-top:60px;
-left:15px;
-font-size:26px;
-color:#39ff14;
-z-index:1000;
-cursor:pointer;
-}
+    box-shadow:0 0 30px #a855ff;
+  }
 
-.profileCircle{
-position:fixed;
-top:55px;
-right:15px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:black;
-border:3px solid #a855ff;
-box-shadow:0 0 20px #a855ff;
-}
+  .sidebar button{
+    display:block;
+    width:80%;
+    margin:12px auto;
+    padding:12px;
 
-/* ===== SIDEBAR ===== */
+    background:black;
+    border:2px solid #39ff14;
+    color:#39ff14;
 
-.sidebar{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:black;
-padding-top:120px;
-transition:0.3s;
-z-index:999;
+    cursor:pointer;
+    box-shadow:0 0 10px #39ff14;
+  }
 
-box-shadow:0 0 30px #a855ff;
-}
+  .main{
+    padding-top:140px;
+    text-align:center;
+  }
 
-.sidebar button{
-display:block;
-width:80%;
-margin:12px auto;
-padding:12px;
+  .uploadBox{
+    margin-top:20px;
+  }
 
-background:black;
-border:2px solid #39ff14;
-color:#39ff14;
+  input[type="file"]{
+    color:#39ff14;
+  }
 
-cursor:pointer;
-font-family:'Orbitron';
+  .uploadBtn{
+    margin-top:10px;
+    padding:10px;
 
-box-shadow:0 0 10px #39ff14;
-}
+    background:black;
+    border:2px solid #39ff14;
+    color:#39ff14;
 
-.sidebar button:hover{
-background:#39ff14;
-color:black;
-}
+    cursor:pointer;
+    box-shadow:0 0 10px #39ff14;
+  }
 
-/* ===== MAIN ===== */
-
-.main{
-text-align:center;
-padding-top:130px;
-}
-
-/* CHARACTER CONTAINER */
-
-.characterContainer{
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
-}
-
-/* CARDS */
-
-.characterCard{
-width:160px;
-height:200px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:black;
-border-radius:12px;
-
-box-shadow:
-0 0 15px #a855ff,
-0 0 30px #a855ff;
-
-color:#39ff14;
-font-size:14px;
-cursor:pointer;
-}
-
-/* ===== MOBILE ===== */
-
-@media (max-width:768px){
-
-.topWelcome{
-font-size:16px;
-width:80%;
-text-align:center;
-}
-
-.main{
-padding-top:120px;
-}
-
-.characterContainer{
-flex-direction:column;
-align-items:center;
-gap:18px;
-}
-
-.characterCard{
-width:75%;
-max-width:220px;
-height:110px;
-}
-
-.profileCircle{
-width:55px;
-height:55px;
-top:55px;
-}
-
-.hamburger{
-top:60px;
-}
-
-}
-
-</style>
+  </style>
 </head>
 
 <body>
 
-<!-- TOP WELCOME -->
+<!-- TOP -->
 <div class="topWelcome">
-<span id="welcomeText">Welcome, User!</span>
+  <span id="welcomeText">Welcome...</span>
 </div>
 
 <!-- ICONS -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
-<div class="profileCircle"></div>
+<img id="profilePic" class="profileCircle">
 
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-<button onclick="location.href='index.html'">Home</button>
-<button>Quests (Coming Soon)</button>
-<button>City Guide (Coming Soon)</button>
-<button onclick="logout()">Log Out</button>
+  <button onclick="location.href='index.html'">Home</button>
+  <button>Quests (Coming Soon)</button>
+  <button>City Guide (Coming Soon)</button>
+  <button onclick="logout()">Log Out</button>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-<div class="characterContainer">
-<div class="characterCard">+ Add Character</div>
-<div class="characterCard">+ Add Character</div>
-<div class="characterCard">+ Add Character</div>
-</div>
+  <div class="uploadBox">
+    <input type="file" id="fileInput">
+    <br>
+    <button class="uploadBtn" onclick="uploadPic()">Upload Profile Picture</button>
+  </div>
 
 </div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-function toggleMenu(){
-const menu = document.getElementById("sidebar");
-menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
+  authDomain: "cyrene-8f351.firebaseapp.com",
+  projectId: "cyrene-8f351",
+  storageBucket: "cyrene-8f351.appspot.com",
+  messagingSenderId: "574109223643",
+  appId: "1:574109223643:web:1d713a3c5f1503c7fbdafe"
+};
 
-const username = localStorage.getItem("username");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-if(username){
-document.getElementById("welcomeText").innerText =
-"Welcome, " + username + "!";
-}
+let currentUser = null;
 
-function logout(){
-localStorage.removeItem("username");
-window.location.href = "index.html";
-}
+// LOAD USER
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
 
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      document.getElementById("welcomeText").innerText =
+        "Welcome, " + data.username + "!";
+
+      if (data.photoURL) {
+        document.getElementById("profilePic").src = data.photoURL;
+      }
+    }
+
+  } else {
+    window.location.href = "index.html";
+  }
+});
+
+// UPLOAD PROFILE PIC
+window.uploadPic = async function(){
+  const file = document.getElementById("fileInput").files[0];
+
+  if (!file || !currentUser) return;
+
+  const storageRef = ref(storage, "profilePics/" + currentUser.uid);
+
+  await uploadBytes(storageRef, file);
+
+  const url = await getDownloadURL(storageRef);
+
+  // Save URL in Firestore
+  await updateDoc(doc(db, "users", currentUser.uid), {
+    photoURL: url
+  });
+
+  document.getElementById("profilePic").src = url;
+};
+
+// SIDEBAR
+window.toggleMenu = function(){
+  const menu = document.getElementById("sidebar");
+  menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
+};
+
+// LOGOUT
+window.logout = function(){
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
 </script>
 
 </body>
