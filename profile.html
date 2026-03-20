@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>Profile</title>
+<title>Cyrene - Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
-* {
-box-sizing: border-box;
-}
 
 body{
 margin:0;
@@ -27,157 +22,116 @@ background-position:center;
 background-attachment:fixed;
 }
 
-/* SIDEBAR */
+/* ===== TOP BAR ===== */
+
+.hamburger{
+position:fixed;
+top:20px;
+left:20px;
+font-size:28px;
+color:#39ff14;
+cursor:pointer;
+z-index:1000;
+}
+
+.profileCircle{
+position:fixed;
+top:15px;
+right:20px;
+width:70px;
+height:70px;
+border-radius:50%;
+background:black;
+border:3px solid #a855ff;
+box-shadow:0 0 20px #a855ff, 0 0 40px #a855ff;
+}
+
+/* ===== SIDEBAR ===== */
 
 .sidebar{
 position:fixed;
 top:0;
-left:0;
-
-width:220px;
+left:-260px;
+width:260px;
 height:100%;
-
-padding-top:120px;
-
-background:rgba(0,0,0,0.9);
-
-border-right:2px solid #7a00ff;
-
-box-shadow:
-0 0 25px #7a00ff,
-inset 0 0 15px #7a00ff;
-
+background:black;
+padding-top:100px;
 transition:0.3s;
+z-index:999;
+
+box-shadow:0 0 30px #a855ff;
 }
 
-/* BUTTONS */
-
-.sideBtn{
+.sidebar button{
 display:block;
-width:85%;
-margin:18px auto;
-padding:14px;
+width:80%;
+margin:15px auto;
+padding:15px;
 
 background:black;
 border:2px solid #39ff14;
 color:#39ff14;
 
 cursor:pointer;
-text-align:center;
+font-family:'Orbitron';
+font-size:14px;
 
-box-shadow:
-0 0 10px #39ff14,
-inset 0 0 5px #39ff14;
+box-shadow:0 0 10px #39ff14;
 }
 
-.sideBtn:hover{
+.sidebar button:hover{
 background:#39ff14;
 color:black;
 }
 
-/* HAMBURGER */
-
-.menuToggle{
-display:none;
-position:fixed;
-top:15px;
-left:15px;
-
-font-size:28px;
-color:#39ff14;
-cursor:pointer;
-
-z-index:1000;
-text-shadow:0 0 10px #39ff14;
-}
-
-/* TOP BAR */
-
-.topBar{
-position:fixed;
-top:0;
-left:220px;
-right:0;
-height:100px;
-
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* WELCOME */
-
-.welcomeBox{
-padding:15px 40px;
-
-border:2px solid #7a00ff;
-border-radius:10px;
-
-background:rgba(0,0,0,0.7);
-
-box-shadow:
-0 0 10px #7a00ff,
-0 0 40px #7a00ff;
-
-font-size:22px;
-}
-
-/* PROFILE ICON */
-
-.profileIcon{
-position:fixed;
-top:20px;
-right:20px;
-
-width:80px;
-height:80px;
-
-border-radius:50%;
-border:3px solid #7a00ff;
-
-box-shadow:
-0 0 15px #7a00ff,
-0 0 40px #7a00ff;
-
-background:black;
-}
-
-/* MAIN */
+/* ===== MAIN CONTENT ===== */
 
 .main{
-margin-left:220px;
-margin-top:220px;
-
-display:flex;
-justify-content:center;
+text-align:center;
+padding-top:120px;
 }
 
-/* CHAR GRID */
+/* Welcome box */
 
-.charGrid{
-display:flex;
-gap:30px;
-}
+.welcomeBox{
+display:inline-block;
+padding:20px 40px;
+margin-bottom:60px;
 
-/* CHAR BOX */
-
-.charBox{
-width:180px;
-height:220px;
-
-border:2px solid #7a00ff;
-border-radius:12px;
-
-background:rgba(0,0,0,0.6);
+background:black;
+border-radius:10px;
 
 box-shadow:
-0 0 15px #7a00ff,
-0 0 50px #7a00ff,
-inset 0 0 10px #7a00ff;
+0 0 10px #a855ff,
+0 0 30px #a855ff,
+inset 0 0 10px #a855ff;
+
+font-size:28px;
+}
+
+/* Character cards */
+
+.characterContainer{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.characterCard{
+width:200px;
+height:260px;
 
 display:flex;
 align-items:center;
 justify-content:center;
+
+background:black;
+border-radius:12px;
+
+box-shadow:
+0 0 15px #a855ff,
+0 0 40px #a855ff;
 
 color:#39ff14;
 cursor:pointer;
@@ -185,98 +139,96 @@ cursor:pointer;
 
 /* ===== MOBILE ===== */
 
-@media (max-width: 768px){
-
-/* SHOW MENU BUTTON */
-.menuToggle{
-display:block;
-}
-
-/* HIDE SIDEBAR */
-.sidebar{
-left:-220px;
-}
-
-/* OPEN SIDEBAR */
-.sidebar.active{
-left:0;
-}
-
-/* REMOVE SHIFT */
-.topBar{
-left:0;
-top:80px;
-}
+@media (max-width:768px){
 
 .main{
-margin-left:0;
-margin-top:180px;
+padding-top:100px;
 }
 
-/* PROFILE ICON */
-.profileIcon{
-top:15px;
-right:15px;
-width:55px;
-height:55px;
+.welcomeBox{
+font-size:20px;
+width:85%;
 }
 
-/* STACK */
-.charGrid{
+.characterContainer{
 flex-direction:column;
 align-items:center;
 gap:25px;
 }
 
-/* SIZE */
-.charBox{
-width:85%;
-max-width:280px;
+.characterCard{
+width:80%;
+max-width:260px;
 height:180px;
+}
+
+.profileCircle{
+width:60px;
+height:60px;
+}
+
+.sidebar{
+width:70%;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- MENU BUTTON -->
-<div class="menuToggle" onclick="toggleMenu()">☰</div>
+<!-- TOP -->
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div class="profileCircle"></div>
 
 <!-- SIDEBAR -->
-<div class="sidebar">
-<button class="sideBtn">Home</button>
-<button class="sideBtn">Quests</button>
-<button class="sideBtn">City Guide</button>
-<button class="sideBtn">Log Out</button>
-</div>
-
-<!-- PROFILE -->
-<div class="profileIcon"></div>
-
-<!-- WELCOME -->
-<div class="topBar">
-<div class="welcomeBox">Welcome, User!</div>
+<div class="sidebar" id="sidebar">
+<button onclick="location.href='index.html'">Home</button>
+<button>Quests (Coming Soon)</button>
+<button>City Guide (Coming Soon)</button>
+<button onclick="logout()">Log Out</button>
 </div>
 
 <!-- MAIN -->
 <div class="main">
-<div class="charGrid">
 
-<div class="charBox">+ Add Character</div>
-<div class="charBox">+ Add Character</div>
-<div class="charBox">+ Add Character</div>
+<div class="welcomeBox">
+<span id="welcomeText">Welcome, User!</span>
+</div>
+
+<div class="characterContainer">
+
+<div class="characterCard">+ Add Character</div>
+<div class="characterCard">+ Add Character</div>
+<div class="characterCard">+ Add Character</div>
 
 </div>
+
 </div>
 
 <script>
+
+/* MENU */
 function toggleMenu(){
-document.querySelector('.sidebar').classList.toggle('active');
+const menu = document.getElementById("sidebar");
+menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
 }
+
+/* USERNAME */
+const username = localStorage.getItem("username");
+
+if(username){
+document.getElementById("welcomeText").innerText =
+"Welcome, " + username + "!";
+}
+
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("username");
+window.location.href = "index.html";
+}
+
 </script>
 
 </body>
