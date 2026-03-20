@@ -22,11 +22,33 @@ background-position:center;
 background-attachment:fixed;
 }
 
-/* TOP */
+/* ===== TOP CENTER WELCOME ===== */
+
+.topWelcome{
+position:fixed;
+top:10px;
+left:50%;
+transform:translateX(-50%);
+z-index:1000;
+
+padding:12px 30px;
+
+background:black;
+border-radius:10px;
+
+box-shadow:
+0 0 10px #a855ff,
+0 0 25px #a855ff,
+inset 0 0 10px #a855ff;
+
+font-size:18px;
+}
+
+/* ===== TOP ICONS ===== */
 
 .hamburger{
 position:fixed;
-top:15px;
+top:60px;
 left:15px;
 font-size:26px;
 color:#39ff14;
@@ -36,17 +58,17 @@ cursor:pointer;
 
 .profileCircle{
 position:fixed;
-top:10px;
+top:55px;
 right:15px;
-width:65px;
-height:65px;
+width:60px;
+height:60px;
 border-radius:50%;
 background:black;
 border:3px solid #a855ff;
 box-shadow:0 0 20px #a855ff;
 }
 
-/* SIDEBAR */
+/* ===== SIDEBAR ===== */
 
 .sidebar{
 position:fixed;
@@ -55,9 +77,10 @@ left:-260px;
 width:260px;
 height:100%;
 background:black;
-padding-top:100px;
+padding-top:120px;
 transition:0.3s;
 z-index:999;
+
 box-shadow:0 0 30px #a855ff;
 }
 
@@ -82,32 +105,14 @@ background:#39ff14;
 color:black;
 }
 
-/* MAIN */
+/* ===== MAIN ===== */
 
 .main{
 text-align:center;
-padding-top:100px;
+padding-top:130px;
 }
 
-/* Welcome */
-
-.welcomeBox{
-display:inline-block;
-padding:15px 30px;
-margin-bottom:40px;
-
-background:black;
-border-radius:10px;
-
-box-shadow:
-0 0 10px #a855ff,
-0 0 25px #a855ff,
-inset 0 0 10px #a855ff;
-
-font-size:22px;
-}
-
-/* CHARACTER GRID */
+/* CHARACTER CONTAINER */
 
 .characterContainer{
 display:flex;
@@ -138,41 +143,40 @@ font-size:14px;
 cursor:pointer;
 }
 
-/* ===== MOBILE FIX (CLEAN + SMALL) ===== */
+/* ===== MOBILE ===== */
 
 @media (max-width:768px){
 
+.topWelcome{
+font-size:16px;
+width:80%;
+text-align:center;
+}
+
 .main{
-padding-top:90px;
+padding-top:120px;
 }
 
-/* Welcome tighter */
-.welcomeBox{
-font-size:18px;
-width:85%;
-margin-bottom:25px;
-}
-
-/* STACK cards */
 .characterContainer{
 flex-direction:column;
 align-items:center;
 gap:18px;
 }
 
-/* SMALL CLEAN CARDS */
 .characterCard{
 width:75%;
 max-width:220px;
-height:120px;
-
-font-size:14px;
+height:110px;
 }
 
-/* smaller top UI */
 .profileCircle{
 width:55px;
 height:55px;
+top:55px;
+}
+
+.hamburger{
+top:60px;
 }
 
 }
@@ -182,9 +186,16 @@ height:55px;
 
 <body>
 
+<!-- TOP WELCOME -->
+<div class="topWelcome">
+<span id="welcomeText">Welcome, User!</span>
+</div>
+
+<!-- ICONS -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 <div class="profileCircle"></div>
 
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 <button onclick="location.href='index.html'">Home</button>
 <button>Quests (Coming Soon)</button>
@@ -192,18 +203,13 @@ height:55px;
 <button onclick="logout()">Log Out</button>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
-<div class="welcomeBox">
-<span id="welcomeText">Welcome, User!</span>
-</div>
-
 <div class="characterContainer">
-
 <div class="characterCard">+ Add Character</div>
 <div class="characterCard">+ Add Character</div>
 <div class="characterCard">+ Add Character</div>
-
 </div>
 
 </div>
