@@ -27,40 +27,68 @@ background-position:center;
 background-attachment:fixed;
 }
 
-/* TOP BAR */
+/* SIDEBAR */
 
-.topBar{
-position:relative;
-width:100%;
-padding:20px 0;
-text-align:center;
-}
+.sidebar{
+position:fixed;
+top:0;
+left:0;
 
-/* PROFILE ICON (TOP RIGHT) */
+width:200px;
+height:100%;
 
-.profileIcon{
-position:absolute;
-top:20px;
-right:20px;
+background:rgba(0,0,0,0.8);
 
-width:60px;
-height:60px;
-border-radius:50%;
-
-border:3px solid #7a00ff;
+border-right:2px solid #7a00ff;
 
 box-shadow:
-0 0 10px #7a00ff,
-0 0 30px #7a00ff;
+0 0 20px #7a00ff,
+inset 0 0 10px #7a00ff;
 
-background:black;
+padding-top:100px;
 }
 
-/* WELCOME BOX */
+/* SIDEBAR BUTTONS */
+
+.sideBtn{
+display:block;
+width:85%;
+margin:15px auto;
+padding:12px;
+
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+
+cursor:pointer;
+text-align:center;
+
+box-shadow:0 0 10px #39ff14;
+transition:0.2s;
+}
+
+.sideBtn:hover{
+background:#39ff14;
+color:black;
+}
+
+/* MAIN CENTER AREA */
+
+.mainWrapper{
+margin-left:200px;
+height:100vh;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+/* WELCOME */
 
 .welcomeBox{
-display:inline-block;
 padding:15px 30px;
+margin-bottom:40px;
 
 border:2px solid #7a00ff;
 border-radius:10px;
@@ -74,65 +102,31 @@ box-shadow:
 font-size:20px;
 }
 
-/* SIDEBAR */
+/* PROFILE ICON */
 
-.sidebar{
-position:fixed;
-top:0;
-left:0;
+.profileIcon{
+position:absolute;
+top:20px;
+right:20px;
 
-width:180px;
-height:100%;
+width:60px;
+height:60px;
 
-padding-top:120px;
+border-radius:50%;
+border:3px solid #7a00ff;
 
-background:rgba(0,0,0,0.7);
+box-shadow:
+0 0 10px #7a00ff,
+0 0 30px #7a00ff;
 
-border-right:2px solid #7a00ff;
-
-box-shadow:0 0 20px #7a00ff;
-}
-
-/* SIDEBAR BUTTONS */
-
-.sideBtn{
-display:block;
-width:100%;
-padding:15px;
-
-border:none;
 background:black;
-color:#39ff14;
-
-cursor:pointer;
-
-border-bottom:1px solid #7a00ff;
-
-text-align:left;
-
-box-shadow:0 0 10px #39ff14;
-}
-
-.sideBtn:hover{
-background:#39ff14;
-color:black;
-}
-
-/* MAIN AREA */
-
-.main{
-margin-left:200px;
-padding:40px;
-text-align:center;
 }
 
 /* CHARACTER GRID */
 
 .charGrid{
 display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
+gap:25px;
 }
 
 /* CHARACTER BOX */
@@ -142,13 +136,13 @@ width:180px;
 height:220px;
 
 border:2px solid #7a00ff;
-border-radius:10px;
+border-radius:12px;
 
 background:rgba(0,0,0,0.6);
 
 box-shadow:
 0 0 10px #7a00ff,
-0 0 30px #7a00ff,
+0 0 40px #7a00ff,
 inset 0 0 10px #7a00ff;
 
 display:flex;
@@ -157,6 +151,8 @@ justify-content:center;
 
 color:#39ff14;
 cursor:pointer;
+
+transition:0.2s;
 }
 
 .charBox:hover{
@@ -170,17 +166,6 @@ color:black;
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topBar">
-
-<div class="welcomeBox">
-Welcome, User!
-</div>
-
-<div class="profileIcon"></div>
-
-</div>
-
 <!-- SIDEBAR -->
 <div class="sidebar">
 
@@ -189,11 +174,11 @@ Home
 </button>
 
 <button class="sideBtn">
-Quests (Coming Soon)
+Quests
 </button>
 
 <button class="sideBtn">
-City Guide (Coming Soon)
+City Guide
 </button>
 
 <button class="sideBtn">
@@ -202,8 +187,15 @@ Log Out
 
 </div>
 
+<!-- PROFILE ICON -->
+<div class="profileIcon"></div>
+
 <!-- MAIN CONTENT -->
-<div class="main">
+<div class="mainWrapper">
+
+<div class="welcomeBox">
+Welcome, User!
+</div>
 
 <div class="charGrid">
 
