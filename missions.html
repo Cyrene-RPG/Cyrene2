@@ -15,57 +15,70 @@ background:
 linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
 url('City.jpg');
 background-size:cover;
-text-align:center;
 }
 
-/* BACK BAR */
-.topBar{
-margin-top:20px;
-display:flex;
-justify-content:center;
-}
-
+/* BACK BUTTON */
 .back{
-padding:10px 40px;
+position:absolute;
+top:20px;
+left:20px;
+padding:10px 25px;
 border:2px solid #39ff14;
-color:#39ff14;
 background:black;
+color:#39ff14;
 box-shadow:0 0 10px #39ff14;
 cursor:pointer;
 }
 
-/* MAIN */
+/* TITLE */
+.title{
+text-align:center;
+margin-top:80px;
+font-size:36px;
+color:#39ff14;
+text-shadow:0 0 15px #39ff14;
+}
+
+/* MAIN CONTAINER */
 .container{
-margin-top:40px;
+margin-top:80px;
 display:flex;
 justify-content:center;
-gap:60px;
+gap:120px;
 flex-wrap:wrap;
 }
 
-/* SECTION */
+/* COLUMN */
 .section{
-min-width:250px;
+text-align:center;
 }
 
-/* HEADERS */
+/* COLUMN TITLE */
 .sectionTitle{
 margin-bottom:20px;
-padding:10px;
+padding:10px 30px;
 border:2px solid #39ff14;
 box-shadow:0 0 10px #39ff14;
+display:inline-block;
 }
 
-/* MISSIONS */
+/* MISSION BUTTON */
 .mission{
-padding:15px;
+margin-top:10px;
+padding:15px 30px;
 border-radius:20px;
 border:2px solid #39ff14;
 background:black;
 cursor:pointer;
 box-shadow:0 0 10px #39ff14;
+transition:0.2s;
 }
 
+.mission:hover{
+box-shadow:0 0 20px #39ff14;
+}
+
+/* LOCKED */
 .locked{
 border:2px solid #777;
 color:#777;
@@ -73,43 +86,23 @@ box-shadow:none;
 cursor:default;
 }
 
-/* POPUP */
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:none;
-justify-content:center;
+/* MOBILE */
+@media(max-width:700px){
+
+.title{
+font-size:26px;
+margin-top:100px;
+}
+
+.container{
+flex-direction:column;
+gap:40px;
 align-items:center;
 }
 
-.popup{
-width:300px;
-padding:20px;
-background:black;
-border:2px solid #7a00ff;
-box-shadow:0 0 20px #7a00ff;
-}
-
-/* BUTTON */
-button{
-margin-top:10px;
-padding:10px;
-width:100%;
-background:black;
-border:2px solid #39ff14;
-color:#39ff14;
-cursor:pointer;
-}
-
-/* MOBILE */
-@media(max-width:700px){
-.container{
-flex-direction:column;
-align-items:left;
+.back{
+top:15px;
+left:15px;
 }
 }
 </style>
@@ -117,16 +110,16 @@ align-items:left;
 
 <body>
 
-<div class="topBar">
 <button class="back" onclick="goBack()">Back</button>
-</div>
+
+<div class="title">Missions Hub</div>
 
 <div class="container">
 
 <div class="section">
 <div class="sectionTitle">Unlocked</div>
 
-<div class="mission" onclick="openMission(1)">
+<div class="mission" onclick="startMission()">
 Welcome to Cyrene
 </div>
 </div>
@@ -141,109 +134,14 @@ Welcome to Cyrene
 
 </div>
 
-<div id="overlay" class="overlay"></div>
-
-<!-- 🔥 FIREBASE (NON-MODULE = FIXES YOUR ISSUE) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
 <script>
-
-/* FIREBASE INIT */
-const firebaseConfig = {
-  apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
-  authDomain: "cyrene-8f351.firebaseapp.com",
-  projectId: "cyrene-8f351",
-  storageBucket: "cyrene-8f351.firebasestorage.app",
-  messagingSenderId: "574109223643",
-  appId: "1:574109223643:web:1d713a3c5f1503c7fbdafe"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-/* SOUND */
-let clickSound = new Audio("click.mp3");
-let openSound = new Audio("open.mp3");
-
-/* USER */
-let userId = "player1";
-
-/* OPEN MISSION */
-async function openMission(id){
-
-openSound.play();
-
-let docRef = db.collection("users").doc(userId);
-let docSnap = await docRef.get();
-
-let progress = null;
-
-if(docSnap.exists){
-progress = docSnap.data()["mission_"+id];
-}
-
-let html = "";
-
-if(progress === "started"){
-html = `
-<div>Welcome to Cyrene</div>
-
-<button onclick="resumeMission(${id})">Resume</button>
-<button onclick="restartMission(${id})">Start Over</button>
-<button onclick="closePopup()">Close</button>
-`;
-}else{
-html = `
-<div>Welcome to Cyrene</div>
-
-<button onclick="startMission(${id})">Start</button>
-<button onclick="closePopup()">Close</button>
-`;
-}
-
-showPopup(html);
-}
-
-/* POPUP */
-function showPopup(html){
-let o = document.getElementById("overlay");
-o.style.display = "flex";
-o.innerHTML = `<div class="popup">${html}</div>`;
-}
-
-function closePopup(){
-document.getElementById("overlay").style.display = "none";
-}
-
-/* ACTIONS */
-async function startMission(id){
-clickSound.play();
-
-await db.collection("users").doc(userId).set({
-["mission_"+id]: "started"
-},{merge:true});
-
-location.href = "mission1.html";
-}
-
-function resumeMission(id){
-clickSound.play();
-location.href = "mission1.html";
-}
-
-async function restartMission(id){
-clickSound.play();
-
-await db.collection("users").doc(userId).set({
-["mission_"+id]: "started"
-},{merge:true});
-
-location.href = "mission1.html";
-}
 
 function goBack(){
 location.href="profile.html";
+}
+
+function startMission(){
+location.href="mission1.html";
 }
 
 </script>
