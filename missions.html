@@ -298,9 +298,96 @@ There’s a quiet intensity about them—the kind that suggests they’re not ju
 }
 
 function quest1Next(){
+
 renderOverlay(`
-<div>More story coming next...</div>
-<button onclick="closeOverlay()">Close</button>
+<div class="sectionTitle">What do you do?</div>
+
+<input id="playerInput" placeholder="Type your action...">
+
+<button onclick="handleInput()">Submit</button>
+
+<button onclick="closeOverlay()">Back</button>
+`);
+}
+
+function handleInput(){
+
+let input = document.getElementById("playerInput").value.toLowerCase();
+
+/* ELF PATH */
+if(
+input.includes("elf") &&
+(
+input.includes("approach") ||
+input.includes("walk") ||
+input.includes("go") ||
+input.includes("over") ||
+input.includes("up")
+)
+}
+
+function elfEncounter(){
+
+renderOverlay(`
+<div class="sectionTitle">Encounter</div>
+
+<div style="text-align:left;">
+You step closer to the elf. Their eyes shift slightly, noticing you before you even speak.
+
+There’s a pause.
+
+They don’t seem surprised… almost like they expected you.
+</div>
+
+<button onclick="closeOverlay()">Continue</button>
+`);
+}
+
+function elfEncounter(){
+
+let playerClass = localStorage.getItem("charClass");
+
+/* BLOCK CERTAIN CLASSES */
+if(
+playerClass === "Kenzai" ||
+playerClass === "Rogue" ||
+playerClass === "Assassin"
+){
+renderOverlay(`
+<div>The elf barely acknowledges you... something feels off.</div>
+<button onclick="closeOverlay()">Continue</button>
+`);
+return;
+}
+
+/* NORMAL POSITIVE ENCOUNTER */
+renderOverlay(`
+<div class="sectionTitle">Encounter</div>
+
+<div style="text-align:left;">
+The elf glances up at you and gives a subtle nod of acknowledgment.
+</div>
+
+<button onclick="charismaCheck()">Continue</button>
+`);
+}
+
+
+
+/* INVESTIGATION PATH */
+if(
+input.includes("explore") ||
+input.includes("look") ||
+input.includes("investigate") ||
+input.includes("search")
+){
+return investigationRoll();
+}
+
+/* DEFAULT */
+renderOverlay(`
+<div>Nothing happens...</div>
+<button onclick="quest1Next()">Try Again</button>
 `);
 }
 
