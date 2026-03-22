@@ -1,5 +1,154 @@
 <div class="title">Elves</div>
 
+<style>
+/* ===== RESET ===== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#d8d8d8;
+overflow-x:hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+position:fixed;
+top:0;
+left:0;
+width:240px;
+height:100vh;
+background:#000;
+padding:20px 10px;
+border-right:2px solid #39ff14;
+box-shadow:0 0 12px #39ff14;
+z-index:1000;
+}
+
+.sidebar button{
+display:block;
+width:100%;
+margin:12px 0;
+padding:12px;
+background:black;
+color:#39ff14;
+border:2px solid #39ff14;
+border-radius:12px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.sidebar button:hover{
+box-shadow:0 0 15px #39ff14;
+transform:scale(1.05);
+}
+
+/* ===== MAIN CONTENT (TRUE CENTER) ===== */
+.main{
+padding:40px;
+max-width:1000px;
+
+/* real centering with sidebar */
+margin-left:calc(240px + (100% - 240px - 1000px)/2);
+}
+
+/* ===== TITLE ===== */
+.title{
+color:#39ff14;
+font-size:34px;
+margin-bottom:25px;
+text-shadow:0 0 12px #39ff14;
+}
+
+/* ===== SECTION TITLES ===== */
+.sectionTitle{
+color:#39ff14;
+font-size:18px;
+margin-bottom:12px;
+text-shadow:0 0 8px #39ff14;
+}
+
+/* ===== PURPLE GLOW BOXES ===== */
+.card{
+background:rgba(0,0,0,0.75);
+padding:20px;
+margin-bottom:25px;
+border-radius:18px;
+
+/* glow */
+border:2px solid #a020f0;
+box-shadow:
+0 0 15px #a020f0,
+0 0 25px #a020f0 inset;
+}
+
+/* TEXT */
+.card{
+line-height:1.65;
+}
+
+.card ul{
+padding-left:20px;
+margin-top:10px;
+}
+
+.card li{
+margin-bottom:6px;
+}
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px){
+
+/* sidebar slides */
+.sidebar{
+transform:translateX(-100%);
+transition:0.3s;
+}
+
+.sidebar.open{
+transform:translateX(0);
+}
+
+/* hamburger */
+.menuBtn{
+display:block;
+position:fixed;
+top:15px;
+left:15px;
+z-index:1100;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+padding:10px 12px;
+border-radius:10px;
+font-size:20px;
+}
+
+/* reset center */
+.main{
+margin-left:0;
+padding:80px 20px 30px;
+}
+
+/* stack */
+.grid{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+
 <div class="card">
 Elves are one of the most common expressions of magical reversion following the Reawakening. Though often associated with ancient myth, modern elves are not relics of the past—they are the result of rapid, magic-driven evolution.
 
