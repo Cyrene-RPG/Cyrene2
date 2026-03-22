@@ -1,21 +1,23 @@
-<div class="title">Elves</div>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Codex - Elves</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
+
 /* ===== RESET ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:'Orbitron', sans-serif;
 background:#050505;
 color:#d8d8d8;
-overflow-x:hidden;
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== LEFT NAV ===== */
 .sidebar{
 position:fixed;
 top:0;
@@ -39,78 +41,90 @@ color:#39ff14;
 border:2px solid #39ff14;
 border-radius:12px;
 cursor:pointer;
-transition:0.2s;
 }
 
-.sidebar button:hover{
-box-shadow:0 0 15px #39ff14;
-transform:scale(1.05);
-}
-
-/* ===== MAIN CONTENT (TRUE CENTER) ===== */
+/* ===== MAIN ===== */
 .main{
+margin-left:240px;
 padding:40px;
-max-width:1000px;
+}
 
-/* real centering with sidebar */
-margin-left:calc(240px + (100% - 240px - 1000px)/2);
+/* ===== LAYOUT ===== */
+.wrapper{
+max-width:1300px;
+margin:0 auto;
+display:flex;
+gap:40px;
+}
+
+.content{
+flex:1;
+}
+
+.codexSide{
+width:320px;
 }
 
 /* ===== TITLE ===== */
 .title{
+text-align:center;
 color:#39ff14;
-font-size:34px;
-margin-bottom:25px;
+font-size:36px;
+margin-bottom:30px;
 text-shadow:0 0 12px #39ff14;
 }
 
-/* ===== SECTION TITLES ===== */
-.sectionTitle{
-color:#39ff14;
-font-size:18px;
-margin-bottom:12px;
-text-shadow:0 0 8px #39ff14;
-}
-
-/* ===== PURPLE GLOW BOXES ===== */
+/* ===== BOXES ===== */
 .card{
 background:rgba(0,0,0,0.75);
 padding:20px;
 margin-bottom:25px;
 border-radius:18px;
-
-/* glow */
 border:2px solid #a020f0;
 box-shadow:
 0 0 15px #a020f0,
 0 0 25px #a020f0 inset;
+line-height:1.7;
 }
 
-/* TEXT */
-.card{
-line-height:1.65;
+/* ===== HEADERS ===== */
+.sectionTitle{
+color:#39ff14;
+margin-bottom:10px;
+text-shadow:0 0 8px #39ff14;
 }
 
+/* ===== LISTS ===== */
 .card ul{
 padding-left:20px;
 margin-top:10px;
 }
 
-.card li{
-margin-bottom:6px;
-}
-
-/* ===== GRID ===== */
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+/* ===== BACK BUTTON ===== */
+.backBtn{
+display:block;
+width:100%;
+margin-bottom:15px;
+padding:12px;
+background:black;
+color:#39ff14;
+border:2px solid #39ff14;
+border-radius:12px;
+cursor:pointer;
+text-align:center;
 }
 
 /* ===== MOBILE ===== */
-@media (max-width: 768px){
+@media (max-width:900px){
 
-/* sidebar slides */
+.wrapper{
+flex-direction:column;
+}
+
+.codexSide{
+width:100%;
+}
+
 .sidebar{
 transform:translateX(-100%);
 transition:0.3s;
@@ -120,7 +134,6 @@ transition:0.3s;
 transform:translateX(0);
 }
 
-/* hamburger */
 .menuBtn{
 display:block;
 position:fixed;
@@ -130,38 +143,54 @@ z-index:1100;
 background:black;
 border:2px solid #39ff14;
 color:#39ff14;
-padding:10px 12px;
+padding:10px;
 border-radius:10px;
-font-size:20px;
 }
 
-/* reset center */
 .main{
 margin-left:0;
-padding:80px 20px 30px;
+padding:80px 20px;
 }
 
-/* stack */
-.grid{
-grid-template-columns:1fr;
-}
 }
 
 </style>
+</head>
+
+<body>
+
+<button class="menuBtn" onclick="toggleMenu()">☰</button>
+
+<div id="sidebar" class="sidebar">
+<button onclick="location.href='human.html'">Human</button>
+<button onclick="location.href='elf.html'">Elf</button>
+<button onclick="location.href='dwarves.html'">Dwarves</button>
+<button onclick="location.href='cambions.html'">Cambions</button>
+<button onclick="location.href='orcs.html'">Orcs</button>
+<button onclick="location.href='dragonborn.html'">Dragonborn</button>
+<button onclick="location.href='hybrid.html'">Hybrid</button>
+</div>
+
+<div class="main">
+
+<div class="title">Elves</div>
+
+<div class="wrapper">
+
+<!-- MAIN CONTENT -->
+<div class="content">
 
 <div class="card">
-Elves are one of the most common expressions of magical reversion following the Reawakening. Though often associated with ancient myth, modern elves are not relics of the past—they are the result of rapid, magic-driven evolution.
+Elves are one of the most common expressions of magical reversion following the Reawakening. Though often associated with ancient myth, modern elves are not relics of the past—they are the result of rapid, magic-driven evolution.<br><br>
 
-When magic returned to the world, it activated dormant traits embedded within human genetics. Individuals carrying strong elven markers underwent immediate transformation. These changes typically occurred over the course of days to weeks, reshaping the body and mind into a form better suited to channel and perceive ambient mana.
+When magic returned to the world, it activated dormant traits embedded within human genetics. Individuals carrying strong elven markers underwent immediate transformation. These changes typically occurred over the course of days to weeks, reshaping the body and mind into a form better suited to channel and perceive ambient mana.<br><br>
 
-The process was neither controlled nor fully understood. In many cases, it was traumatic.
+The process was neither controlled nor fully understood. In many cases, it was traumatic.<br><br>
 
-In the years following the Reawakening, elves quickly established a visible presence across all levels of society. Their abilities made them valuable in corporate, military, and technical roles, while their appearance and mystique elevated them in media and cultural spaces. At the same time, early fear and instability led to discrimination, isolation, and, in some regions, outright persecution.
+In the years following the Reawakening, elves quickly established a visible presence across all levels of society. Their abilities made them valuable in corporate, military, and technical roles, while their appearance and mystique elevated them in media and cultural spaces. At the same time, early fear and instability led to discrimination, isolation, and, in some regions, outright persecution.<br><br>
 
 Today, elves are fully integrated into the modern world, though perceptions of them remain divided. To some, they represent the next stage of human evolution. To others, they are a reminder that humanity no longer controls its own future.
 </div>
-
-<div class="grid">
 
 <div class="card">
 <div class="sectionTitle">Common Traits</div>
@@ -174,99 +203,91 @@ Today, elves are fully integrated into the modern world, though perceptions of t
 
 <div class="card">
 <div class="sectionTitle">Typical Outlook</div>
-Elves often develop a heightened awareness of their environment, leading to personalities that range from deeply introspective to intensely driven.
-
-Reactions to their transformation vary widely—some embrace it, while others struggle with a lingering sense of disconnection from their former humanity.
-</div>
-
+Elves often develop a heightened awareness of their environment, leading to personalities that range from deeply introspective to intensely driven. Reactions to their transformation vary widely—some embrace it, while others struggle with a lingering sense of disconnection from their former humanity.
 </div>
 
 <div class="card">
 <div class="sectionTitle">Physical Description</div>
-Physically, elves are characterized by lean builds, elongated features, and pointed ears. These traits, while distinctive, are secondary to the more significant internal changes.
-
-Elven neurology is highly responsive to magical fields, granting enhanced awareness, faster cognitive processing, and a natural aptitude for spellwork.
+Physically, elves are characterized by lean builds, elongated features, and pointed ears. These traits, while distinctive, are secondary to the more significant internal changes. Elven neurology is highly responsive to magical fields, granting enhanced awareness, faster cognitive processing, and a natural aptitude for spellwork.<br><br>
 
 This sensitivity comes at a cost. Many elves report difficulty ignoring magical stimuli, describing it as a constant background presence that can become overwhelming in high-density environments.
 </div>
 
 <div class="card">
+<div class="sectionTitle">Elven Heritages</div>
+
+<b>Ice Elf</b><br>
+Ice Elves are the most commonly encountered elven heritage within Cyrene. They are immediately recognizable by their pale complexions, white or silver hair, and striking ice-blue eyes.
+Adapted to cold environments, Ice Elves exhibit a natural resistance to extreme temperatures and a strong affinity for structured, ancient forms of magic. Their cultures tend to value discipline, foresight, and precision, traits reflected in both their spellcraft and social organization.
+Ice Elves are often perceived as distant or calculating, though among their own kind this is seen as clarity of thought rather than coldness of spirit. <br><br>
+
+<ul>
+<li>+ 5 Resistance to cold environments or cold damage </li>
+<li>Bonus to controlled or ritual-based magic</li>
+<li>ncreased composure under pressure (mental resistance or focus bonus)</li>
+</ul>
+
+<br>
+
+<b>Amazonian Elf</b><br>
+Amazonian Elves are a physically dominant and culturally distinct heritage, known for their strength, resilience, and insular societal structures. They are typically tall and powerfully built, with dark skin, black hair, and deep brown eyes.
+Their society is largely matriarchal and warrior-driven, placing high value on strength, self-sufficiency, and loyalty. Male Amazonian Elves are extremely rare, and their role within Amazonian society varies widely depending on region and tradition.
+Unlike other elven groups, Amazonian Elves emphasize physical mastery alongside magical ability, often blending the two into highly effective combat styles.<br><br>
+
+<ul>
+<li>Increased Strength and physical resilience</li>
+<li>Proficiency in melee combat or survival skills</li>
+<li>onus when combining magic with physical actions 
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div class="codexSide">
+
+<button class="backBtn" onclick="location.href='codex.html'">
+← Back to Codex
+</button>
+
+<div class="card">
 <div class="sectionTitle">Base Stats</div>
 
-<b>Base Hit Points:</b> 8 + Constitution<br>
-<b>Size:</b> Medium<br>
-<b>Speed:</b> 30 ft<br><br>
+Base Hit Points: 8 + Constitution<br>
+Size: Medium<br>
+Speed: 30 ft<br><br>
 
 <b>Attribute Modifiers:</b><br>
 +2 Dexterity, +1 Intelligence<br><br>
 
 <b>Senses:</b><br>
-Low-Light Vision — You can see in dim lighting as if it were normal lighting.<br><br>
+Low-Light Vision<br><br>
 
 <b>Arcane Sensitivity:</b><br>
-You are constantly aware of active magical effects within a short range (GM-defined). This may cause distraction in high-density magical zones.<br><br>
+50 ft magic awareness<br><br>
 
 <b>Mana Affinity:</b><br>
-You gain advantage (or +X bonus depending on your system) on checks related to casting, sensing, or analyzing magic.<br><br>
++1 to magic checks<br><br>
 
 <b>Fragile Physiology:</b><br>
--1 Constitution or reduced resistance to physical damage (optional system-based penalty).<br><br>
+-1 Constitution<br><br>
 
 <b>Languages:</b><br>
-Common, Elven, plus 1 additional of your choice
+Common, Elven +1
 </div>
-
-<div class="card">
-<div class="sectionTitle">Elf Heritages</div>
-While all elves share a common origin in the Reawakening, not all transformations produced identical results. Variations in genetic lineage, environment, and magical exposure gave rise to distinct elven heritages, each with their own physical traits and cultural identities.
-</div>
-
-<div class="grid">
-
-<div class="card">
-<div class="sectionTitle">Ice Elf</div>
-
-Ice Elves are the most commonly encountered elven heritage within Cyrene. They are immediately recognizable by their pale complexions, white or silver hair, and striking ice-blue eyes.
-
-Adapted to cold environments, Ice Elves exhibit a natural resistance to extreme temperatures and a strong affinity for structured, ancient forms of magic.
-
-Their cultures tend to value discipline, foresight, and precision.
-
-Ice Elves are often perceived as distant or calculating, though among their own kind this is seen as clarity of thought.
-
-<br><br>
-
-<b>Heritage Traits:</b>
-<ul>
-<li>Resistance to cold environments or cold damage</li>
-<li>Bonus to controlled or ritual-based magic</li>
-<li>Increased composure under pressure</li>
-</ul>
-
-</div>
-
-<div class="card">
-<div class="sectionTitle">Amazonian Elf</div>
-
-Amazonian Elves are a physically dominant and culturally distinct heritage, known for their strength, resilience, and insular societal structures.
-
-They are typically tall and powerfully built, with dark skin, black hair, and deep brown eyes.
-
-Their society is largely matriarchal and warrior-driven, placing high value on strength, self-sufficiency, and loyalty.
-
-Male Amazonian Elves are extremely rare, and their role varies depending on region and tradition.
-
-Unlike other elven groups, they emphasize physical mastery alongside magical ability.
-
-<br><br>
-
-<b>Heritage Traits:</b>
-<ul>
-<li>Increased Strength and physical resilience</li>
-<li>Proficiency in melee combat or survival skills</li>
-<li>Bonus when combining magic with physical actions</li>
-</ul>
 
 </div>
 
 </div>
+</div>
+
+<script>
+function toggleMenu(){
+document.getElementById("sidebar").classList.toggle("open");
+}
+</script>
+
+</body>
+</html>
