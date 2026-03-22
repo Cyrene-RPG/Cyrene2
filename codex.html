@@ -8,6 +8,7 @@
 
 <style>
 /* ===== RESET ===== */
+/* ===== RESET ===== */
 *{
 margin:0;
 padding:0;
@@ -21,13 +22,13 @@ color:#d8d8d8;
 overflow-x:hidden;
 }
 
-/* ===== SIDEBAR (DESKTOP) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar{
 position:fixed;
 top:0;
 left:0;
-width:220px;
-height:100%;
+width:240px;
+height:100vh;
 background:#000;
 padding:20px 10px;
 border-right:2px solid #00ff88;
@@ -50,38 +51,18 @@ transition:0.2s;
 }
 
 .sidebar button:hover{
-box-shadow:0 0 10px #00ff88;
+box-shadow:0 0 12px #00ff88;
 transform:scale(1.05);
 }
 
-/* ===== MOBILE MENU BUTTON ===== */
-.menuBtn{
-display:none;
-position:fixed;
-top:15px;
-left:15px;
-z-index:1100;
-background:black;
-border:2px solid #00ff88;
-color:#00ff88;
-padding:10px 12px;
-border-radius:10px;
-font-size:20px;
-}
-
-/* ===== CONTENT WRAPPER (CENTER FIX) ===== */
-.contentWrapper{
-margin-left:220px;           /* space for sidebar */
-display:flex;
-justify-content:center;      /* centers content */
-width:100%;
-}
-
-/* ===== MAIN CONTENT ===== */
+/* ===== MAIN CONTENT (FIXED CENTERING) ===== */
 .main{
+margin-left:240px;
+padding:40px;
+
+/* CENTER FIX */
 max-width:1000px;
-width:100%;
-padding:40px 25px;
+margin-right:auto;
 }
 
 /* ===== TITLES ===== */
@@ -89,7 +70,7 @@ h1{
 color:#00ff88;
 font-size:32px;
 margin-bottom:25px;
-text-shadow:0 0 10px #00ff88;
+text-shadow:0 0 12px #00ff88;
 }
 
 h2{
@@ -98,17 +79,21 @@ margin-bottom:10px;
 text-shadow:0 0 8px #00ff88;
 }
 
-/* ===== TEXT BOXES (PURPLE GLOW) ===== */
+/* ===== PURPLE GLOW BOXES (RESTORED) ===== */
 .section{
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.65);
 padding:20px;
 margin-bottom:25px;
-border-radius:16px;
+border-radius:18px;
+
+/* GLOW */
 border:2px solid #a020f0;
-box-shadow:0 0 15px #a020f0;
+box-shadow:
+0 0 10px #a020f0,
+0 0 20px #a020f0 inset;
 }
 
-/* Paragraph spacing */
+/* Text spacing */
 .section p{
 line-height:1.6;
 margin-bottom:10px;
@@ -124,7 +109,7 @@ margin-top:10px;
 margin-bottom:6px;
 }
 
-/* ===== GRID FOR SPLIT SECTIONS ===== */
+/* ===== SPLIT GRID (LIKE YOUR SCREENSHOT) ===== */
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -134,37 +119,41 @@ gap:20px;
 /* ===== MOBILE ===== */
 @media (max-width: 768px){
 
-/* Hide sidebar */
 .sidebar{
 transform:translateX(-100%);
 transition:0.3s;
 }
 
-/* Show sidebar when active */
 .sidebar.active{
 transform:translateX(0);
 }
 
-/* Show hamburger */
 .menuBtn{
 display:block;
+position:fixed;
+top:15px;
+left:15px;
+z-index:1100;
+background:black;
+border:2px solid #00ff88;
+color:#00ff88;
+padding:10px 12px;
+border-radius:10px;
+font-size:20px;
 }
 
-/* Remove left spacing */
-.contentWrapper{
+/* Remove sidebar spacing */
+.main{
 margin-left:0;
+padding:80px 20px 30px;
 }
 
-/* Stack grid */
+/* Stack layout */
 .grid{
 grid-template-columns:1fr;
 }
+}
 
-/* Adjust spacing */
-.main{
-padding:80px 20px 30px;
-}
-}
 
 </style>
 </head>
