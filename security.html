@@ -7,7 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
+
+/* ===== BASE ===== */
 body{
+margin:0;
 font-family:'Orbitron', sans-serif;
 background:#050505;
 color:#d8d8d8;
@@ -17,8 +20,9 @@ align-items:center;
 height:100vh;
 }
 
+/* ===== BOX ===== */
 .container{
-width:350px;
+width:360px;
 background:#000;
 padding:25px;
 border-radius:18px;
@@ -26,6 +30,7 @@ border:2px solid #a020f0;
 box-shadow:0 0 15px #a020f0;
 }
 
+/* ===== TITLE ===== */
 h2{
 text-align:center;
 color:#39ff14;
@@ -33,9 +38,10 @@ margin-bottom:20px;
 text-shadow:0 0 10px #39ff14;
 }
 
+/* ===== INPUT ===== */
 input{
 width:100%;
-padding:10px;
+padding:12px;
 margin:10px 0;
 background:black;
 border:2px solid #39ff14;
@@ -43,6 +49,7 @@ color:#39ff14;
 border-radius:10px;
 }
 
+/* ===== BUTTON ===== */
 button{
 width:100%;
 padding:12px;
@@ -58,36 +65,56 @@ button:hover{
 box-shadow:0 0 10px #39ff14;
 }
 
+/* ===== MESSAGE ===== */
 .msg{
 margin-top:10px;
 text-align:center;
 font-size:14px;
+min-height:20px;
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
 <h2>Account Settings</h2>
 
+<!-- USERNAME -->
 <input type="text" id="username" placeholder="New Username">
 <button onclick="updateUsername()">Update Username</button>
 
+<!-- PASSWORD -->
 <input type="password" id="password" placeholder="New Password">
 <button onclick="updatePassword()">Update Password</button>
 
 <div class="msg" id="msg"></div>
+
+<button onclick="goBack()">← Back</button>
+
 </div>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth, 
+
+import {
+  getAuth,
   updatePassword,
-  updateProfile
+  updateProfile,
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+import {
+  getFirestore,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ===== FIREBASE CONFIG ===== */
 const firebaseConfig = {
   apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
   authDomain: "cyrene-8f351.firebaseapp.com",
@@ -99,46 +126,83 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const msg = document.getElementById("msg");
 
-// 🔤 USERNAME (displayName)
-window.updateUsername = async function(){
-  const user = auth.currentUser;
-  const newName = document.getElementById("username").value;
-
+/* ===== 🔐 BLOCK ACCESS ===== */
+onAuthStateChanged(auth, (user)=>{
   if(!user){
-    msg.innerText = "Not logged in.";
+    window.location.href = "login.html";
+  }
+});
+
+/* ===== USERNAME UPDATE ===== */
+window.updateUsername = async function(){
+
+  const user = auth.currentUser;
+  const newName = document.getElementById("username").value.trim();
+
+  if(!newName){
+    msg.innerText = "Enter a username.";
     return;
   }
 
   try{
+
+    /* update auth */
     await updateProfile(user, {
       displayName: newName
     });
+
+    /* update database */
+    await updateDoc(doc(db, "users", user.uid), {
+      username: newName
+    });
+
     msg.innerText = "Username updated!";
+
+    setTimeout(()=>{
+      location.reload();
+    }, 1000);
+
   }catch(e){
     msg.innerText = e.message;
   }
 };
 
-// 🔒 PASSWORD
+/* ===== PASSWORD UPDATE ===== */
 window.updatePassword = async function(){
+
   const user = auth.currentUser;
   const newPass = document.getElementById("password").value;
 
-  if(!user){
-    msg.innerText = "Not logged in.";
+  if(!newPass){
+    msg.innerText = "Enter a password.";
     return;
   }
 
   try{
+
     await updatePassword(user, newPass);
-    msg.innerText = "Password updated!";
+
+    msg.innerText = "Password updated. Logging out...";
+
+    setTimeout(async ()=>{
+      await signOut(auth);
+      window.location.href = "login.html";
+    }, 1500);
+
   }catch(e){
     msg.innerText = e.message;
   }
 };
+
+/* ===== BACK ===== */
+window.goBack = function(){
+  window.location.href = "profile.html";
+};
+
 </script>
 
 </body>
