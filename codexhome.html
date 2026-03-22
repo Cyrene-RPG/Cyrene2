@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Codex</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+text-align:center;
+background:
+linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* TITLE */
+.title{
+margin-top:30px;
+font-size:34px;
+color:#39ff14;
+text-shadow:
+0 0 10px #39ff14,
+0 0 20px #39ff14,
+0 0 40px #39ff14;
+letter-spacing:2px;
+}
+
+/* SEARCH */
+.searchBox{
+width:90%;
+max-width:420px;
+margin:15px auto;
+}
+
+.searchBox input{
+width:100%;
+padding:14px;
+background:black;
+border:2px solid #39ff14;
+color:white;
+font-family:'Orbitron';
+border-radius:12px;
+outline:none;
+box-shadow:0 0 12px #39ff14 inset, 0 0 10px #39ff14;
+font-size:14px;
+}
+
+.searchBox input::placeholder{
+color:#777;
+}
+
+/* CONTAINER */
+.container{
+width:90%;
+max-width:420px;
+margin:20px auto;
+}
+
+/* CARD */
+.card{
+display:block;
+text-decoration:none;
+color:white;
+padding:20px;
+border-radius:16px;
+border:2px solid #39ff14;
+background:black;
+box-shadow:0 0 12px #39ff14;
+margin-bottom:18px;
+transition:0.2s;
+}
+
+.card:hover{
+transform:scale(1.03);
+box-shadow:0 0 25px #39ff14;
+}
+
+.cardTitle{
+font-size:18px;
+margin-bottom:5px;
+}
+
+.sub{
+color:#b388ff;
+font-size:13px;
+}
+
+/* BACK BUTTON */
+button{
+margin-top:20px;
+padding:12px;
+width:90%;
+max-width:420px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="title">Codex</div>
+
+<div class="searchBox">
+<input type="text" id="searchInput" placeholder="Search the Codex..." onkeyup="searchCodex()">
+</div>
+
+<div class="container" id="codexList">
+
+<a href="codex.html" class="card codexEntry" data-text="origins past lives background ancestry character">
+<div class="cardTitle">Origins & Past Lives</div>
+<div class="sub">Who you are and where you came from</div>
+</a>
+
+<a href="classes.html" class="card codexEntry" data-text="classes jobs roles character build">
+<div class="cardTitle">Classes</div>
+<div class="sub">Character specializations</div>
+</a>
+
+<a href="skills.html" class="card codexEntry" data-text="skills abilities checks stats">
+<div class="cardTitle">Skills</div>
+<div class="sub">Abilities and checks</div>
+</a>
+
+<a href="city.html" class="card codexEntry" data-text="city cyrene districts lore world">
+<div class="cardTitle">City of Cyrene</div>
+<div class="sub">Lore & districts</div>
+</a>
+
+<a href="factions.html" class="card codexEntry" data-text="factions groups guilds power">
+<div class="cardTitle">Factions</div>
+<div class="sub">Groups & power structures</div>
+</a>
+
+<a href="creatures.html" class="card codexEntry" data-text="creatures monsters enemies">
+<div class="cardTitle">Creatures</div>
+<div class="sub">Known entities</div>
+</a>
+
+</div>
+
+<button onclick="location.href='codexhome.html'">← Back</button>
+
+<script>
+
+function searchCodex(){
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+let entries = document.querySelectorAll(".codexEntry");
+
+entries.forEach(e=>{
+
+let text = e.getAttribute("data-text");
+
+if(text.includes(input)){
+e.style.display="block";
+}else{
+e.style.display="none";
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

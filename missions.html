@@ -1,290 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Missions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+text-align:center;
+background:
+linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* TITLE */
+.title{
+margin-top:40px;
+font-size:28px;
+color:#39ff14;
+text-shadow:0 0 12px #39ff14;
+}
+
+/* CONTAINER */
+.container{
+width:90%;
+max-width:420px;
+margin:30px auto;
+}
+
+/* MISSION CARD */
+.mission{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+border:2px solid #39ff14;
+box-shadow:0 0 18px #39ff14;
+cursor:pointer;
+background:black;
+transition:0.2s;
+}
+
+.mission:hover{
+box-shadow:0 0 25px #39ff14;
+}
+
+/* COMPLETED */
+.completed{
+border:2px solid #00fff7;
+box-shadow:0 0 18px #00fff7;
+}
+
+/* DESCRIPTION */
+.desc{
+margin-top:8px;
+font-size:13px;
+color:#b388ff;
+}
+
+/* BUTTON */
+button{
+margin-top:30px;
+padding:12px;
+width:90%;
+max-width:300px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+border-radius:10px;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+/* BOX */
+.box{
+width:90%;
+max-width:350px;
+padding:20px;
+background:black;
+border:2px solid #7a00ff;
+border-radius:14px;
+box-shadow:0 0 20px #7a00ff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Missions</div>
+
+<div class="container" id="missionList"></div>
+
+<button onclick="location.href='profile.html'">← Back</button>
+
+<div id="overlay" class="overlay"></div>
+
 <script>
 
-/* ================= QUEST DATA ================= */
+/* ================= MISSIONS ================= */
 
-let quests = [
-
+let missions = [
 {
 id:1,
 name:"Welcome to Cyrene",
-status:"unlocked",
-description:"Intro mission"
-},
-
-{
-id:2,
-name:"Escape Jail",
-status:"hidden"
+desc:"Arrive at the city",
+completed:false
 }
-
 ];
-
-/* ================= LOAD FIX ================= */
-
-window.onload = function(){
-renderQuests();
-};
 
 /* ================= RENDER ================= */
 
-function renderQuests(){
+function renderMissions(){
 
 let html="";
 
-quests.forEach(q=>{
+missions.forEach(m=>{
 
-let cls="quest";
-
-if(q.status==="locked") cls+=" locked";
-if(q.status==="hidden") cls+=" hidden";
-if(q.status==="completed") cls+=" completed";
-
-let name=q.name;
-
-if(q.status==="hidden"){
-name="???";
-}
-
-let icon="";
-if(q.status==="locked") icon=" 🔒";
-if(q.status==="completed") icon=" ✔";
+let cls="mission";
+if(m.completed) cls+=" completed";
 
 html+=`
-<div class="${cls}" onclick="openQuest(${q.id})">
-${icon} ${name}
+<div class="${cls}" onclick="openMission(${m.id})">
+<div>${m.name}</div>
+<div class="desc">${m.desc}</div>
 </div>
 `;
 
 });
 
-document.getElementById("questList").innerHTML=html;
+document.getElementById("missionList").innerHTML=html;
 }
 
-/* ================= CLICK ================= */
+renderMissions();
 
-function openQuest(id){
+/* ================= OPEN ================= */
 
-let q=quests.find(x=>x.id===id);
-
-if(q.status==="locked" || q.status==="hidden"){
-return;
-}
+function openMission(id){
 
 renderOverlay(`
-<div>Start "${q.name}"?</div>
+<div>Start mission?</div>
 
-<button onclick="startQuest(${id})">Yes</button>
-<button onclick="closeOverlay()">No</button>
+<button onclick="startMission(${id})">Start</button>
+<button onclick="closeOverlay()">Cancel</button>
 `);
 }
 
 /* ================= START ================= */
 
-function startQuest(id){
+function startMission(id){
 
-let progress = localStorage.getItem("quest_"+id);
-
-if(progress){
-
-renderOverlay(`
-<div>Resume quest?</div>
-
-<button onclick="loadQuest(${id})">Resume</button>
-<button onclick="restartQuest(${id})">Start Over</button>
-<button onclick="closeOverlay()">Close</button>
-`);
-
-return;
-}
-
-loadScreen(id);
-}
-
-/* ================= LOADING ================= */
-
-function loadScreen(id){
-
-renderOverlay(`
-<div>Loading Mission...</div>
-<button onclick="loadQuest(${id})">Continue</button>
-`);
-}
-
-/* ================= LOAD QUEST ================= */
-
-function loadQuest(id){
-
-localStorage.setItem("quest_"+id,"started");
-
-/* QUEST 1 */
 if(id === 1){
-
-renderOverlay(`
-<div class="sectionTitle">Welcome to Cyrene</div>
-
-<div style="
-text-align:left;
-max-height:60vh;
-overflow-y:auto;
-padding:10px;
-line-height:1.6;
-">
-
-You are standing on the deck of a ferry, the metal beneath your boots humming softly with the strain of the engines as they push through restless water.
-
-The wind feels nice and cool against your face, carrying with it the sharp scent of salt and distant smog—a strange mix of ocean spray and something more artificial.
-
-The ferry rises and falls gently with the waves, a slow, rhythmic motion that almost feels calming—if not for the quiet tension hanging in the air around you.
-
-<br><br>
-
-It’s late morning, though the light feels muted, filtered through a thin haze that clings to the horizon.
-
-As you gaze across the water, the coastline of an island starts to become visible—at first just a faint silhouette, then gradually sharpening into something more defined.
-
-Structures begin to take shape—skyscrapers, stacked and sprawling, stretching upward and outward in uneven layers.
-
-The skyline of a city reveals itself piece by piece, massive and imposing, like it’s watching you approach just as much as you’re observing it.
-
-<br><br>
-
-The closer the ferry moves, the more details emerge—faint glimmers of glass and steel catching the light, dark gaps between structures hinting at depth and density.
-
-Even from this distance, the city feels alive… restless… as if something is always moving beneath its surface.
-
-<br><br>
-
-Off to your left, a dark-skinned elf leans against the railing, their posture relaxed but distant, as though lost in thought.
-
-The wind tugs lightly at their clothing and hair, but they don’t react.
-
-Their gaze is fixed on the water below, watching the shifting surface as it reflects fragments of light and shadow.
-
-There’s a quiet intensity about them—the kind that suggests they’re not just looking at the water… but thinking about something far beyond it.
-
-</div>
-
-<button onclick="quest1Next()">Next</button>
-`);
+location.href="mission1.html"; // ← your ferry page
 }
 
-}
-
-/* ================= NEXT ================= */
-
-function quest1Next(){
-
-renderOverlay(`
-<div class="sectionTitle">What do you do?</div>
-
-<input id="playerInput" placeholder="Type your action...">
-
-<button onclick="handleInput()">Submit</button>
-<button onclick="loadQuest(1)">Back</button>
-`);
-}
-
-/* ================= INPUT ================= */
-
-function handleInput(){
-
-let input = document.getElementById("playerInput").value.toLowerCase();
-
-/* ELF PATH */
-if(
-input.includes("elf") &&
-(
-input.includes("approach") ||
-input.includes("walk") ||
-input.includes("go") ||
-input.includes("over") ||
-input.includes("up")
-)
-){
-return elfEncounter();
-}
-
-/* INVESTIGATION PATH */
-if(
-input.includes("explore") ||
-input.includes("look") ||
-input.includes("investigate") ||
-input.includes("search")
-){
-return investigationRoll();
-}
-
-/* DEFAULT */
-renderOverlay(`
-<div>Nothing happens...</div>
-<button onclick="quest1Next()">Try Again</button>
-`);
-}
-
-/* ================= ELF ================= */
-
-function elfEncounter(){
-
-let playerClass = localStorage.getItem("charClass");
-
-/* BLOCKED CLASSES */
-if(
-playerClass === "Kenzai" ||
-playerClass === "Rogue" ||
-playerClass === "Assassin"
-){
-renderOverlay(`
-<div>The elf barely acknowledges you... something feels off.</div>
-<button onclick="quest1Next()">Back</button>
-`);
-return;
-}
-
-/* NORMAL */
-renderOverlay(`
-<div class="sectionTitle">Encounter</div>
-
-<div style="text-align:left;">
-The elf glances up at you and gives a subtle nod of acknowledgment.
-</div>
-
-<button onclick="charismaCheck()">Continue</button>
-`);
-}
-
-/* ================= CHARISMA ================= */
-
-function charismaCheck(){
-
-let roll = Math.floor(Math.random()*20)+1;
-
-renderOverlay(`
-<div>Charisma Roll: ${roll}</div>
-
-${roll > 11 ? "<div>Success</div>" : "<div>Failure</div>"}
-
-<button onclick="quest1Next()">Continue</button>
-`);
-}
-
-/* ================= INVESTIGATION ================= */
-
-function investigationRoll(){
-
-let roll = Math.floor(Math.random()*20)+1;
-
-renderOverlay(`
-<div>Investigation Roll: ${roll}</div>
-
-<button onclick="quest1Next()">Continue</button>
-`);
-}
-
-/* ================= RESTART ================= */
-
-function restartQuest(id){
-localStorage.removeItem("quest_"+id);
-loadScreen(id);
 }
 
 /* ================= OVERLAY ================= */
@@ -300,3 +186,6 @@ document.getElementById("overlay").style.display="none";
 }
 
 </script>
+
+</body>
+</html>

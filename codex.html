@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Codex - Origins</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== GLOBAL ===== */
+html, body{
+margin:0;
+height:100%;
+overflow-x:hidden;
+font-family:'Orbitron';
+color:white;
+background:
+linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* ===== LEFT SAFE ZONE (FIX) ===== */
+.container{
+max-width:700px;
+margin:auto;
+padding:20px;
+padding-left:80px; /* 🔥 prevents overlap */
+}
+
+/* ===== TITLE ===== */
+.title{
+font-size:28px;
+color:#39ff14;
+text-shadow:0 0 12px #39ff14;
+margin-top:70px;
+}
+
+/* ===== PURPLE BOX ===== */
+.section{
+margin-top:25px;
+padding:18px;
+border-radius:14px;
+background:black;
+border:2px solid #7a00ff;
+box-shadow:0 0 18px #7a00ff;
+}
+
+.subtitle{
+font-size:20px;
+color:#39ff14;
+text-shadow:0 0 8px #39ff14;
+margin-bottom:10px;
+}
+
+.text{
+line-height:1.7;
+color:#ccc;
+}
+
+ul{
+padding-left:20px;
+margin-top:10px;
+}
+
+/* ===== HAMBURGER (LOCKED LEFT) ===== */
+.hamburger{
+position:fixed;
+top:15px;
+left:15px;
+font-size:24px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+padding:6px 10px;
+border-radius:8px;
+z-index:9999;
+
+/* prevents weird mobile movement */
+transform: translateZ(0);
+}
+
+/* ===== MOBILE MENU ===== */
+.mobileMenu{
+position:fixed;
+top:0;
+left:-100%;
+width:220px;
+height:100%;
+background:black;
+border-right:2px solid #39ff14;
+box-shadow:0 0 15px #39ff14;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+transition:0.3s;
+z-index:9000;
+}
+
+.mobileMenu.active{
+left:0;
+}
+
+/* ===== OVERLAY ===== */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+z-index:8000;
+}
+
+.overlay.active{
+display:block;
+}
+
+/* ===== DESKTOP SIDEBAR ===== */
+.sidebar{
+position:fixed;
+top:0;
+left:0;
+width:200px;
+height:100%;
+background:black;
+border-right:2px solid #39ff14;
+box-shadow:0 0 12px #39ff14;
+padding:15px;
+display:flex;
+flex-direction:column;
+gap:10px;
+z-index:1000;
+}
+
+/* ===== BUTTONS ===== */
+.sideBtn{
+padding:10px;
+border:2px solid #39ff14;
+border-radius:10px;
+text-align:center;
+text-decoration:none;
+color:#39ff14;
+box-shadow:0 0 8px #39ff14;
+}
+
+.sideBtn:hover{
+background:#39ff14;
+color:black;
+}
+
+/* ===== DESKTOP SHIFT ===== */
+@media(min-width:900px){
+.container{
+margin-left:220px;
+padding-left:20px; /* remove safe zone on desktop */
+}
+.hamburger{
+display:none;
+}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:899px){
+.sidebar{
+display:none;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HAMBURGER -->
+<div class="hamburger" onclick="openMenu()">☰</div>
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="mobileMenu">
+<a class="sideBtn" href="human.html">Human</a>
+<a class="sideBtn" href="elf.html">Elf</a>
+<a class="sideBtn" href="dwarves.html">Dwarves</a>
+<a class="sideBtn" href="cambions.html">Cambions</a>
+<a class="sideBtn" href="orcs.html">Orcs</a>
+<a class="sideBtn" href="dragonborn.html">Dragonborn</a>
+<a class="sideBtn" href="hybrid.html">Hybrid</a>
+</div>
+
+<!-- DESKTOP SIDEBAR -->
+<div class="sidebar">
+<a class="sideBtn" href="human.html">Human</a>
+<a class="sideBtn" href="elf.html">Elf</a>
+<a class="sideBtn" href="dwarves.html">Dwarves</a>
+<a class="sideBtn" href="cambions.html">Cambions</a>
+<a class="sideBtn" href="orcs.html">Orcs</a>
+<a class="sideBtn" href="dragonborn.html">Dragonborn</a>
+<a class="sideBtn" href="hybrid.html">Hybrid</a>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+<div class="title">Origins & Past Lives</div>
+
+<div class="section">
+<div class="text">
+Your character’s Origin defines what they are at a fundamental level—their biology, instincts, and the unseen forces that shaped them long before they ever set foot in Cyrene. Some are born into structured systems, raised among steel towers and neon-lit streets. Others come from fractured bloodlines, carrying traits that don’t quite belong to any one world. Your Past Life reflects who you were before everything changed. It represents your training, your habits, and the experiences that continue to influence how you react to the world around you. Together, these choices shape not just your abilities—but how the world responds to you.
+</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Choosing Your Origin</div>
+<div class="text">
+You will select one Origin during character creation.
+</div>
+<ul>
+<li>Cannot be changed later</li>
+<li>Determines your natural traits</li>
+<li>Influences how characters react to you</li>
+<li>Unlocks unique interactions</li>
+</ul>
+</div>
+
+<div class="section">
+<div class="subtitle">Origin Features</div>
+
+<div class="text"><b>Core Traits</b><br>
+Passive qualities that define your natural strengths.</div><br>
+
+<div class="text"><b>Innate Ability</b><br>
+A unique ability tied directly to your Origin.</div><br>
+
+<div class="text"><b>Lineage</b><br>
+A subtype that reflects environment, upbringing, or mutation.</div><br>
+
+<div class="text"><b>Tags</b><br>
+Used to unlock dialogue, events, and reactions throughout the game.</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Past Life</div>
+
+<div class="text"><b>Skill Focus</b><br>
+Improves abilities that affect dialogue and gameplay.</div><br>
+
+<div class="text"><b>Narrative Perk</b><br>
+Unlocks unique actions or solutions.</div><br>
+
+<div class="text"><b>Narrative Hook</b><br>
+Connects you to the world and future quests.</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Stat Influence</div>
+<div class="text">
+Your Origin and Past Life shape your starting capabilities while still allowing customization.
+</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Size & Presence</div>
+<div class="text">
+Different Origins vary in physical size, movement, and perception by others.
+</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Communication</div>
+<div class="text">
+In Cyrene, communication includes dialects, networks, and cultural understanding.
+</div>
+</div>
+
+<div class="section">
+<div class="subtitle">Important Note</div>
+<div class="text">
+Your Origin and Past Life are permanent. They define how your story begins—but not how it ends.
+</div>
+</div>
+
+</div>
+
+<script>
+
+function openMenu(){
+document.getElementById("mobileMenu").classList.add("active");
+document.getElementById("overlay").classList.add("active");
+document.querySelector(".hamburger").style.display = "none";
+}
+
+function closeMenu(){
+document.getElementById("mobileMenu").classList.remove("active");
+document.getElementById("overlay").classList.remove("active");
+document.querySelector(".hamburger").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
