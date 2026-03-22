@@ -243,11 +243,67 @@ function loadQuest(id){
 
 localStorage.setItem("quest_"+id,"started");
 
+/* QUEST 1 - SCREEN 1 */
+if(id === 1){
+
 renderOverlay(`
-<div>Quest Started 🔥</div>
+<div class="sectionTitle">Welcome to Cyrene</div>
+
+<div style="
+text-align:left;
+max-height:60vh;
+overflow-y:auto;
+padding:10px;
+line-height:1.6;
+">
+
+You are standing on the deck of a ferry, the metal beneath your boots humming softly with the strain of the engines as they push through restless water.
+
+The wind feels nice and cool against your face, carrying with it the sharp scent of salt and distant smog—a strange mix of ocean spray and something more artificial.
+
+The ferry rises and falls gently with the waves, a slow, rhythmic motion that almost feels calming—if not for the quiet tension hanging in the air around you.
+
+<br><br>
+
+It’s late morning, though the light feels muted, filtered through a thin haze that clings to the horizon.
+
+As you gaze across the water, the coastline of an island starts to become visible—at first just a faint silhouette, then gradually sharpening into something more defined.
+
+Structures begin to take shape—skyscrapers, stacked and sprawling, stretching upward and outward in uneven layers.
+
+The skyline of a city reveals itself piece by piece, massive and imposing, like it’s watching you approach just as much as you’re observing it.
+
+<br><br>
+
+The closer the ferry moves, the more details emerge—faint glimmers of glass and steel catching the light, dark gaps between structures hinting at depth and density.
+
+Even from this distance, the city feels alive… restless… as if something is always moving beneath its surface.
+
+<br><br>
+
+Off to your left, a dark-skinned elf leans against the railing, their posture relaxed but distant, as though lost in thought.
+
+The wind tugs lightly at their clothing and hair, but they don’t react.
+
+Their gaze is fixed on the water below, watching the shifting surface as it reflects fragments of light and shadow.
+
+There’s a quiet intensity about them—the kind that suggests they’re not just looking at the water… but thinking about something far beyond it.
+
+</div>
+
+<button onclick="quest1Next()">Next</button>
+`);
+}
+
+}
+
+function quest1Next(){
+renderOverlay(`
+<div>More story coming next...</div>
 <button onclick="closeOverlay()">Close</button>
 `);
 }
+
 
 /* ================= RESTART ================= */
 
