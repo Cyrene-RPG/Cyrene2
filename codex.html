@@ -8,7 +8,6 @@
 
 <style>
 /* ===== RESET ===== */
-/* ===== RESET ===== */
 *{
 margin:0;
 padding:0;
@@ -35,7 +34,6 @@ border-right:2px solid #00ff88;
 z-index:1000;
 }
 
-/* Sidebar buttons */
 .sidebar button{
 display:block;
 width:100%;
@@ -55,61 +53,60 @@ box-shadow:0 0 12px #00ff88;
 transform:scale(1.05);
 }
 
-/* ===== MAIN CONTENT (FIXED CENTERING) ===== */
+/* ===== MAIN (CENTER FIX ONLY) ===== */
 .main{
 margin-left:240px;
 padding:40px;
 
-/* CENTER FIX */
 max-width:1000px;
 margin-right:auto;
 }
 
-/* ===== TITLES ===== */
-h1{
-color:#00ff88;
-font-size:32px;
+/* ===== TITLE ===== */
+.title{
+color:#39ff14;
+font-size:34px;
 margin-bottom:25px;
 text-shadow:0 0 12px #00ff88;
 }
 
-h2{
-color:#00ff88;
+/* ===== SECTION TITLES ===== */
+.sectionTitle{
+color:#39ff14;
 margin-bottom:10px;
-text-shadow:0 0 8px #00ff88;
+font-size:18px;
+text-shadow:0 0 15px #39ff14;
 }
 
-/* ===== PURPLE GLOW BOXES (RESTORED) ===== */
-.section{
-background:rgba(0,0,0,0.65);
+/* ===== YOUR ACTUAL BOXES (FIXED) ===== */
+.card{
+background:rgba(0,0,0,0.7);
 padding:20px;
 margin-bottom:25px;
 border-radius:18px;
 
-/* GLOW */
+/* PURPLE GLOW BACK */
 border:2px solid #a020f0;
 box-shadow:
-0 0 10px #a020f0,
-0 0 20px #a020f0 inset;
+0 0 15px #a020f0,
+0 0 25px #a020f0 inset;
 }
 
-/* Text spacing */
-.section p{
+/* TEXT */
+.card{
 line-height:1.6;
-margin-bottom:10px;
 }
 
-/* Lists */
-.section ul{
+.card ul{
 padding-left:20px;
 margin-top:10px;
 }
 
-.section li{
+.card li{
 margin-bottom:6px;
 }
 
-/* ===== SPLIT GRID (LIKE YOUR SCREENSHOT) ===== */
+/* ===== GRID ===== */
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -124,7 +121,7 @@ transform:translateX(-100%);
 transition:0.3s;
 }
 
-.sidebar.active{
+.sidebar.open{
 transform:translateX(0);
 }
 
@@ -136,24 +133,21 @@ left:15px;
 z-index:1100;
 background:black;
 border:2px solid #00ff88;
-color:#00ff88;
+color:#39ff14;
 padding:10px 12px;
 border-radius:10px;
 font-size:20px;
 }
 
-/* Remove sidebar spacing */
 .main{
 margin-left:0;
 padding:80px 20px 30px;
 }
 
-/* Stack layout */
 .grid{
 grid-template-columns:1fr;
 }
 }
-
 
 </style>
 </head>
