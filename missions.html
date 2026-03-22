@@ -15,66 +15,61 @@ background:
 linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
 url('City.jpg');
 background-size:cover;
+text-align:center;
 }
 
-.header{
+/* BACK BAR */
+.topBar{
+margin-top:20px;
 display:flex;
 justify-content:center;
-position:relative;
-margin-top:20px;
-}
-
-.title{
-font-size:28px;
-color:#39ff14;
-border:2px solid #39ff14;
-padding:10px 20px;
-box-shadow:0 0 12px #39ff14;
 }
 
 .back{
-position:absolute;
-left:20px;
-padding:8px 16px;
+padding:10px 40px;
 border:2px solid #39ff14;
 color:#39ff14;
 background:black;
+box-shadow:0 0 10px #39ff14;
 cursor:pointer;
 }
 
+/* MAIN */
 .container{
+margin-top:40px;
 display:flex;
 justify-content:center;
-gap:40px;
-margin-top:50px;
+gap:60px;
 flex-wrap:wrap;
 }
 
-.column{
-min-width:280px;
-max-width:400px;
+/* SECTION */
+.section{
+min-width:250px;
 }
 
+/* HEADERS */
 .sectionTitle{
-text-align:center;
 margin-bottom:20px;
 padding:10px;
 border:2px solid #39ff14;
+box-shadow:0 0 10px #39ff14;
 }
 
+/* MISSIONS */
 .mission{
 padding:15px;
-margin-bottom:15px;
 border-radius:20px;
 border:2px solid #39ff14;
 background:black;
 cursor:pointer;
-text-align:center;
+box-shadow:0 0 10px #39ff14;
 }
 
 .locked{
-border:2px solid #555;
+border:2px solid #777;
 color:#777;
+box-shadow:none;
 cursor:default;
 }
 
@@ -89,31 +84,28 @@ background:rgba(0,0,0,0.85);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:999;
 }
 
 .popup{
-width:90%;
-max-width:350px;
+width:300px;
 padding:20px;
 background:black;
 border:2px solid #7a00ff;
-border-radius:14px;
-box-shadow:0 0 25px #7a00ff;
-text-align:center;
+box-shadow:0 0 20px #7a00ff;
 }
 
+/* BUTTON */
 button{
 margin-top:10px;
-padding:12px;
+padding:10px;
 width:100%;
 background:black;
 border:2px solid #39ff14;
 color:#39ff14;
 cursor:pointer;
-border-radius:10px;
 }
 
+/* MOBILE */
 @media(max-width:700px){
 .container{
 flex-direction:column;
@@ -125,39 +117,39 @@ align-items:center;
 
 <body>
 
-<div class="header">
-<button class="back" onclick="location.href='profile.html'">Back</button>
-<div class="title">Missions Hub</div>
+<div class="topBar">
+<button class="back" onclick="goBack()">Back</button>
 </div>
 
 <div class="container">
 
-<div class="column">
+<div class="section">
 <div class="sectionTitle">Unlocked</div>
 
 <div class="mission" onclick="openMission(1)">
 Welcome to Cyrene
 </div>
-
 </div>
 
-<div class="column">
+<div class="section">
 <div class="sectionTitle">Locked</div>
 
-<div class="mission locked">???????</div>
+<div class="mission locked">
+???????
+</div>
 </div>
 
 </div>
 
 <div id="overlay" class="overlay"></div>
 
-<!-- 🔥 FIREBASE SCRIPT -->
-<script type="module">
+<!-- 🔥 FIREBASE (NON-MODULE = FIXES YOUR ISSUE) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
 
-/* YOUR CONFIG */
+/* FIREBASE INIT */
 const firebaseConfig = {
   apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
   authDomain: "cyrene-8f351.firebaseapp.com",
@@ -167,34 +159,34 @@ const firebaseConfig = {
   appId: "1:574109223643:web:1d713a3c5f1503c7fbdafe"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-/* 🔊 SOUND */
+/* SOUND */
 let clickSound = new Audio("click.mp3");
 let openSound = new Audio("open.mp3");
 
-/* TEMP USER ID (replace later with auth) */
+/* USER */
 let userId = "player1";
 
-/* ================= OPEN MISSION ================= */
+/* OPEN MISSION */
 async function openMission(id){
 
 openSound.play();
 
-let ref = doc(db, "users", userId);
-let snap = await getDoc(ref);
+let docRef = db.collection("users").doc(userId);
+let docSnap = await docRef.get();
 
 let progress = null;
 
-if(snap.exists()){
-progress = snap.data()["mission_"+id];
+if(docSnap.exists){
+progress = docSnap.data()["mission_"+id];
 }
 
-let content = "";
+let html = "";
 
 if(progress === "started"){
-content = `
+html = `
 <div>Welcome to Cyrene</div>
 
 <button onclick="resumeMission(${id})">Resume</button>
@@ -202,7 +194,7 @@ content = `
 <button onclick="closePopup()">Close</button>
 `;
 }else{
-content = `
+html = `
 <div>Welcome to Cyrene</div>
 
 <button onclick="startMission(${id})">Start</button>
@@ -210,10 +202,10 @@ content = `
 `;
 }
 
-showPopup(content);
+showPopup(html);
 }
 
-/* ================= POPUP ================= */
+/* POPUP */
 function showPopup(html){
 let o = document.getElementById("overlay");
 o.style.display = "flex";
@@ -224,14 +216,13 @@ function closePopup(){
 document.getElementById("overlay").style.display = "none";
 }
 
-/* ================= ACTIONS ================= */
-
+/* ACTIONS */
 async function startMission(id){
 clickSound.play();
 
-await setDoc(doc(db, "users", userId), {
+await db.collection("users").doc(userId).set({
 ["mission_"+id]: "started"
-}, { merge:true });
+},{merge:true});
 
 location.href = "mission1.html";
 }
@@ -244,19 +235,16 @@ location.href = "mission1.html";
 async function restartMission(id){
 clickSound.play();
 
-await setDoc(doc(db, "users", userId), {
+await db.collection("users").doc(userId).set({
 ["mission_"+id]: "started"
-}, { merge:true });
+},{merge:true});
 
 location.href = "mission1.html";
 }
 
-/* MAKE GLOBAL */
-window.openMission = openMission;
-window.startMission = startMission;
-window.resumeMission = resumeMission;
-window.restartMission = restartMission;
-window.closePopup = closePopup;
+function goBack(){
+location.href="profile.html";
+}
 
 </script>
 
