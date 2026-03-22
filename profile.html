@@ -1,235 +1,243 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cyrene - Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyrene - Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<style>
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+background:linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.95)),url('City.jpg');
+background-size:cover;
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+/* TOP */
+.topWelcome{
+position:fixed;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+padding:10px 20px;
+background:black;
+border-radius:12px;
+box-shadow:0 0 20px #7a00ff;
+color:#39ff14;
+z-index:1000;
+}
 
-  <style>
-  body{
-    margin:0;
-    font-family:'Orbitron', Arial, sans-serif;
-    color:white;
+/* MENU */
+.hamburger{
+position:fixed;
+top:18px;
+left:15px;
+font-size:24px;
+color:#39ff14;
+cursor:pointer;
+z-index:1001;
+}
 
-    background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
-    url('City.jpg');
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+left:-260px;
+top:0;
+width:260px;
+height:100%;
+background:black;
+padding-top:80px;
+transition:.3s;
+box-shadow:0 0 30px #7a00ff;
+z-index:1000;
+}
+.sidebar button{
+display:block;
+width:80%;
+margin:12px auto;
+padding:12px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+cursor:pointer;
+}
 
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-  }
+/* PROFILE PIC */
+.profileCircle{
+position:fixed;
+top:12px;
+right:15px;
+width:55px;
+height:55px;
+border-radius:50%;
+border:3px solid #7a00ff;
+box-shadow:0 0 15px #7a00ff;
+object-fit:cover;
+cursor:pointer;
+background:black;
+}
 
-  .topWelcome{
-    position:fixed;
-    top:10px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:1000;
+/* MAIN */
+.main{
+padding-top:110px;
+text-align:center;
+}
 
-    padding:12px 30px;
-    background:black;
-    border-radius:10px;
+.characterContainer{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+padding:20px;
+}
 
-    box-shadow:
-    0 0 10px #a855ff,
-    0 0 25px #a855ff,
-    inset 0 0 10px #a855ff;
-
-    font-size:18px;
-  }
-
-  .hamburger{
-    position:fixed;
-    top:60px;
-    left:15px;
-    font-size:26px;
-    color:#39ff14;
-    cursor:pointer;
-    z-index:1000;
-  }
-
-  .profileCircle{
-    position:fixed;
-    top:55px;
-    right:15px;
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    border:3px solid #a855ff;
-    box-shadow:0 0 20px #a855ff;
-    object-fit:cover;
-    background:black;
-  }
-
-  .sidebar{
-    position:fixed;
-    top:0;
-    left:-260px;
-    width:260px;
-    height:100%;
-    background:black;
-    padding-top:120px;
-    transition:0.3s;
-    z-index:999;
-
-    box-shadow:0 0 30px #a855ff;
-  }
-
-  .sidebar button{
-    display:block;
-    width:80%;
-    margin:12px auto;
-    padding:12px;
-
-    background:black;
-    border:2px solid #39ff14;
-    color:#39ff14;
-
-    cursor:pointer;
-    box-shadow:0 0 10px #39ff14;
-  }
-
-  .main{
-    padding-top:140px;
-    text-align:center;
-  }
-
-  .uploadBox{
-    margin-top:20px;
-  }
-
-  input[type="file"]{
-    color:#39ff14;
-  }
-
-  .uploadBtn{
-    margin-top:10px;
-    padding:10px;
-
-    background:black;
-    border:2px solid #39ff14;
-    color:#39ff14;
-
-    cursor:pointer;
-    box-shadow:0 0 10px #39ff14;
-  }
-
-  </style>
+.characterBox{
+width:120px;
+height:140px;
+display:flex;
+align-items:center;
+justify-content:center;
+border:2px solid #39ff14;
+border-radius:12px;
+background:black;
+color:#39ff14;
+cursor:pointer;
+box-shadow:0 0 15px #39ff14;
+}
+</style>
 </head>
 
 <body>
 
-<!-- TOP -->
-<div class="topWelcome">
-  <span id="welcomeText">Welcome...</span>
-</div>
+<div class="topWelcome"><span id="welcomeText">Loading...</span></div>
 
-<!-- ICONS -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
-<img id="profilePic" class="profileCircle">
 
-<!-- SIDEBAR -->
+<img id="profilePic" class="profileCircle" src="https://via.placeholder.com/65">
+<input type="file" id="fileInput" style="display:none">
+
 <div class="sidebar" id="sidebar">
-  <button onclick="location.href='index.html'">Home</button>
-  <button>Quests (Coming Soon)</button>
-  <button>City Guide (Coming Soon)</button>
-  <button onclick="logout()">Log Out</button>
+
+<button onclick="location.href='home.html'">Home</button>
+
+<button onclick="location.href='missions.html'">Missions</button>
+
+<button onclick="location.href='city.html'">City Info</button>
+
+<button onclick="window.open('https://discord.gg/DQnaGs7P','_blank')">
+Join Discord
+</button>
+
+<button onclick="location.href='security.html'">
+Security / Password
+</button>
+
+<!-- push logout to bottom -->
+<div style="position:absolute; bottom:30px; width:100%;">
+<button onclick="logout()">Log Out</button>
 </div>
 
-<!-- MAIN -->
+</div>
+
 <div class="main">
-
-  <div class="uploadBox">
-    <input type="file" id="fileInput">
-    <br>
-    <button class="uploadBtn" onclick="uploadPic()">Upload Profile Picture</button>
-  </div>
-
+<div class="characterContainer">
+<div class="characterBox" onclick="location.href='character.html'">+ Add Character</div>
+<div class="characterBox" onclick="location.href='character.html'">+ Add Character</div>
+<div class="characterBox" onclick="location.href='character.html'">+ Add Character</div>
+</div>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+/* CONFIG */
 const firebaseConfig = {
-  apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
-  authDomain: "cyrene-8f351.firebaseapp.com",
-  projectId: "cyrene-8f351",
-  storageBucket: "cyrene-8f351.appspot.com",
-  messagingSenderId: "574109223643",
-  appId: "1:574109223643:web:1d713a3c5f1503c7fbdafe"
+apiKey:"AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
+authDomain:"cyrene-8f351.firebaseapp.com",
+projectId:"cyrene-8f351",
+storageBucket:"cyrene-8f351.appspot.com",
+messagingSenderId:"574109223643",
+appId:"1:574109223643:web:1d713a3c5f1503c7fbdafe"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig, "MAIN");
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
-let currentUser = null;
+const welcome = document.getElementById("welcomeText");
+const pfp = document.getElementById("profilePic");
+const fileInput = document.getElementById("fileInput");
 
-// LOAD USER
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUser = user;
+/* AUTH */
+onAuthStateChanged(auth, async (user)=>{
 
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
+if(!user){
+welcome.innerText = "Not logged in";
+return;
+}
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
+const ref = doc(db,"users",user.uid);
 
-      document.getElementById("welcomeText").innerText =
-        "Welcome, " + data.username + "!";
+let snap = await getDoc(ref);
 
-      if (data.photoURL) {
-        document.getElementById("profilePic").src = data.photoURL;
-      }
-    }
+if(!snap.exists()){
+await setDoc(ref,{
+username:"Citizen",
+photoURL:""
+});
+snap = await getDoc(ref);
+}
 
-  } else {
-    window.location.href = "index.html";
-  }
+const data = snap.data();
+
+/* USERNAME */
+welcome.innerText = "Welcome, " + (data.username || "Citizen");
+
+/* PFP LOAD */
+if(data.photoURL){
+pfp.src = data.photoURL;
+}
+
+/* PFP SAVE */
+fileInput.onchange = async (e)=>{
+let file=e.target.files[0];
+if(!file) return;
+
+let reader=new FileReader();
+
+reader.onload=async(ev)=>{
+let base64=ev.target.result;
+
+await setDoc(ref,{
+username:data.username || "Citizen",
+photoURL:base64
 });
 
-// UPLOAD PROFILE PIC
-window.uploadPic = async function(){
-  const file = document.getElementById("fileInput").files[0];
-
-  if (!file || !currentUser) return;
-
-  const storageRef = ref(storage, "profilePics/" + currentUser.uid);
-
-  await uploadBytes(storageRef, file);
-
-  const url = await getDownloadURL(storageRef);
-
-  // Save URL in Firestore
-  await updateDoc(doc(db, "users", currentUser.uid), {
-    photoURL: url
-  });
-
-  document.getElementById("profilePic").src = url;
+pfp.src = base64;
 };
 
-// SIDEBAR
-window.toggleMenu = function(){
-  const menu = document.getElementById("sidebar");
-  menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
+reader.readAsDataURL(file);
 };
 
-// LOGOUT
-window.logout = function(){
-  signOut(auth).then(() => {
-    window.location.href = "index.html";
-  });
+});
+
+/* MENU */
+window.toggleMenu=()=>{
+let s=document.getElementById("sidebar");
+s.style.left=(s.style.left==="0px")?"-260px":"0px";
 };
+
+/* LOGOUT */
+window.logout=()=>{
+signOut(auth).then(()=>location.href="login.html");
+};
+
+/* CLICK PFP */
+pfp.onclick = ()=> fileInput.click();
+
 </script>
 
 </body>

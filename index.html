@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>Cyrene</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 margin:0;
-font-family:'Orbitron', Arial, sans-serif;
+font-family:'Orbitron', Arial;
 color:white;
+text-align:center;
 
-/* BACKGROUND IMAGE (FIXED PATH) */
 background:
 linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
 url('City.jpg');
@@ -25,9 +24,7 @@ background-attachment:fixed;
 }
 
 /* TITLE */
-
 .title{
-text-align:center;
 margin-top:60px;
 font-size:48px;
 color:#a855ff;
@@ -35,20 +32,19 @@ text-shadow:0 0 20px #7a00ff, 0 0 40px #7a00ff;
 }
 
 .subtitle{
-text-align:center;
 color:#39ff14;
 margin-top:10px;
 font-size:18px;
 text-shadow:0 0 10px #39ff14;
 }
 
-/* SYSTEM BOX */
-
+/* MAIN BOX (EXACT FROM SIGNUP) */
 .systemBox{
 margin:60px auto;
 width:90%;
 max-width:400px;
 padding:30px;
+
 border:2px solid #7a00ff;
 border-radius:12px;
 
@@ -57,12 +53,10 @@ box-shadow:
 0 0 40px #7a00ff,
 inset 0 0 10px #7a00ff;
 
-text-align:left;
 background:rgba(0,0,0,0.6);
 }
 
-/* SYSTEM TEXT */
-
+/* TEXT */
 .systemText{
 color:#39ff14;
 margin-bottom:20px;
@@ -70,20 +64,16 @@ font-size:14px;
 }
 
 /* BUTTONS */
-
 .menuButton{
-display:block;
 width:100%;
 padding:14px;
-margin:10px 0;
+margin-top:15px;
 
 background:black;
 border:2px solid #39ff14;
 color:#39ff14;
 
 cursor:pointer;
-
-text-align:left;
 
 box-shadow:0 0 10px #39ff14;
 }
@@ -93,56 +83,36 @@ background:#39ff14;
 color:black;
 }
 
-/* LORE */
-
-.lore{
-text-align:center;
-max-width:600px;
-margin:40px auto;
-color:#ccc;
-font-size:14px;
-line-height:1.6;
-padding:20px;
-background:rgba(0,0,0,0.6);
-border-radius:10px;
-}
-
-/* INFO BOX (LORE + ABOUT) */
+/* INFO BOXES */
 .infoBox{
-margin:40px auto;
+margin:60px auto;
 width:90%;
-max-width:400px; /* MATCHES SYSTEM BOX */
-padding:20px;
+max-width:400px;
+padding:30px;
 
-border:2px solid #a855ff;
-border-radius:10px;
-
-background:rgba(0,0,0,0.6);
+border:2px solid #7a00ff;
+border-radius:12px;
 
 box-shadow:
 0 0 10px #7a00ff,
 0 0 40px #7a00ff,
 inset 0 0 10px #7a00ff;
 
-line-height:1.6;
-font-size:13px;
-color:#ccc;
+background:rgba(0,0,0,0.6);
 }
 
-/* TITLE (GREEN SYSTEM STYLE) */
 .infoTitle{
-text-align:center;
-font-size:14px;
-margin-bottom:15px;
-
 color:#39ff14;
-letter-spacing:2px;
-
-text-shadow:0 0 10px #39ff14;
+margin-bottom:20px;
+font-size:16px;
 }
 
+.infoText{
+color:#ccc;
+font-size:14px;
+line-height:1.6;
+}
 </style>
-
 </head>
 
 <body>
@@ -150,6 +120,7 @@ text-shadow:0 0 10px #39ff14;
 <div class="title">CYRENE</div>
 <div class="subtitle">The Sleepless City of Sin</div>
 
+<!-- MAIN MENU -->
 <div class="systemBox">
 
 <div class="systemText">
@@ -157,57 +128,74 @@ text-shadow:0 0 10px #39ff14;
 [ USER AUTH REQUIRED ]
 </div>
 
-<button class="menuButton" onclick="location.href='signup.html?v=2'">
-  > Register to City
+<button class="menuButton" onclick="location.href='signup.html'">
+> Register to City
 </button>
 
-<button class="menuButton">
-> Login (Coming Soon)
+<button class="menuButton" onclick="location.href='login.html'">
+> Login
 </button>
 
-<button class="menuButton">
+<button class="menuButton" onclick="location.href='creator.html'">
 > Character Creator
 </button>
 
 </div>
 
+<!-- LORE -->
 <div class="infoBox">
-    <div class="infoTitle"> LORE </div>
 
-    Cyrene is a web.<br><br>
+<div class="infoTitle">LORE</div>
 
-    It is a living city.<br>
-    A digital sprawl of neon, power, and consequence.<br><br>
+<div class="infoText">
+Cyrene is a web.<br><br>
 
-    In Cyrene, you don’t play a character — you become one.<br><br>
+It is a living city.<br>
+A digital sprawl of neon, power, and consequence.<br><br>
 
-    Create your identity.<br>
-    Choose your path.<br>
-    Survive the districts.<br><br>
+In Cyrene, you don’t play a character — you become one.<br><br>
 
-    Every action is recorded.<br>
-    Every decision shapes your future.<br><br>
+Create your identity.<br>
+Choose your path.<br>
+Survive the districts.<br><br>
 
-    Some rise to power.<br>
-    Some disappear in the dark.<br><br>
+Every action is recorded.<br>
+Every decision shapes your future.<br><br>
 
-    <strong>Most are forgotten.</strong><br><br>
+Some rise to power.<br>
+Some disappear in the dark.<br><br>
 
-    Welcome to Cyrene. Your story is written in real time — one choice at a time.
+<strong>Most are forgotten.</strong><br><br>
+
+Welcome to Cyrene. Your story is written in real time.
 </div>
 
+</div>
+
+<!-- ABOUT -->
 <div class="infoBox">
-    <div class="infoTitle"> ABOUT CYRENE </div>
 
-    Inspired by tabletop RPGs like Dungeons & Dragons, Pathfinder, and Shadowrun, Cyrene is a web-based text RPG.<br><br>
+<div class="infoTitle">ABOUT CYRENE</div>
 
-    Complete single-player quests to earn rewards and items.<br><br>
+<div class="infoText">
+Cyrene draws inspiration from tabletop RPGs like Dungeons & Dragons, Pathfinder, and Shadowrun.<br><br>
+The city reacts to you — your choices, your actions, your identity.<br><br>
 
-    Upgrade your character. Expand your inventory.<br><br>
+Complete quests.<br>
+Earn rewards.<br>
+Upgrade your character.<br>
+Expand your inventory.<br><br>
 
-    Shape your identity. Choose your path.
+Shape your identity.<br>
+Choose your path.<br><br>
+
+Cyrene is not just a game.<br>
+It is a system that remembers.<br><br>
+
+And it is always watching.
+</div>
+
 </div>
 
 </body>
-
 </html>

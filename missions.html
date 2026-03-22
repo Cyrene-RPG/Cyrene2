@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Missions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+text-align:center;
+background:
+linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* TITLE */
+.title{
+margin-top:40px;
+font-size:28px;
+color:#39ff14;
+text-shadow:0 0 12px #39ff14;
+}
+
+/* CONTAINER */
+.container{
+width:90%;
+max-width:420px;
+margin:20px auto;
+}
+
+/* QUEST BOX */
+.quest{
+margin-top:15px;
+padding:15px;
+border-radius:12px;
+border:2px solid #39ff14;
+box-shadow:0 0 12px #39ff14;
+cursor:pointer;
+background:black;
+}
+
+/* LOCKED */
+.locked{
+border:2px solid #555;
+color:#777;
+box-shadow:none;
+}
+
+/* HIDDEN */
+.hidden{
+border:2px dashed #333;
+color:#333;
+}
+
+/* COMPLETED */
+.completed{
+border:2px solid #00fff7;
+box-shadow:0 0 12px #00fff7;
+}
+
+/* FOOTER */
+.footer{
+margin-top:30px;
+color:#b388ff;
+font-size:13px;
+}
+
+/* BUTTON */
+button{
+margin-top:15px;
+padding:12px;
+width:100%;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+border-radius:10px;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+/* BOX */
+.box{
+width:90%;
+max-width:350px;
+padding:20px;
+background:black;
+border:2px solid #7a00ff;
+border-radius:14px;
+box-shadow:0 0 20px #7a00ff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Find Missions</div>
+
+<div class="container" id="questList"></div>
+
+<div class="footer">
+More Missions Coming Soon...
+</div>
+
+<button onclick="location.href='profile.html'">← Back</button>
+
+<div id="overlay" class="overlay"></div>
+
+<script>
+
+/* ================= QUEST DATA ================= */
+
+let quests = [
+
+{
+id:1,
+name:"Welcome to Cyrene",
+status:"unlocked", // unlocked, locked, hidden, completed
+description:"Intro mission"
+},
+
+{
+id:2,
+name:"Escape Jail",
+status:"hidden"
+}
+
+];
+
+/* ================= RENDER ================= */
+
+function renderQuests(){
+
+let html="";
+
+quests.forEach(q=>{
+
+let cls="quest";
+
+if(q.status==="locked") cls+=" locked";
+if(q.status==="hidden") cls+=" hidden";
+if(q.status==="completed") cls+=" completed";
+
+let name=q.name;
+
+/* hidden name */
+if(q.status==="hidden"){
+name="???";
+}
+
+/* icons */
+let icon="";
+if(q.status==="locked") icon=" 🔒";
+if(q.status==="completed") icon=" ✔";
+
+html+=`
+<div class="${cls}" onclick="openQuest(${q.id})">
+${icon} ${name}
+</div>
+`;
+
+});
+
+document.getElementById("questList").innerHTML=html;
+}
+
+renderQuests();
+
+/* ================= CLICK ================= */
+
+function openQuest(id){
+
+let q=quests.find(x=>x.id===id);
+
+/* BLOCK locked/hidden */
+if(q.status==="locked" || q.status==="hidden"){
+return;
+}
+
+renderOverlay(`
+<div>Start "${q.name}"?</div>
+
+<button onclick="startQuest(${id})">Yes</button>
+<button onclick="closeOverlay()">No</button>
+`);
+}
+
+/* ================= START ================= */
+
+function startQuest(id){
+
+let progress = localStorage.getItem("quest_"+id);
+
+/* RESUME OPTION */
+if(progress){
+
+renderOverlay(`
+<div>Resume quest?</div>
+
+<button onclick="loadQuest(${id})">Resume</button>
+<button onclick="restartQuest(${id})">Start Over</button>
+<button onclick="closeOverlay()">Close</button>
+`);
+
+return;
+}
+
+/* NORMAL START */
+loadScreen(id);
+}
+
+/* ================= LOADING ================= */
+
+function loadScreen(id){
+
+renderOverlay(`
+<div>Loading Mission...</div>
+<button onclick="loadQuest(${id})">Continue</button>
+`);
+}
+
+/* ================= LOAD QUEST ================= */
+
+function loadQuest(id){
+
+localStorage.setItem("quest_"+id,"started");
+
+renderOverlay(`
+<div>Quest Started 🔥</div>
+<button onclick="closeOverlay()">Close</button>
+`);
+}
+
+/* ================= RESTART ================= */
+
+function restartQuest(id){
+localStorage.removeItem("quest_"+id);
+loadScreen(id);
+}
+
+/* ================= OVERLAY ================= */
+
+function renderOverlay(html){
+let o=document.getElementById("overlay");
+o.style.display="flex";
+o.innerHTML=`<div class="box">${html}</div>`;
+}
+
+function closeOverlay(){
+document.getElementById("overlay").style.display="none";
+}
+
+</script>
+
+</body>
+</html>

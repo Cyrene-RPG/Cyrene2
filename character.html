@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Character Creator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+text-align:center;
+background:
+linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* TITLE */
+.title{
+margin-top:60px;
+font-size:28px;
+color:#39ff14;
+text-shadow:0 0 10px #39ff14;
+}
+
+/* MAIN BUTTON */
+.mainBtn{
+margin-top:25px;
+padding:14px 25px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 15px #39ff14;
+cursor:pointer;
+border-radius:10px;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.97);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+/* MAIN BOX (SCROLL FIX HERE) */
+.box{
+width:90%;
+max-width:420px;
+max-height:85vh;           /* 🔥 allows scroll */
+overflow-y:auto;           /* 🔥 enables scroll */
+padding:25px;
+background:black;
+border:2px solid #7a00ff;
+border-radius:16px;
+box-shadow:
+0 0 15px #7a00ff,
+0 0 30px #7a00ff,
+inset 0 0 10px #7a00ff;
+}
+
+/* SCROLLBAR */
+.box::-webkit-scrollbar{
+width:6px;
+}
+.box::-webkit-scrollbar-thumb{
+background:#39ff14;
+border-radius:10px;
+}
+
+/* INPUT */
+input, select{
+width:100%;
+padding:12px;
+margin-top:12px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 8px #39ff14;
+border-radius:8px;
+}
+
+/* SECTION TITLE */
+.sectionTitle{
+color:#39ff14;
+margin-bottom:10px;
+font-size:18px;
+text-shadow:0 0 8px #39ff14;
+}
+
+/* FLAVOR TEXT */
+.flavor{
+margin-top:15px;
+padding:12px;
+border-radius:10px;
+border:1px solid #7a00ff;
+color:#b388ff;
+box-shadow:0 0 10px #7a00ff inset;
+font-size:13px;
+}
+
+/* BONUS TEXT */
+.bonus{
+margin-top:10px;
+padding:12px;
+border-radius:10px;
+border:1px solid #39ff14;
+box-shadow:0 0 10px #39ff14 inset;
+font-size:13px;
+}
+
+/* GENERAL BUTTON */
+button{
+margin-top:15px;
+padding:12px;
+width:100%;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+border-radius:10px;
+}
+
+/* STAT BOX */
+.stat{
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+border:1px solid #39ff14;
+box-shadow:0 0 8px #39ff14 inset;
+}
+
+/* SMALL BUTTONS (+ / -) */
+.stat button{
+width:45%;
+display:inline-block;
+margin:5px 2%;
+}
+
+/* DICE DISPLAY */
+#dice{
+margin-top:10px;
+font-size:18px;
+}
+
+#result{
+margin-top:10px;
+font-size:16px;
+color:#39ff14;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Character Creator</div>
+
+<button class="mainBtn" onclick="openOverlay()">Start New Character</button>
+<br>
+<button class="mainBtn" onclick="location.href='profile.html'">← Back</button>
+
+<div id="overlay" class="overlay"></div>
+
+<script>
+
+/* ================= CORE ================= */
+
+function openOverlay(){
+step1();
+}
+
+function render(html){
+let o=document.getElementById("overlay");
+o.style.display="flex";
+o.innerHTML=`<div class="box">${html}</div>`;
+}
+
+function closeOverlay(){
+document.getElementById("overlay").style.display="none";
+}
+
+/* ================= STEP 1 ================= */
+
+function step1(){
+render(`
+<div class="sectionTitle">Register Character</div>
+<input id="charName" placeholder="Enter Name">
+<button onclick="step2()">Continue</button>
+`);
+}
+
+/* ================= STEP 2 ================= */
+
+let selectedSpecies="";
+let selectedSub="";
+
+function step2(){
+
+let name=document.getElementById("charName").value;
+if(!name){ alert("Enter name"); return; }
+
+localStorage.setItem("charName",name);
+
+render(`
+<div class="sectionTitle">Biometric Data</div>
+
+<input id="age" placeholder="Age">
+<input id="height" placeholder="Height">
+<input id="weight" placeholder="Weight (optional)">
+<input id="gender" placeholder="Gender">
+
+<select id="species" onchange="speciesChange()">
+<option value="">Select Species</option>
+<option>Human</option>
+<option>Elf</option>
+<option>Dwarves</option>
+<option>Cambions</option>
+<option>Orcs</option>
+<option>Dragonborn</option>
+<option value="Hybrid">Hybrid</option>
+</select>
+
+<div id="subSpecies"></div>
+
+<div id="flavor" class="flavor">Select a species...</div>
+<div id="bonus" class="bonus"></div>
+
+<button onclick="step2Next()">Continue</button>
+`);
+}
+
+/* SPECIES */
+function speciesChange(){
+
+let s=document.getElementById("species").value;
+selectedSpecies=s;
+
+let sub=document.getElementById("subSpecies");
+
+if(s==="Elf"){
+sub.innerHTML=`<select id="sub" onchange="updateInfo()">
+<option>Ice Elf</option>
+<option>Amazonian Elf</option>
+</select>`;
+}
+else if(s==="Hybrid"){
+sub.innerHTML=`<select id="sub" onchange="updateInfo()">
+<option>Half Elf</option>
+<option>Half Orc</option>
+</select>`;
+}
+else if(s==="Dragonborn"){
+sub.innerHTML=`<select id="sub" onchange="updateInfo()">
+<option>White</option>
+<option>Black</option>
+<option>Green</option>
+<option>Blue</option>
+</select>`;
+}
+else{
+sub.innerHTML="";
+}
+
+updateInfo();
+}
+
+/* INFO */
+function updateInfo(){
+
+let species=selectedSpecies;
+let sub=document.getElementById("sub")?.value || "";
+selectedSub=sub;
+
+let flavor="";
+let bonus="";
+
+if(species==="Human"){
+flavor="Adaptive survivors.";
+bonus="+3 stat points";
+}
+
+if(species==="Elf"){
+if(sub==="Ice Elf"){
+flavor="Cold-resistant intellect.";
+bonus="+1 INT, +2 WIS";
+}
+if(sub==="Amazonian Elf"){
+flavor="Agile warriors.";
+bonus="+1 INT, +1 WIS, +1 CHA";
+}
+}
+
+if(species==="Dwarves"){
+flavor="Durable and strong.";
+bonus="+1 STR, +1 CON, +1 INT";
+}
+
+if(species==="Cambions"){
+flavor="Demonic bloodline.";
+bonus="+1 CON, +1 STR, +1 WIS, +1 INT";
+}
+
+if(species==="Orcs"){
+flavor="Savage fighters.";
+bonus="+2 STR";
+}
+
+if(species==="Dragonborn"){
+flavor="Dragon descendants.";
+bonus="+2 STR, +2 CON";
+}
+
+document.getElementById("flavor").innerText=flavor;
+document.getElementById("bonus").innerText=bonus;
+}
+
+/* STEP 2 NEXT */
+function step2Next(){
+
+let age=document.getElementById("age").value;
+let height=document.getElementById("height").value;
+let gender=document.getElementById("gender").value;
+
+if(!age||!height||!gender||!selectedSpecies){
+alert("Fill required fields");
+return;
+}
+
+startStats();
+}
+
+/* ================= STEP 3 ================= */
+
+let stats={};
+let abilities=["STR","DEX","CON","INT","WIS","CHA"];
+let index=0;
+let reroll=2;
+let bonusPoints=3;
+
+function startStats(){
+index=0;
+stats={};
+reroll=2;
+rollUI();
+}
+
+function rollUI(){
+
+let ab=abilities[index];
+
+render(`
+<div class="sectionTitle">${ab}</div>
+
+<div id="dice">🎲 🎲 🎲 🎲</div>
+<div id="result">Roll</div>
+
+<div>Rerolls: ${reroll}</div>
+
+<button onclick="roll()">Roll</button>
+<button onclick="nextStat()">Next</button>
+`);
+}
+
+function roll(){
+
+if(reroll<=0){
+alert("No rerolls left");
+return;
+}
+
+reroll--;
+
+let rolls=[...Array(4)].map(()=>Math.floor(Math.random()*6)+1);
+rolls.sort((a,b)=>a-b);
+rolls.shift();
+
+let total=rolls.reduce((a,b)=>a+b,0);
+
+stats[abilities[index]]=total;
+
+document.getElementById("dice").innerText=rolls.join(" + ");
+document.getElementById("result").innerText="Total: "+total;
+}
+
+function nextStat(){
+
+if(!stats[abilities[index]]){
+alert("Roll first");
+return;
+}
+
+index++;
+reroll=2;
+
+if(index>=abilities.length){
+applyBonuses();
+return;
+}
+
+rollUI();
+}
+
+/* BONUSES */
+function applyBonuses(){
+
+let s=selectedSpecies;
+let sub=selectedSub;
+
+if(s==="Human"){
+return humanUI();
+}
+
+if(s==="Elf"){
+if(sub==="Ice Elf"){ stats.INT+=1; stats.WIS+=2; }
+if(sub==="Amazonian Elf"){ stats.INT+=1; stats.WIS+=1; stats.CHA+=1; }
+}
+
+if(s==="Dwarves"){ stats.STR+=1; stats.CON+=1; stats.INT+=1; }
+if(s==="Cambions"){ stats.CON+=1; stats.STR+=1; stats.WIS+=1; stats.INT+=1; }
+if(s==="Dragonborn"){ stats.STR+=2; stats.CON+=2; }
+if(s==="Orcs"){ stats.STR+=2; }
+
+finalScreen();
+}
+
+/* HUMAN BONUS */
+function humanUI(){
+
+render(`
+<div class="sectionTitle">Distribute Points (${bonusPoints})</div>
+
+${abilities.map(a=>`
+<div class="stat">
+${a}: ${stats[a]}<br>
+<button onclick="addPoint('${a}')">+</button>
+<button onclick="subPoint('${a}')">-</button>
+</div>
+`).join("")}
+
+<button onclick="confirmBonus()">Continue</button>
+`);
+}
+
+function addPoint(stat){
+if(bonusPoints<=0) return;
+stats[stat]++;
+bonusPoints--;
+humanUI();
+}
+
+function subPoint(stat){
+stats[stat]--;
+bonusPoints++;
+humanUI();
+}
+
+function confirmBonus(){
+
+if(bonusPoints!==0){
+alert("Use all points");
+return;
+}
+
+finalScreen();
+}
+
+/* FINAL */
+function finalScreen(){
+
+render(`
+<div class="sectionTitle">Final Stats</div>
+
+${abilities.map(a=>`<div>${a}: ${stats[a]}</div>`).join("")}
+
+<button onclick="finish()">Finish</button>
+`);
+}
+
+function finalScreen(){
+step4ClassSelect();
+}
+
+/* ================= STEP 4: CLASS SYSTEM ================= */
+
+let selectedClass="";
+let selectedSubclass="";
+let skills={};
+
+/* INIT SKILLS */
+function initSkills(){
+skills={
+Arcana:0,
+Medicine:0,
+Athletics:0,
+Acrobatics:0,
+Stealth:0,
+Nature:0,
+Religion:0,
+Survival:0,
+Hacking:0,
+Crafting:0,
+Performance:0
+};
+}
+
+/* ================= CLASS MENU ================= */
+
+function step4ClassSelect(){
+
+initSkills();
+
+render(`
+<div class="sectionTitle">Choose Class</div>
+
+<button onclick="selectClass('Mage')">Mage</button>
+<button onclick="selectClass('Kenzai')">Kenzai</button>
+<button onclick="selectClass('Bard')">Bard</button>
+<button onclick="selectClass('Shaman')">Shaman</button>
+<button onclick="selectClass('Assassin')">Assassin</button>
+<button onclick="selectClass('Rigger')">Rigger</button>
+
+<div class="flavor">More classes coming later...</div>
+
+<button onclick="startStats()">⬅ Back</button>
+`);
+}
+
+/* ================= SELECT CLASS ================= */
+
+function selectClass(c){
+
+selectedClass=c;
+selectedSubclass="";
+
+/* Mage has extra step */
+if(c==="Mage"){
+return mageSubclassUI();
+}
+
+/* Others go to preview */
+previewClassUI();
+}
+
+/* ================= MAGE SUBCLASS ================= */
+
+function mageSubclassUI(){
+
+render(`
+<div class="sectionTitle">Mage Path</div>
+
+<div class="flavor">
+Choose your specialization:
+</div>
+
+<button onclick="chooseMage('Healer')">Healer (+2 Medicine)</button>
+<button onclick="chooseMage('Combat')">Combat (+2 Arcana)</button>
+
+<button onclick="step4ClassSelect()">⬅ Back</button>
+`);
+}
+
+function chooseMage(type){
+selectedSubclass=type;
+previewClassUI();
+}
+
+/* ================= PREVIEW ================= */
+
+function previewClassUI(){
+
+let previewSkills={};
+
+/* Mage */
+if(selectedClass==="Mage"){
+previewSkills.Arcana=1;
+
+if(selectedSubclass==="Healer"){
+previewSkills.Medicine=2;
+}
+if(selectedSubclass==="Combat"){
+previewSkills.Arcana+=1;
+}
+}
+
+/* Kenzai */
+if(selectedClass==="Kenzai"){
+previewSkills={Athletics:1,Acrobatics:1,Hacking:1,Survival:1};
+}
+
+/* Bard */
+if(selectedClass==="Bard"){
+previewSkills={Performance:1,Arcana:1};
+}
+
+/* Shaman */
+if(selectedClass==="Shaman"){
+previewSkills={Arcana:1,Nature:1,Religion:1};
+}
+
+/* Assassin */
+if(selectedClass==="Assassin"){
+previewSkills={Stealth:1,Athletics:2,Acrobatics:1};
+}
+
+/* Rigger */
+if(selectedClass==="Rigger"){
+previewSkills={Crafting:2};
+}
+
+render(`
+<div class="sectionTitle">${selectedClass}</div>
+
+<div class="bonus">
+${Object.entries(previewSkills)
+.map(([k,v])=>`${k}: +${v}`)
+.join("<br>")}
+</div>
+
+<button onclick="applyClass()">Confirm</button>
+<button onclick="${selectedClass==='Mage' ? 'mageSubclassUI()' : 'step4ClassSelect()'}">⬅ Back</button>
+`);
+}
+
+/* ================= APPLY ================= */
+
+function applyClass(){
+
+initSkills();
+
+/* Mage */
+if(selectedClass==="Mage"){
+skills.Arcana+=1;
+
+if(selectedSubclass==="Healer"){
+skills.Medicine+=2;
+}
+if(selectedSubclass==="Combat"){
+skills.Arcana+=1;
+}
+}
+
+/* Kenzai */
+if(selectedClass==="Kenzai"){
+skills.Athletics+=1;
+skills.Acrobatics+=1;
+skills.Hacking+=1;
+skills.Survival+=1;
+}
+
+/* Bard */
+if(selectedClass==="Bard"){
+skills.Performance+=1;
+skills.Arcana+=1;
+}
+
+/* Shaman */
+if(selectedClass==="Shaman"){
+skills.Arcana+=1;
+skills.Nature+=1;
+skills.Religion+=1;
+}
+
+/* Assassin */
+if(selectedClass==="Assassin"){
+skills.Stealth+=1;
+skills.Athletics+=2;
+skills.Acrobatics+=1;
+}
+
+/* Rigger */
+if(selectedClass==="Rigger"){
+skills.Crafting+=2;
+}
+
+finalSummary();
+}
+
+/* ================= FINAL ================= */
+
+function finalSummary(){
+
+render(`
+<div class="sectionTitle">Character Summary</div>
+
+<div class="bonus">
+<b>Name:</b> ${localStorage.getItem("charName")}<br>
+<b>Species:</b> ${selectedSpecies}<br>
+<b>Class:</b> ${selectedClass}
+</div>
+
+<hr>
+
+<div class="sectionTitle">Stats</div>
+${abilities.map(a=>`<div>${a}: ${stats[a]}</div>`).join("")}
+
+<hr>
+
+<div class="sectionTitle">Skills</div>
+${Object.entries(skills)
+.filter(([k,v])=>v>0)
+.map(([k,v])=>`<div>${k}: ${v}</div>`)
+.join("")}
+
+<button onclick="finish()">Finish</button>
+<button onclick="step4ClassSelect()">⬅ Back</button>
+`);
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>City Info</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Orbitron';
+color:white;
+background:
+linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+}
+
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 20px;
+border-bottom:1px solid #7a00ff;
+box-shadow:0 0 10px #7a00ff;
+}
+
+.header button{
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+padding:6px 12px;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+}
+
+.header span{
+color:#39ff14;
+font-size:18px;
+text-shadow:0 0 8px #39ff14;
+}
+
+/* MAIN CONTENT */
+.content{
+padding:20px;
+max-width:600px;
+margin:auto;
+}
+
+/* SECTION */
+.section{
+margin-bottom:30px;
+padding-bottom:15px;
+border-bottom:1px solid rgba(122,0,255,0.4);
+}
+
+.sectionTitle{
+color:#39ff14;
+font-size:18px;
+margin-bottom:10px;
+text-shadow:0 0 6px #39ff14;
+}
+
+.text{
+color:#ccc;
+font-size:14px;
+line-height:1.7;
+}
+
+/* SMALL GLOW LINE */
+.divider{
+height:2px;
+background:#39ff14;
+box-shadow:0 0 10px #39ff14;
+margin:15px 0;
+opacity:0.4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<button onclick="goBack()">←</button>
+<span>City Info</span>
+</div>
+
+<div class="content">
+
+<div class="section">
+<div class="sectionTitle">About the City</div>
+<div class="divider"></div>
+<div class="text">
+No one knows exactly when Cyrene was established, or by whom. Any records that once held that information have long since been erased—whether by time, intent, or something far more deliberate.
+
+Despite its unknown beginnings, Cyrene has become infamous as the largest criminal hub in the world. It is often referred to as the Sleepless City of Sin. The city never rests—day or night, something is always happening somewhere within its endless sprawl.
+
+Cyrene is divided into two major regions: the Upper City and the Lower City. Moving between them feels like stepping into entirely different worlds.
+</div>
+</div>
+
+<div class="section">
+<div class="sectionTitle">The Port</div>
+<div class="divider"></div>
+<div class="text">
+The Port is where every adventure begins. All who enter Cyrene must pass through City Entry Authorization before being released into the city.
+
+For some, the Port represents opportunity. For others, it is the last moment of safety before everything changes.
+</div>
+</div>
+
+<div class="section">
+<div class="sectionTitle">Upper City</div>
+<div class="divider"></div>
+<div class="text">
+The Upper City is a domain of wealth, power, and influence. It is home to the elite and massive corporations that dominate Cyrene.
+
+Unlike traditional cities, the Upper City begins high above the ground. It starts on the second level of towering skyscrapers connected by elevators and sky bridges.
+
+Residents live entire lives above the streets, never needing to touch the ground.
+
+It is clean, controlled, and secure—but distant from reality.
+</div>
+</div>
+
+<div class="section">
+<div class="sectionTitle">Lower City</div>
+<div class="divider"></div>
+<div class="text">
+The Lower City begins at street level and descends through countless underground layers.
+
+It is a sprawling labyrinth filled with crime, chaos, and constant danger. Bars, nightclubs, black markets, chop shops, and illegal operations thrive here.
+
+Navigation is difficult, and it is easy to become permanently lost. Visitors are strongly advised to hire a guide.
+
+Even then, survival is not guaranteed. Many pay extra just to ensure they leave with all their limbs still attached.
+</div>
+</div>
+
+</div>
+
+<script>
+function goBack(){
+location.href = "city.html";
+}
+</script>
+
+</body>
+</html>
