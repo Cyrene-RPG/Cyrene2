@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Account Settings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#d8d8d8;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:350px;
+background:#000;
+padding:25px;
+border-radius:18px;
+border:2px solid #a020f0;
+box-shadow:0 0 15px #a020f0;
+}
+
+h2{
+text-align:center;
+color:#39ff14;
+margin-bottom:20px;
+text-shadow:0 0 10px #39ff14;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{
+box-shadow:0 0 10px #39ff14;
+}
+
+.msg{
+margin-top:10px;
+text-align:center;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Account Settings</h2>
+
+<input type="text" id="username" placeholder="New Username">
+<button onclick="updateUsername()">Update Username</button>
+
+<input type="password" id="password" placeholder="New Password">
+<button onclick="updatePassword()">Update Password</button>
+
+<div class="msg" id="msg"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth, 
+  updatePassword,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQDReiSnFX3cs9Y4QW70cWQKblPe0-IPQ",
+  authDomain: "cyrene-8f351.firebaseapp.com",
+  projectId: "cyrene-8f351",
+  storageBucket: "cyrene-8f351.appspot.com",
+  messagingSenderId: "574109223643",
+  appId: "1:574109223643:web:1d713a3c5f1503c7fbdafe"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const msg = document.getElementById("msg");
+
+// 🔤 USERNAME (displayName)
+window.updateUsername = async function(){
+  const user = auth.currentUser;
+  const newName = document.getElementById("username").value;
+
+  if(!user){
+    msg.innerText = "Not logged in.";
+    return;
+  }
+
+  try{
+    await updateProfile(user, {
+      displayName: newName
+    });
+    msg.innerText = "Username updated!";
+  }catch(e){
+    msg.innerText = e.message;
+  }
+};
+
+// 🔒 PASSWORD
+window.updatePassword = async function(){
+  const user = auth.currentUser;
+  const newPass = document.getElementById("password").value;
+
+  if(!user){
+    msg.innerText = "Not logged in.";
+    return;
+  }
+
+  try{
+    await updatePassword(user, newPass);
+    msg.innerText = "Password updated!";
+  }catch(e){
+    msg.innerText = e.message;
+  }
+};
+</script>
+
+</body>
+</html>
