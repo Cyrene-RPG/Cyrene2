@@ -3,18 +3,27 @@
 /* ================= QUEST DATA ================= */
 
 let quests = [
+
 {
 id:1,
 name:"Welcome to Cyrene",
 status:"unlocked",
 description:"Intro mission"
 },
+
 {
 id:2,
 name:"Escape Jail",
 status:"hidden"
 }
+
 ];
+
+/* ================= LOAD FIX ================= */
+
+window.onload = function(){
+renderQuests();
+};
 
 /* ================= RENDER ================= */
 
@@ -32,12 +41,10 @@ if(q.status==="completed") cls+=" completed";
 
 let name=q.name;
 
-/* hidden name */
 if(q.status==="hidden"){
 name="???";
 }
 
-/* icons */
 let icon="";
 if(q.status==="locked") icon=" 🔒";
 if(q.status==="completed") icon=" ✔";
@@ -53,15 +60,12 @@ ${icon} ${name}
 document.getElementById("questList").innerHTML=html;
 }
 
-renderQuests();
-
 /* ================= CLICK ================= */
 
 function openQuest(id){
 
 let q=quests.find(x=>x.id===id);
 
-/* BLOCK locked/hidden */
 if(q.status==="locked" || q.status==="hidden"){
 return;
 }
@@ -80,7 +84,6 @@ function startQuest(id){
 
 let progress = localStorage.getItem("quest_"+id);
 
-/* RESUME OPTION */
 if(progress){
 
 renderOverlay(`
@@ -94,7 +97,6 @@ renderOverlay(`
 return;
 }
 
-/* NORMAL START */
 loadScreen(id);
 }
 
@@ -114,7 +116,7 @@ function loadQuest(id){
 
 localStorage.setItem("quest_"+id,"started");
 
-/* QUEST 1 - SCREEN 1 */
+/* QUEST 1 */
 if(id === 1){
 
 renderOverlay(`
@@ -162,14 +164,13 @@ There’s a quiet intensity about them—the kind that suggests they’re not ju
 
 </div>
 
-
 <button onclick="quest1Next()">Next</button>
 `);
 }
 
 }
 
-/* ================= SCREEN 2 ================= */
+/* ================= NEXT ================= */
 
 function quest1Next(){
 
@@ -179,11 +180,11 @@ renderOverlay(`
 <input id="playerInput" placeholder="Type your action...">
 
 <button onclick="handleInput()">Submit</button>
-<button onclick="closeOverlay()">Back</button>
+<button onclick="loadQuest(1)">Back</button>
 `);
 }
 
-/* ================= INPUT LOGIC ================= */
+/* ================= INPUT ================= */
 
 function handleInput(){
 
@@ -220,13 +221,13 @@ renderOverlay(`
 `);
 }
 
-/* ================= ELF ENCOUNTER ================= */
+/* ================= ELF ================= */
 
 function elfEncounter(){
 
 let playerClass = localStorage.getItem("charClass");
 
-/* BLOCK CERTAIN CLASSES */
+/* BLOCKED CLASSES */
 if(
 playerClass === "Kenzai" ||
 playerClass === "Rogue" ||
@@ -234,12 +235,12 @@ playerClass === "Assassin"
 ){
 renderOverlay(`
 <div>The elf barely acknowledges you... something feels off.</div>
-<button onclick="closeOverlay()">Continue</button>
+<button onclick="quest1Next()">Back</button>
 `);
 return;
 }
 
-/* NORMAL ENCOUNTER */
+/* NORMAL */
 renderOverlay(`
 <div class="sectionTitle">Encounter</div>
 
@@ -251,57 +252,18 @@ The elf glances up at you and gives a subtle nod of acknowledgment.
 `);
 }
 
-/* ================= CHARISMA CHECK ================= */
+/* ================= CHARISMA ================= */
 
 function charismaCheck(){
 
 let roll = Math.floor(Math.random()*20)+1;
 
 renderOverlay(`
-<div class="sectionTitle">Charisma Check</div>
+<div>Charisma Roll: ${roll}</div>
 
-<div>You rolled: ${roll}</div>
+${roll > 11 ? "<div>Success</div>" : "<div>Failure</div>"}
 
-<button onclick="resolveCharisma(${roll})">Continue</button>
-`);
-}
-
-/* ================= RESULT ================= */
-
-function resolveCharisma(roll){
-
-if(roll >= 11){
-renderOverlay(`
-<div style="color:#39ff14;">
-Success. The elf seems receptive.
-</div>
-
-<button onclick="elfContinue()">Continue</button>
-`);
-return;
-}
-
-renderOverlay(`
-<div style="color:red;">
-The elf looks away. You failed.
-</div>
-
-<button onclick="elfContinue()">Continue</button>
-`);
-}
-
-/* ================= CONTINUE ================= */
-
-function elfContinue(){
-
-renderOverlay(`
-<div style="text-align:left;">
-The elf finally speaks...
-
-"First time in Cyrene?"
-</div>
-
-<button onclick="closeOverlay()">Continue</button>
+<button onclick="quest1Next()">Continue</button>
 `);
 }
 
@@ -312,11 +274,9 @@ function investigationRoll(){
 let roll = Math.floor(Math.random()*20)+1;
 
 renderOverlay(`
-<div class="sectionTitle">Investigation Roll</div>
+<div>Investigation Roll: ${roll}</div>
 
-<div>You rolled: ${roll}</div>
-
-<button onclick="closeOverlay()">Continue</button>
+<button onclick="quest1Next()">Continue</button>
 `);
 }
 
