@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Codex - Dragonborn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#d8d8d8;
+}
+
+/* ===== SIDEBAR (STATS) ===== */
+.sidebar{
+position:fixed;
+top:0;
+right:0;
+width:280px;
+height:100vh;
+background:#000;
+padding:20px;
+border-left:2px solid #39ff14;
+}
+
+/* Back button */
+.backBtn{
+display:block;
+margin-bottom:20px;
+padding:10px;
+text-align:center;
+border:2px solid #39ff14;
+border-radius:10px;
+color:#39ff14;
+text-decoration:none;
+}
+
+.backBtn:hover{
+box-shadow:0 0 10px #39ff14;
+}
+
+/* ===== MAIN ===== */
+.main{
+max-width:1100px;
+margin:auto;
+padding:40px;
+padding-right:320px;
+}
+
+/* ===== TITLE ===== */
+.title{
+text-align:center;
+color:#39ff14;
+font-size:32px;
+margin-bottom:30px;
+text-shadow:0 0 10px #39ff14;
+}
+
+/* ===== CARDS ===== */
+.card{
+background:rgba(0,0,0,0.6);
+padding:20px;
+margin-bottom:25px;
+border-radius:18px;
+
+border:2px solid #a020f0;
+box-shadow:0 0 12px #a020f0, inset 0 0 12px #a020f0;
+}
+
+.sectionTitle{
+color:#39ff14;
+margin-bottom:10px;
+}
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+border-left:none;
+border-top:2px solid #39ff14;
+}
+
+.main{
+padding:20px;
+padding-right:20px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+
+<a href="codex.html" class="backBtn">← Back to Codex</a>
+
+<div class="card">
+<div class="sectionTitle">Base Stats</div>
+
+<b>Base Hit Points:</b> 12 + Constitution<br>
+<b>Size:</b> Medium / Large<br>
+<b>Speed:</b> 30 ft<br><br>
+
+<b>Attribute Modifiers:</b><br>
++2 Strength, +1 Constitution<br><br>
+
+<b>Natural Armor:</b><br>
+Scaled body provides increased protection<br><br>
+
+<b>Draconic Manifestation:</b><br>
+Subspecies-based weapon or ability<br><br>
+
+<b>Intimidating Presence:</b><br>
+Bonus to intimidation, penalty to approachability<br><br>
+
+<b>Languages:</b><br>
+Common, Draconic +1
+</div>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+<div class="title">Dragonborn</div>
+
+<div class="card">
+Dragonborn are among the most extreme and least understood results of the Reawakening. While most species retain a recognizable link to their human origins, Dragonborn represent a far more dramatic divergence.<br><br>
+
+Those who underwent this transformation were reshaped entirely. Bone structure expanded, musculature reinforced, and skin hardened into scaled plating. Horns, feathers, and draconic features emerged within weeks, often accompanied by intense physiological stress.<br><br>
+
+Most Dragonborn are towering and broad-shouldered, with sweeping horns and varied scale patterns. Their presence alone can feel overwhelming.<br><br>
+
+All Dragonborn possess some form of innate draconic weapon or biological ability tied to their subspecies. However, not all follow the traditional elemental breath model.
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="sectionTitle">Common Traits</div>
+• Extreme physical transformation<br>
+• Reinforced body and natural armor<br>
+• Strong presence and intimidation<br>
+• Subspecies-based power system
+</div>
+
+<div class="card">
+<div class="sectionTitle">Typical Outlook</div>
+Dragonborn often live under constant scrutiny. Some embrace their power, becoming soldiers or enforcers. Others withdraw, shaped by how the world reacts to them before knowing them.
+</div>
+
+</div>
+
+<div class="card">
+<div class="sectionTitle">Physical Description</div>
+Dragonborn are typically larger than humans, with dense musculature, horns, and scale patterns that vary wildly. Some are serpentine, others more humanoid, and some display avian or hybrid traits.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Dragonborn Variants</div>
+Dragonborn vary more than any other species. Below are the most recognized forms:
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="sectionTitle">Drake</div>
+Drakes are a commonly bulky and heavily built Dragonborn variant, defined by layered, tightly interwoven scales that resemble natural armor. Their forms often appear solid and immovable, built to endure and withstand, though some longer-limbed variants trade a measure of protection for increased speed and reach.
+They are most often seen in darker shades, with short, modestly curved horns along their skulls. Their breath weapons are diverse, manifesting in nearly every element, from fire and acid to lightning or frost, making them adaptable to a wide range of environments
+</div>
+
+<div class="card">
+<div class="sectionTitle">Wyvren</div>
+Mimicking their Western cousins in appearance, Wyverns are a larger and rarer variation of Dragonborn. Highly aggressive, few live past their twenties, yet when encountered they are often seen in pairs.
+Their scales are typically green with muted red highlights, and their faces resemble chromatic dragons, though slightly shorter and less elongated. They lack a traditional breath weapon, but spikes that grow from their wrists secrete a potent, highly toxic poison. The toxin is slow-acting, causing necrosis over time, and depending on the dose, can take more than a month to fully manifest. Antidotes exist, but they are rare, difficult to procure, and costly.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Wyrm</div>
+The third and most serpent-like of the Dragonborn subspecies, Wyrms tend toward a more aggressive temperament than most of their kin. Their elongated bodies are marked by sinuous movement and scaled musculature, often accentuated by snake-like features—some display flared hoods reminiscent of cobras, while many bear short horns and small, jagged spikes along their spines or jaws.
+Coloration typically ranges from muted greens and browns, though some are patterned with striking oranges and reds that warn of their poison. Their breath weapons are most often fire or poison.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Leviathan</div>
+One of the more common Dragonborn variants, Leviathans are closely attuned to water and capable of breathing while submerged. Their bodies are sinuous and eel-like, often with pronounced underbites and long, sharp fangs that lend them a predatory appearance.
+Their coloration usually ranges through muted grays and blues, blending seamlessly with lakes, rivers, and coastal waters, though some display faint streaks or patterns reminiscent of sunlight on waves. On land, their breath weapons manifest as water or lightning, while underwater they can unleash powerful shocks, similar to the electric eel.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Basilisk</div>
+Shorter and more stocky than many of their kin, Basilisk Dragonborn resemble their Western cousins, with larger, more robust scales and spikes lining their jaws. Most are brown, blending with desert sands, though some from tropical or volcanic islands display darker purples with bright orange highlights. They are highly attuned to their surroundings, able to sense vibrations up to a hundred feet away.
+Their breath weapon manifests as a paralyzing mist, and some bear the dreaded gaze that can turn flesh to stone. Many wear tinted lenses or blindfolds to control this power. 
+</div>
+
+<div class="card">
+<div class="sectionTitle">Coaytl</div>
+Rare and often described as surreal, these Dragonborn display a fusion of reptilian and avian traits. Scales may give way to feather-like structures along the arms, spine, or head, often in vibrant or unnatural colors.
+Their forms appear less stable than other Dragonborn, as if magic is still actively shaping them. Witnesses often describe them as “too vivid,” their presence carrying an almost hallucinatory quality.
+Their elemental abilities tend toward the exotic—poisonous mists, radiant heat, kinetic shockwaves, or other less conventional expressions of breath and magic..
+</div>
+
+<div class="card">
+<div class="sectionTitle">Amphiptere</div>
+Smaller, fine boned, lighter and long-limbed, with some displaying wings that allow for short burts of gliding. Often with darker more mottled coloration for camouflage based on their surroundings from when they were born. However, some sport more vivid and exotic colorations.
+Their breath weapons are more intangible such as thunder like concussions.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Kilin</div>
+Another of the rarer Dragonborn variants, Kilin are distinguished by finer scales and shaggy, fur-like hair that often drapes over their shoulders or along their limbs. Many bear antler-like or goat-like horns, curving from their heads in elegant or rugged patterns. Their hooved feet and lithe, agile frames give them a graceful, almost deer-like presence.
+Their coloration tends toward pale, muted tones—white, grey, or soft blue—but some are born with more unusual patterns that shimmer faintly in sunlight. Observers often note a sense of calm that seems to radiate from them, a quiet stillness that lingers even in chaotic surroundings.
+Unlike most Dragonborn, their abilities are less about force or destruction. Their breath manifests subtly, and their innate aura can soothe, steady, or quiet those nearby, producing effects that ripple gently through both body and mind.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Asian</div>
+Also called Imperial Dragonborn, and in some regions Celestial Serpents, these Dragonborn hail from lands once known as Asia. They are a more serpentine variant, with long, sinuous bodies that seem to flow as they move. Frills and whiskers adorn their faces and necks, while some display sharp talons instead of traditional claws. Their eyesight is keen, giving them a penetrating, almost unsettling awareness of their surroundings, as well as excellent dark vision.
+Their scales are often golden, ranging from vibrant, sunlit hues to softer, muted tones that catch the light in subtle ways. Observers often note a fluid elegance in their movements, a sense of grace and continuity that feels very natural and many that are seen are often dancers.
+Their breath weapon tends toward lightning, striking quickly and unpredictably, echoing the energy that seems to hum just beneath their skin.
+</div>
+
+<div class="card">
+<div class="sectionTitle">Faerie</div>
+The smallest of the Dragonborn subspecies, Faerie Dragonborn rarely exceed five feet in height. Extremely lithe, they take after their fey cousins, moving with quick, darting motions and an almost mischievous energy. Many are silver-tongued, speaking with charm and wit, and a natural love of pranks often accompanies a tendency to pilfer anything that glitters.
+Their coloration echoes the wings of butterflies and moths, vivid and striking, marking them as unmistakably fey even at a distance. Their breath weapons are typically fire-based, often small but dazzling, leaving more impression than destruction
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

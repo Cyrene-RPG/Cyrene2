@@ -7,9 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===== RESET ===== */
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 font-family:'Orbitron', sans-serif;
@@ -17,168 +19,136 @@ background:#050505;
 color:#d8d8d8;
 }
 
-/* ===== LEFT NAV ===== */
+/* ===== SIDEBAR (STATS) ===== */
 .sidebar{
 position:fixed;
 top:0;
-left:0;
-width:240px;
+right:0;
+width:280px;
 height:100vh;
 background:#000;
-padding:20px 10px;
-border-right:2px solid #39ff14;
-box-shadow:0 0 12px #39ff14;
-z-index:1000;
+padding:20px;
+border-left:2px solid #39ff14;
 }
 
-.sidebar button{
+/* Back button */
+.backBtn{
 display:block;
-width:100%;
-margin:12px 0;
-padding:12px;
-background:black;
-color:#39ff14;
+margin-bottom:20px;
+padding:10px;
+text-align:center;
 border:2px solid #39ff14;
-border-radius:12px;
-cursor:pointer;
+border-radius:10px;
+color:#39ff14;
+text-decoration:none;
+}
+
+.backBtn:hover{
+box-shadow:0 0 10px #39ff14;
 }
 
 /* ===== MAIN ===== */
 .main{
-margin-left:240px;
+max-width:1100px;
+margin:auto;
 padding:40px;
-}
-
-/* ===== LAYOUT ===== */
-.wrapper{
-max-width:1300px;
-margin:0 auto;
-display:flex;
-gap:40px;
-}
-
-.content{
-flex:1;
-}
-
-.codexSide{
-width:320px;
+padding-right:320px;
 }
 
 /* ===== TITLE ===== */
 .title{
 text-align:center;
 color:#39ff14;
-font-size:36px;
+font-size:32px;
 margin-bottom:30px;
-text-shadow:0 0 12px #39ff14;
+text-shadow:0 0 10px #39ff14;
 }
 
-/* ===== BOXES ===== */
+/* ===== CARDS ===== */
 .card{
-background:rgba(0,0,0,0.75);
+background:rgba(0,0,0,0.6);
 padding:20px;
 margin-bottom:25px;
 border-radius:18px;
+
 border:2px solid #a020f0;
-box-shadow:
-0 0 15px #a020f0,
-0 0 25px #a020f0 inset;
-line-height:1.7;
+box-shadow:0 0 12px #a020f0, inset 0 0 12px #a020f0;
 }
 
-/* ===== HEADERS ===== */
 .sectionTitle{
 color:#39ff14;
 margin-bottom:10px;
-text-shadow:0 0 8px #39ff14;
 }
 
-/* ===== LISTS ===== */
-.card ul{
-padding-left:20px;
-margin-top:10px;
-}
-
-/* ===== BACK BUTTON ===== */
-.backBtn{
-display:block;
-width:100%;
-margin-bottom:15px;
-padding:12px;
-background:black;
-color:#39ff14;
-border:2px solid #39ff14;
-border-radius:12px;
-cursor:pointer;
-text-align:center;
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
 }
 
 /* ===== MOBILE ===== */
-@media (max-width:900px){
-
-.wrapper{
-flex-direction:column;
-}
-
-.codexSide{
-width:100%;
-}
+@media(max-width:900px){
 
 .sidebar{
-transform:translateX(-100%);
-transition:0.3s;
-}
-
-.sidebar.open{
-transform:translateX(0);
-}
-
-.menuBtn{
-display:block;
-position:fixed;
-top:15px;
-left:15px;
-z-index:1100;
-background:black;
-border:2px solid #39ff14;
-color:#39ff14;
-padding:10px;
-border-radius:10px;
+position:relative;
+width:100%;
+height:auto;
+border-left:none;
+border-top:2px solid #39ff14;
 }
 
 .main{
-margin-left:0;
-padding:80px 20px;
+padding:20px;
+padding-right:20px;
 }
 
+.grid{
+grid-template-columns:1fr;
 }
-
+}
 </style>
 </head>
 
 <body>
 
-<button class="menuBtn" onclick="toggleMenu()">☰</button>
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
 
-<div id="sidebar" class="sidebar">
-<button onclick="location.href='human.html'">Human</button>
-<button onclick="location.href='elf.html'">Elf</button>
-<button onclick="location.href='dwarves.html'">Dwarves</button>
-<button onclick="location.href='cambions.html'">Cambions</button>
-<button onclick="location.href='orcs.html'">Orcs</button>
-<button onclick="location.href='dragonborn.html'">Dragonborn</button>
-<button onclick="location.href='hybrid.html'">Hybrid</button>
+<a href="codex.html" class="backBtn">← Back to Codex</a>
+
+<div class="card">
+<div class="sectionTitle">Base Stats</div>
+
+<b>Base Hit Points:</b> 8 + Constitution<br>
+<b>Size:</b> Medium<br>
+<b>Speed:</b> 30 ft<br><br>
+
+<b>Attribute Modifiers:</b><br>
++2 Dexterity, +1 Intelligence<br><br>
+
+<b>Senses:</b><br>
+Low-Light Vision — You can see in dim lighting as if it were normal lighting.<br><br>
+
+<b>Arcane Sensitivity:</b><br>
+You are constantly aware of active magical effects within a short range 50 ft radius. This may cause distraction in high-density magical zones.<br><br>
+
+<b>Mana Affinity:</b><br>
+You gain advantage +1 on checks related to casting, sensing, or analyzing magic.<br><br>
+
+<b>Fragile Physiology:</b><br>
+-1 Constitution or reduced resistance to physical damage<br><br>
+
+<b>Languages:</b><br>
+Common, Elven, plus 1 additional of your choice
 </div>
 
+</div>
+
+<!-- ===== MAIN ===== -->
 <div class="main">
 
 <div class="title">Elves</div>
-
-<div class="wrapper">
-
-<!-- MAIN CONTENT -->
-<div class="content">
 
 <div class="card">
 Elves are one of the most common expressions of magical reversion following the Reawakening. Though often associated with ancient myth, modern elves are not relics of the past—they are the result of rapid, magic-driven evolution.<br><br>
@@ -192,18 +162,20 @@ In the years following the Reawakening, elves quickly established a visible pres
 Today, elves are fully integrated into the modern world, though perceptions of them remain divided. To some, they represent the next stage of human evolution. To others, they are a reminder that humanity no longer controls its own future.
 </div>
 
+<div class="grid">
+
 <div class="card">
 <div class="sectionTitle">Common Traits</div>
-<ul>
-<li>Enhanced perception of magical fields</li>
-<li>Increased reflexes and cognitive speed</li>
-<li>Natural affinity for spellcasting and arcane systems</li>
-</ul>
+• Enhanced perception of magical fields<br>
+• Increased reflexes and cognitive speed<br>
+• Natural affinity for spellcasting and arcane systems
 </div>
 
 <div class="card">
 <div class="sectionTitle">Typical Outlook</div>
 Elves often develop a heightened awareness of their environment, leading to personalities that range from deeply introspective to intensely driven. Reactions to their transformation vary widely—some embrace it, while others struggle with a lingering sense of disconnection from their former humanity.
+</div>
+
 </div>
 
 <div class="card">
@@ -214,80 +186,38 @@ This sensitivity comes at a cost. Many elves report difficulty ignoring magical 
 </div>
 
 <div class="card">
-<div class="sectionTitle">Elven Heritages</div>
-
-<b>Ice Elf</b><br>
-Ice Elves are the most commonly encountered elven heritage within Cyrene. They are immediately recognizable by their pale complexions, white or silver hair, and striking ice-blue eyes.
-Adapted to cold environments, Ice Elves exhibit a natural resistance to extreme temperatures and a strong affinity for structured, ancient forms of magic. Their cultures tend to value discipline, foresight, and precision, traits reflected in both their spellcraft and social organization.
-Ice Elves are often perceived as distant or calculating, though among their own kind this is seen as clarity of thought rather than coldness of spirit. <br><br>
-
-<ul>
-<li>+ 5 Resistance to cold environments or cold damage </li>
-<li>Bonus to controlled or ritual-based magic</li>
-<li>ncreased composure under pressure (mental resistance or focus bonus)</li>
-</ul>
-
-<br>
-
-<b>Amazonian Elf</b><br>
-Amazonian Elves are a physically dominant and culturally distinct heritage, known for their strength, resilience, and insular societal structures. They are typically tall and powerfully built, with dark skin, black hair, and deep brown eyes.
-Their society is largely matriarchal and warrior-driven, placing high value on strength, self-sufficiency, and loyalty. Male Amazonian Elves are extremely rare, and their role within Amazonian society varies widely depending on region and tradition.
-Unlike other elven groups, Amazonian Elves emphasize physical mastery alongside magical ability, often blending the two into highly effective combat styles.<br><br>
-
-<ul>
-<li>Increased Strength and physical resilience</li>
-<li>Proficiency in melee combat or survival skills</li>
-<li>onus when combining magic with physical actions 
-</li>
-</ul>
-
+<div class="sectionTitle">Elf Heritages</div>
+While all elves share a common origin in the Reawakening, not all transformations produced identical results. Variations in genetic lineage, environment, and magical exposure gave rise to distinct elven heritages.
 </div>
 
-</div>
-
-<!-- RIGHT SIDEBAR -->
-<div class="codexSide">
-
-<button class="backBtn" onclick="location.href='codex.html'">
-← Back to Codex
-</button>
+<div class="grid">
 
 <div class="card">
-<div class="sectionTitle">Base Stats</div>
-
-Base Hit Points: 8 + Constitution<br>
-Size: Medium<br>
-Speed: 30 ft<br><br>
-
-<b>Attribute Modifiers:</b><br>
-+2 Dexterity, +1 Intelligence<br><br>
-
-<b>Senses:</b><br>
-Low-Light Vision<br><br>
-
-<b>Arcane Sensitivity:</b><br>
-50 ft magic awareness<br><br>
-
-<b>Mana Affinity:</b><br>
-+1 to magic checks<br><br>
-
-<b>Fragile Physiology:</b><br>
--1 Constitution<br><br>
-
-<b>Languages:</b><br>
-Common, Elven +1
-</div>
+<div class="sectionTitle">Ice Elf</div>
+Ice Elves are the most commonly encountered elven heritage. Pale skin, white hair, blue eyes. Calm, precise, and adapted to harsh environments.<br><br>
 
 </div>
 
-</div>
+<div class="card">
+<div class="sectionTitle">Ice Elf Traits</div>
+
 </div>
 
-<script>
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("open");
-}
-</script>
+<div class="card">
+<div class="sectionTitle">Amazonian Elf</div>
+Amazonian Elves are a physically dominant and culturally distinct heritage, known for their strength, resilience, and insular societal structures. They are typically tall and powerfully built, with dark skin, black hair, and deep brown eyes.
+Their society is largely matriarchal and warrior-driven, placing high value on strength, self-sufficiency, and loyalty. Male Amazonian Elves are extremely rare, and their role within Amazonian society varies widely depending on region and tradition.
+Unlike other elven groups, Amazonian Elves emphasize physical mastery alongside magical ability, often blending the two into highly effective combat styles..<br><br>
+</div>
+ 
+<div class="card">
+<div class="sectionTitle">Amazonian Elf Heritage Traits</div>
+•Increased Strength and physical resilience
+•Proficiency in melee combat or survival skills
+•Bonus when combining magic with physical actions
+</div>
+
+</div>
 
 </body>
 </html>
