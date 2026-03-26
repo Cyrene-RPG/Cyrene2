@@ -1,108 +1,176 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Missions Hub</title>
+<title>Missions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
-body{
+*{
 margin:0;
-font-family:'Orbitron';
-color:white;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
 background:
-linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+linear-gradient(rgba(0,0,0,0.88),rgba(0,0,0,0.95)),
 url('City.jpg');
 background-size:cover;
+background-position:center;
+color:white;
+min-height:100vh;
+padding:30px 20px 60px;
 }
 
-/* BACK BUTTON */
-.back{
-position:absolute;
-top:20px;
-left:20px;
-padding:10px 25px;
-border:2px solid #39ff14;
-background:black;
-color:#39ff14;
-box-shadow:0 0 10px #39ff14;
-cursor:pointer;
-}
-
-/* TITLE */
-.title{
+/* Title */
+.hubTitle{
+max-width:520px;
+margin:0 auto 35px auto;
+padding:16px 24px;
 text-align:center;
-margin-top:80px;
-font-size:36px;
+font-size:30px;
 color:#39ff14;
-text-shadow:0 0 15px #39ff14;
+background:rgba(0,0,0,0.75);
+border:2px solid #39ff14;
+border-radius:18px;
+box-shadow:0 0 14px #39ff14;
+text-shadow:0 0 10px #39ff14;
 }
 
-/* MAIN CONTAINER */
-.container{
-margin-top:80px;
+/* Mission area */
+.missionsWrap{
+max-width:760px;
+margin:0 auto;
+display:flex;
+flex-direction:column;
+gap:22px;
+}
+
+.missionRow{
 display:flex;
 justify-content:center;
-gap:120px;
+gap:22px;
 flex-wrap:wrap;
 }
 
-/* COLUMN */
-.section{
+.missionCard{
+min-width:260px;
+max-width:320px;
+width:100%;
+padding:18px 20px;
 text-align:center;
-}
-
-/* COLUMN TITLE */
-.sectionTitle{
-margin-bottom:20px;
-padding:10px 30px;
-border:2px solid #39ff14;
-box-shadow:0 0 10px #39ff14;
-display:inline-block;
-}
-
-/* MISSION BUTTON */
-.mission{
-margin-top:10px;
-padding:15px 30px;
-border-radius:20px;
-border:2px solid #39ff14;
-background:black;
+background:rgba(0,0,0,0.75);
+border:2px solid #a020f0;
+border-radius:18px;
+box-shadow:0 0 14px #a020f0, inset 0 0 12px #a020f0;
+color:#39ff14;
 cursor:pointer;
-box-shadow:0 0 10px #39ff14;
-transition:0.2s;
+transition:0.2s ease;
 }
 
-.mission:hover{
-box-shadow:0 0 20px #39ff14;
+.missionCard:hover{
+transform:translateY(-2px);
+box-shadow:0 0 18px #a020f0, inset 0 0 14px #a020f0;
 }
 
-/* LOCKED */
 .locked{
-border:2px solid #777;
 color:#777;
+border:2px solid #555;
 box-shadow:none;
 cursor:default;
 }
 
-/* MOBILE */
-@media(max-width:700px){
-
-.title{
-font-size:26px;
-margin-top:100px;
+.locked:hover{
+transform:none;
+box-shadow:none;
 }
 
-.container{
-flex-direction:column;
-gap:40px;
+.hiddenMission{
+letter-spacing:3px;
+}
+
+/* Back button */
+.backBtn{
+display:block;
+width:100%;
+max-width:320px;
+margin:35px auto 0 auto;
+padding:12px;
+text-align:center;
+background:black;
+border:2px solid #39ff14;
+border-radius:12px;
+color:#39ff14;
+box-shadow:0 0 10px #39ff14;
+cursor:pointer;
+font-family:'Orbitron', sans-serif;
+}
+
+/* Overlay */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.82);
+display:none;
+justify-content:center;
 align-items:center;
+z-index:9999;
+padding:20px;
 }
 
-.back{
-top:15px;
-left:15px;
+.overlay.active{
+display:flex;
+}
+
+.popup{
+width:100%;
+max-width:420px;
+background:black;
+border:2px solid #a020f0;
+border-radius:18px;
+box-shadow:0 0 18px #a020f0, inset 0 0 12px #a020f0;
+padding:24px 20px;
+text-align:center;
+}
+
+.popupText{
+color:#39ff14;
+font-size:18px;
+line-height:1.5;
+margin-bottom:20px;
+}
+
+.popupButtons{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.popupButtons button{
+flex:1;
+min-width:120px;
+padding:12px;
+background:black;
+border:2px solid #39ff14;
+border-radius:12px;
+color:#39ff14;
+font-family:'Orbitron', sans-serif;
+cursor:pointer;
+box-shadow:0 0 10px #39ff14;
+}
+
+/* Mobile */
+@media (max-width:700px){
+.hubTitle{
+font-size:24px;
+}
+.missionRow{
+gap:16px;
+}
+.missionCard{
+min-width:100%;
 }
 }
 </style>
@@ -110,40 +178,62 @@ left:15px;
 
 <body>
 
-<button class="back" onclick="goBack()">Back</button>
+<div class="hubTitle">Missions Hub</div>
 
-<div class="title">Missions Hub</div>
+<div class="missionsWrap">
 
-<div class="container">
+  <div class="missionRow">
+    <div class="missionCard" onclick="openMissionPopup('welcome')">
+      Welcome to Cyrene
+    </div>
 
-<div class="section">
-<div class="sectionTitle">Unlocked</div>
+    <div class="missionCard locked">
+      Enter the Port
+    </div>
+  </div>
 
-<div class="mission" onclick="startMission()">
-Welcome to Cyrene
+  <div class="missionRow">
+    <div class="missionCard locked hiddenMission">
+      ???
+    </div>
+  </div>
+
 </div>
-</div>
 
-<div class="section">
-<div class="sectionTitle">Locked</div>
+<button class="backBtn" onclick="location.href='profile.html'">Back</button>
 
-<div class="mission locked">
-???????
-</div>
-</div>
-
+<div id="overlay" class="overlay">
+  <div class="popup">
+    <div class="popupText" id="popupText"></div>
+    <div class="popupButtons">
+      <button onclick="confirmMissionStart()">Yes</button>
+      <button onclick="closePopup()">No</button>
+    </div>
+  </div>
 </div>
 
 <script>
+let selectedMission = null;
 
-function goBack(){
-location.href="profile.html";
+function openMissionPopup(missionId){
+  if(missionId === 'welcome'){
+    selectedMission = missionId;
+    document.getElementById('popupText').innerText =
+      'Would you like to start mission "Welcome to Cyrene"?';
+    document.getElementById('overlay').classList.add('active');
+  }
 }
 
-function startMission(){
-location.href="mission1.html";
+function closePopup(){
+  selectedMission = null;
+  document.getElementById('overlay').classList.remove('active');
 }
 
+function confirmMissionStart(){
+  if(selectedMission === 'welcome'){
+    location.href = 'mission1.html';
+  }
+}
 </script>
 
 </body>

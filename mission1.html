@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to Cyrene</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#d8d8d8;
+
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.overlayBox{
+width:100%;
+max-width:700px;
+background:rgba(0,0,0,0.75);
+border:2px solid #a020f0;
+border-radius:22px;
+box-shadow:0 0 20px #a020f0, inset 0 0 15px #a020f0;
+padding:25px;
+}
+
+.title{
+text-align:center;
+color:#39ff14;
+font-size:28px;
+margin-bottom:20px;
+text-shadow:0 0 10px #39ff14;
+}
+
+.story{
+min-height:260px;
+line-height:1.6;
+margin-bottom:20px;
+white-space:pre-line;
+opacity:1;
+transition:opacity 0.4s ease;
+}
+
+.fadeOut{
+opacity:0;
+}
+
+.inputBox{
+width:100%;
+min-height:60px;
+max-height:150px;
+padding:14px;
+background:black;
+border:2px solid #39ff14;
+border-radius:12px;
+color:#39ff14;
+font-family:'Orbitron', sans-serif;
+resize:none;
+overflow-y:auto;
+margin-bottom:15px;
+}
+
+.nextBtn{
+width:100%;
+padding:14px;
+background:black;
+border:2px solid #39ff14;
+border-radius:12px;
+color:#39ff14;
+cursor:pointer;
+box-shadow:0 0 10px #39ff14;
+margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlayBox">
+
+<div class="title">Welcome to Cyrene</div>
+
+<div id="story" class="story">
+
+You are standing on the deck of a ferry, the metal beneath your boots humming softly with the strain of the engines as they push through restless water.
+
+The wind feels nice and cool against your face, carrying with it the sharp scent of salt and distant smog—a strange mix of ocean spray and something more artificial.
+
+The ferry rises and falls gently with the waves, a slow, rhythmic motion that almost feels calming—if not for the quiet tension hanging in the air around you.
+
+It’s late morning, though the light feels muted, filtered through a thin haze that clings to the horizon.
+
+As you gaze across the water, the coastline of an island starts to become visible—at first just a faint silhouette, then gradually sharpening into something more defined.
+
+Structures begin to take shape—skyscrapers, stacked and sprawling, stretching upward and outward in uneven layers.
+
+The skyline of a city reveals itself piece by piece, massive and imposing, like it’s watching you approach just as much as you’re observing it.
+
+The closer the ferry moves, the more details emerge—faint glimmers of glass and steel catching the light, dark gaps between structures hinting at depth and density.
+
+Even from this distance, the city feels alive… restless… as if something is always moving beneath its surface.
+
+Off to your left, a dark-skinned elf leans against the railing, their posture relaxed but distant, as though lost in thought.
+
+The wind tugs lightly at their clothing and hair, but they don’t react.
+
+Their gaze is fixed on the water below, watching the shifting surface as it reflects fragments of light and shadow.
+
+There’s a quiet intensity about them—the kind that suggests they’re not just looking at the water… but thinking about something far beyond it.
+
+What do you do?
+
+</div>
+
+<textarea id="playerInput" class="inputBox" placeholder="What do you do?" rows="2"></textarea>
+
+<button class="nextBtn" onclick="handleInput()">Next</button>
+<button class="nextBtn" onclick="goBack()">Back</button>
+
+</div>
+
+<script>
+
+// ===== HISTORY =====
+let historyStack = [];
+
+// ===== KEYWORDS =====
+const LOOK_KEYWORDS = ["look", "see", "watch", "observe", "examine", "inspect", "scan", "view", "glance"];
+const ELF_KEYWORDS = ["elf", "him", "them", "figure", "person", "stranger"];
+const WATER_KEYWORDS = ["water", "waters", "water's", "ocean", "sea", "waves", "below", "surface"];
+
+// ===== MAIN =====
+function handleInput(){
+const storyBox = document.getElementById("story");
+const inputBox = document.getElementById("playerInput");
+
+// sanitize input (fixes apostrophes)
+let input = inputBox.value
+.trim()
+.toLowerCase()
+.replace(/[’']/g, "");
+
+if(!input) return;
+
+// intent
+let isLook = LOOK_KEYWORDS.some(word => input.includes(word));
+
+// target priority
+let target = null;
+
+// ELF (priority 1)
+if(ELF_KEYWORDS.some(word => input.includes(word)) || input.includes("left")){
+target = "ELF";
+}
+
+// WATER (priority 2)
+else if(WATER_KEYWORDS.some(word => input.includes(word))){
+target = "WATER";
+}
+
+// response
+let response = "";
+
+// LOOK → ELF
+if(isLook && target === "ELF"){
+response = `Your gaze drifts towards the elf, fully taking him in. His posture is relaxed, one arm resting loosely along the railing, shoulders slightly slouched as if at ease—but there’s something beneath it, something coiled and ready.
+The subtle tension in the way he stands gives you the distinct impression that, if something were to happen, he’d move before anyone else even realized there was a problem.
+For a brief moment, the wind shifts—stronger this time, cutting across the deck and carrying with it a sharper chill. It rustles fabric, stirs loose strands of hair, and ripples the surface of the water below.
+And in that moment, you could swear his attention flickers—just slightly—in your direction.
+Not a full turn, not even enough to be certain. Just the faintest shift. A pause. Like he’s aware of you without needing to look.
+Then, just as quickly, it’s gone. His focus settles back on the water, posture unchanged, as if nothing happened at all.`;
+}
+
+// LOOK → WATER
+else if(isLook && target === "WATER"){
+response = `You follow the elf’s gaze down to the water, curiosity pulling your attention away from the distant skyline. The surface shifts and churns alongside the ferry, until something moves differently.
+
+At first, it’s just a flicker beneath the waves. Then another.
+Figures break through the surface in quick, fluid motions—water nymphs, their forms sleek and luminous as they leap in and out of the sea, racing alongside the ferry as if it were some kind of game. Each movement is effortless, their bodies arcing gracefully before slipping back beneath the surface, only to emerge again a few meters ahead.
+
+They move faster than the vessel itself, weaving through the wake without resistance, laughing—though the sound barely reaches you over the wind and engine hum.
+One of them glances over their shoulder.
+Their eyes meet yours.
+For a brief moment, everything else seems to fade—the ferry, the city, even the elf beside you—as the nymph’s expression shifts into something playful, almost mischievous. They wink, a quick, knowing gesture, before bringing their fingers to their lips and blowing you a kiss.
+Then, with a sharp twist of their body, they dive.
+The water closes over them instantly, the surface smoothing out as though they were never there at all—leaving behind only ripples that quickly dissolve into the ferry’s wake.`;
+}
+
+// LOOK fallback
+else if(isLook){
+response = "You take in your surroundings, the ferry rocking gently as the distant city looms closer.";
+}
+
+// default
+else{
+response = "You hesitate, unsure how to act.";
+}
+
+// save history BEFORE change
+historyStack.push(storyBox.innerText);
+
+// transition
+storyBox.classList.add("fadeOut");
+
+setTimeout(()=>{
+storyBox.innerText = response;
+storyBox.classList.remove("fadeOut");
+}, 400);
+
+inputBox.value = "";
+}
+
+// ===== BACK BUTTON =====
+function goBack(){
+const storyBox = document.getElementById("story");
+
+if(historyStack.length === 0) return;
+
+let previous = historyStack.pop();
+
+storyBox.classList.add("fadeOut");
+
+setTimeout(()=>{
+storyBox.innerText = previous;
+storyBox.classList.remove("fadeOut");
+}, 400);
+}
+
+</script>
+
+</body>
+</html>
