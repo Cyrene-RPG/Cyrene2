@@ -124,10 +124,51 @@ color:#ccc;
 font-size:14px;
 line-height:1.6;
 }
+
+.devBanner{
+position:relative;
+width:100%;
+padding:14px 40px 14px 16px;
+background:rgba(0,0,0,0.92);
+color:#39ff14;
+text-align:center;
+font-size:14px;
+line-height:1.5;
+text-shadow:0 0 6px #39ff14;
+border-top:2px solid #a020f0;
+border-bottom:2px solid #a020f0;
+box-shadow:0 0 14px #a020f0;
+}
+
+/* close button */
+.devBanner button{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+background:none;
+border:none;
+color:#a020f0;
+font-size:18px;
+cursor:pointer;
+text-shadow:0 0 6px #a020f0;
+}
+
+.devBanner button:hover{
+color:#ff4dff;
+}
+
 </style>
 </head>
 
 <body>
+
+<div id="devBanner" class="devBanner">
+  <span>
+    ⚠️ Website in Progress — Cyrene is still under active development. Some Pages, systems and features may be unfinished or change without notice.
+  </span>
+  <button onclick="closeBanner()">✕</button>
+</div>
 
 <div class="title">CYRENE</div>
 <div class="subtitle">The Sleepless City of Sin</div>
@@ -208,6 +249,20 @@ And it is always watching.
 </div>
 
 </div>
+
+<script>
+function closeBanner(){
+  document.getElementById("devBanner").style.display = "none";
+  localStorage.setItem("hideBanner","true");
+}
+
+/* remember if user closed it */
+window.addEventListener("load", function(){
+  if(localStorage.getItem("hideBanner") === "true"){
+    document.getElementById("devBanner").style.display = "none";
+  }
+});
+</script>
 
 </body>
 </html>
