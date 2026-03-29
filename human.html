@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Codex - Elves</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#d8d8d8;
+}
+
+/* ===== SIDEBAR (STATS) ===== */
+.sidebar{
+position:fixed;
+top:0;
+right:0;
+width:280px;
+height:100vh;
+background:#000;
+padding:20px;
+border-left:2px solid #39ff14;
+}
+
+/* Back button */
+.backBtn{
+display:block;
+margin-bottom:20px;
+padding:10px;
+text-align:center;
+border:2px solid #39ff14;
+border-radius:10px;
+color:#39ff14;
+text-decoration:none;
+}
+
+.backBtn:hover{
+box-shadow:0 0 10px #39ff14;
+}
+
+/* ===== MAIN ===== */
+.main{
+max-width:1100px;
+margin:auto;
+padding:40px;
+padding-right:320px;
+}
+
+/* ===== TITLE ===== */
+.title{
+text-align:center;
+color:#39ff14;
+font-size:32px;
+margin-bottom:30px;
+text-shadow:0 0 10px #39ff14;
+}
+
+/* ===== CARDS ===== */
+.card{
+background:rgba(0,0,0,0.6);
+padding:20px;
+margin-bottom:25px;
+border-radius:18px;
+
+border:2px solid #a020f0;
+box-shadow:0 0 12px #a020f0, inset 0 0 12px #a020f0;
+}
+
+.sectionTitle{
+color:#39ff14;
+margin-bottom:10px;
+}
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+border-left:none;
+border-top:2px solid #39ff14;
+}
+
+.main{
+padding:20px;
+padding-right:20px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+<a href="codex.html" class="backBtn">← Back to Codex</a>
+<div class="card">
+<div class="sectionTitle">Base Stats</a>
+<b>Base Hit Points:</b> 5 + Constitution<br>
+<b>Size:</b> Meduim <br>
+<b>Speed:</b> 25 ft<br><br>
+
+<b>Attribute Modifiers:</b><br>
++1 to any three attributes (player choice)<br><br>
+
+<b>Senses:</b><br>
+<b> Standard Sense:</b> No enhanced sight in low-light or darkness.<br><br>
+<b>Situational Awareness:</b> Humans gain a small bonus (+1) to perception checks in familiar or populated environments. (Based off of their past lives background)<br>
+</div>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main"
+
+<div class="title">Humans</div>
+
+<div class="card">
+Humans are the baseline from which all modern species diverged following the Reawakening. While many were transformed by the sudden return of magic, a significant portion of the population remained unchanged. These individuals lacked the dormant genetic markers required for magical reversion, leaving them physically human in a world that no longer was.<br><br>
+In the immediate aftermath, humans were among the most vulnerable. As others gained enhanced abilities and new forms, many humans found themselves struggling to adapt. Fear, confusion, and instability defined the early years, especially as families and communities were divided by transformation.<br><br>
+Over time, however, humans proved resilient.
+Rather than evolving biologically, humanity adapted culturally and technologically. They became innovators, engineers, tacticians, and organizers—filling roles that required flexibility, creativity, and long-term planning. Where other species leaned into their inherent strengths, humans learned to compensate, refine, and optimize.<br><br>
+Today, humans remain one of the most widespread and influential groups in Cyrene. They are deeply embedded in infrastructure, governance, and technological development. While they may lack the raw advantages of other species, their adaptability ensures they are never truly outmatched. <br><br>
+</div>
+
+
+</div>
+
+</body>
+</html>
+

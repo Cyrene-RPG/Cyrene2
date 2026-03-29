@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Age Restricted Quests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:
+linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.95)),
+url('City.jpg');
+background-size:cover;
+color:white;
+min-height:100vh;
+}
+
+#content{display:none;}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.92);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.box{
+width:90%;
+max-width:420px;
+background:black;
+border:2px solid #a020f0;
+border-radius:18px;
+box-shadow:0 0 20px #a020f0;
+padding:25px;
+text-align:center;
+}
+
+.title{
+color:#39ff14;
+font-size:24px;
+margin-bottom:10px;
+text-shadow:0 0 10px #39ff14;
+}
+
+.sub{
+color:#ccc;
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:2px solid #39ff14;
+border-radius:12px;
+background:black;
+color:#39ff14;
+margin-bottom:12px;
+box-shadow:0 0 10px #39ff14 inset;
+}
+
+button{
+width:100%;
+padding:12px;
+border:2px solid #39ff14;
+border-radius:12px;
+background:black;
+color:#39ff14;
+cursor:pointer;
+box-shadow:0 0 10px #39ff14;
+}
+
+.error{
+color:#ff4d4d;
+margin-top:10px;
+min-height:20px;
+}
+
+.titleBox{
+max-width:600px;
+margin:40px auto 25px;
+padding:16px;
+text-align:center;
+border:2px solid #39ff14;
+border-radius:18px;
+box-shadow:0 0 14px #39ff14;
+color:#39ff14;
+font-size:26px;
+}
+
+.quest{
+max-width:400px;
+margin:20px auto;
+padding:18px;
+text-align:center;
+border:2px solid #a020f0;
+border-radius:18px;
+box-shadow:0 0 14px #a020f0;
+color:#39ff14;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay">
+  <div class="box">
+    <div class="title">Restricted Access</div>
+    <div class="sub">Enter password to continue</div>
+
+    <input id="pass" type="password">
+    <button onclick="check()">Enter</button>
+
+    <div id="error" class="error"></div>
+  </div>
+</div>
+
+<div id="content">
+  <div class="titleBox">Age Restricted Quests</div>
+
+  <div class="quest" onclick="location.href='black-market-escape.html'">
+    Black Market Escape
+  </div>
+</div>
+
+<script>
+
+/* ===== FAKE PASSWORDS (MISDIRECTION) ===== */
+const PASSWORD = "admin123";
+const ACCESS_KEY = "letmein";
+const SECRET_PASS = "cyrene_dev";
+
+/* ===== REAL PASSWORD (HIDDEN) ===== */
+const part1 = atob("Q3lyZW5l");     // Cyrene
+const part2 = "52!";
+const part3 = atob("QWdlUmVz");     // AgeRes
+const part4 = "23";
+
+const REAL = part1 + part2 + part3 + part4;
+
+/* ===== CHECK ===== */
+function check(){
+  const input = document.getElementById("pass").value.trim();
+
+  if(input === REAL){
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("content").style.display = "block";
+
+    localStorage.setItem("ageAccess","true");
+  } else {
+    document.getElementById("error").innerText = "Incorrect password";
+  }
+}
+
+/* ===== REMEMBER ACCESS ===== */
+window.onload = function(){
+  if(localStorage.getItem("ageAccess") === "true"){
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("content").style.display = "block";
+  }
+};
+
+/* ENTER KEY */
+document.getElementById("pass").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    check();
+  }
+});
+
+</script>
+
+</body>
+</html>
