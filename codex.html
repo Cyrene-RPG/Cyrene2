@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
 *{
 margin:0;
 padding:0;
@@ -54,15 +53,30 @@ box-shadow:0 0 15px #39ff14;
 transform:scale(1.05);
 }
 
-/* ===== MAIN CONTENT (TRUE CENTER) ===== */
+/* ===== MAIN ===== */
 .main{
 padding:40px;
-
-/* width */
 max-width:1000px;
 
-/* REAL CENTER FIX */
+/* TRUE CENTER FIX */
 margin-left:calc(240px + (100% - 240px - 1000px)/2);
+}
+
+/* ===== PROFILE BUTTON (CENTERED DESKTOP) ===== */
+.profileBtn{
+display:block;
+width:fit-content;
+margin:0 auto 25px;
+padding:12px 25px;
+border:2px solid #39ff14;
+border-radius:10px;
+color:#39ff14;
+text-decoration:none;
+background:rgba(0,0,0,0.6);
+}
+
+.profileBtn:hover{
+box-shadow:0 0 10px #39ff14;
 }
 
 /* ===== TITLE ===== */
@@ -71,6 +85,7 @@ color:#39ff14;
 font-size:34px;
 margin-bottom:25px;
 text-shadow:0 0 12px #39ff14;
+text-align:center;
 }
 
 /* ===== SECTION TITLES ===== */
@@ -81,22 +96,16 @@ font-size:18px;
 text-shadow:0 0 8px #39ff14;
 }
 
-/* ===== CARDS (PURPLE GLOW BOXES) ===== */
+/* ===== CARDS ===== */
 .card{
 background:rgba(0,0,0,0.7);
 padding:20px;
 margin-bottom:25px;
 border-radius:18px;
-
-/* PURPLE GLOW */
 border:2px solid #a020f0;
 box-shadow:
 0 0 15px #a020f0,
 0 0 25px #a020f0 inset;
-}
-
-/* TEXT */
-.card{
 line-height:1.6;
 }
 
@@ -142,13 +151,23 @@ border-radius:10px;
 font-size:20px;
 }
 
-/* reset centering for mobile */
+/* reset layout */
 .main{
 margin-left:0;
 padding:80px 20px 30px;
 }
 
-/* stack layout */
+/* MOBILE FLOAT BUTTON */
+.profileBtn{
+position:fixed;
+top:15px;
+right:15px;
+margin:0;
+padding:10px 15px;
+z-index:999;
+}
+
+/* stack grid */
 .grid{
 grid-template-columns:1fr;
 }
@@ -173,6 +192,9 @@ grid-template-columns:1fr;
 </div>
 
 <div class="main">
+
+<!-- ✅ CENTERED ON DESKTOP -->
+<a href="profile.html" class="profileBtn">👤 Profile</a>
 
 <div class="title">Origins & Past Lives</div>
 

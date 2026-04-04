@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codex - Classes</title>
+<title>Classes - Cyrene</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
@@ -19,104 +19,77 @@ background:#050505;
 color:#d8d8d8;
 }
 
-/* ===== MAIN ===== */
+/* MAIN */
 .main{
-max-width:1100px;
+max-width:900px;
 margin:auto;
-padding:40px;
+padding:30px 20px;
 }
 
-/* ===== TITLE ===== */
-.titleBox{
-text-align:center;
-color:#39ff14;
+/* TITLE */
+.title{
 font-size:32px;
-margin-bottom:10px;
-
-background:rgba(0,0,0,0.7);
-padding:15px;
-border-radius:18px;
-
-border:2px solid #39ff14;
-box-shadow:0 0 14px #39ff14;
+color:#39ff14;
+margin-bottom:20px;
+text-shadow:0 0 12px #39ff14;
 }
 
-.subTitle{
-text-align:center;
-color:#aaa;
+/* SECTION */
+.section{
 margin-bottom:30px;
 }
 
-/* ===== CARD ===== */
-.card{
-background:rgba(0,0,0,0.6);
-padding:20px;
-margin-bottom:25px;
-border-radius:18px;
-
-border:2px solid #a020f0;
-box-shadow:0 0 12px #a020f0, inset 0 0 12px #a020f0;
-}
-
-/* ===== SECTION TITLE ===== */
 .sectionTitle{
 color:#39ff14;
 margin-bottom:10px;
-font-size:22px;
+font-size:18px;
+text-shadow:0 0 8px #39ff14;
 }
 
-/* ===== TEXT ===== */
-.card b{
-color:#39ff14;
+/* BUTTON LIST */
+.list{
+border-left:2px solid #a020f0;
+padding-left:15px;
+}
+
+/* BUTTON */
+.classBtn{
 display:block;
-margin-bottom:6px;
-}
-
-/* ===== QUOTE ===== */
-.card i{
-display:block;
-text-align:center;
-color:#aaa;
-margin-bottom:10px;
-}
-
-/* ===== DIVIDER ===== */
-hr{
-border:none;
-border-top:1px solid #333;
-margin:12px 0;
-}
-
-/* ===== BACK BUTTON ===== */
-.backBtn{
-display:block;
-margin:30px auto 0;
-max-width:300px;
-padding:12px;
-text-align:center;
-background:black;
+margin:10px 0;
+padding:12px 15px;
+border-radius:10px;
 border:2px solid #39ff14;
-border-radius:12px;
 color:#39ff14;
 text-decoration:none;
+background:black;
+transition:0.2s;
+}
+
+.classBtn:hover{
 box-shadow:0 0 10px #39ff14;
+transform:translateX(5px);
+}
+
+/* LOCKED */
+.locked{
+border:2px dashed #555;
+color:#555;
+cursor:not-allowed;
+}
+
+/* BACK BUTTON */
+.backBtn{
+display:inline-block;
+margin-bottom:20px;
+padding:10px 20px;
+border:2px solid #39ff14;
+border-radius:10px;
+color:#39ff14;
+text-decoration:none;
 }
 
 .backBtn:hover{
-box-shadow:0 0 16px #39ff14;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-
-.main{
-padding:20px;
-}
-
-.titleBox{
-font-size:26px;
-}
-
+box-shadow:0 0 10px #39ff14;
 }
 </style>
 </head>
@@ -125,153 +98,43 @@ font-size:26px;
 
 <div class="main">
 
-<div class="titleBox">Classes</div>
-<div class="subTitle">(Combat Roles)</div>
+<a href="profile.html" class="backBtn">← Back to Profile</a>
 
-<!-- ===== KENZAI ===== -->
-<div class="card">
+<div class="title">Classes</div>
 
-<div class="sectionTitle">Kenzai</div>
+<!-- ===== MAIN CLASSES ===== -->
+<div class="section">
+<div class="sectionTitle">Available Classes</div>
 
-<p><i>“Augmentation without discipline is madness. Discipline without augmentation is weakness.”</i></p><br>
+<div class="list">
 
-<b>Class Role</b>
-The Kenzai is a cybernetically enhanced close-combat specialist, combining martial training with integrated augmentations. They excel in direct engagements, sustained melee combat, and high-risk offensive maneuvers.<br><br>
+<a href="kenzai.html" class="classBtn">Kenzai</a>
 
-Kenzai balance raw combat output with the psychological strain imposed by their augmentations. While capable of extreme lethality, overreliance on cybernetics may result in loss of control.<br><br>
+<a href="assassin.html" class="classBtn">Assassins</a>
 
-<hr>
+<a href="mages.html" class="classBtn">Mages</a>
 
-<b>Key Ability Scores</b>
-• Strength or Dexterity (primary attack stat, depending on build)<br>
-• Constitution (durability and system tolerance)<br>
-• Willpower (resistance to Instability effects)<br><br>
+<a href="bards.html" class="classBtn">Bards</a>
 
-<hr>
+<a href="shamans.html" class="classBtn">Shamans</a>
 
-<b>Hit Profile</b>
-• High durability<br>
-• Moderate recovery<br>
-• Resistant to pain effects, vulnerable to system disruption (EMP, hacking)<br><br>
-
-<hr>
-
-<b>Proficiencies</b>
-Weapons: All simple and martial weapons, integrated cyber-weapons<br>
-Armor: Light and medium armor<br>
-Saving Throws: Constitution, Willpower<br><br>
-
-Skills: Choose 4<br>
-• Athletics<br>
-• Acrobatics<br>
-• Intimidation<br>
-• Perception<br>
-• Streetwise<br>
-• Mechanics<br>
-• Endurance<br>
-• Insight<br><br>
-
-<hr>
-
-<b>Starting Skill Bonuses</b>
-• +2 Athletics<br>
-• +1 Acrobatics<br>
-• +1 Intimidation<br>
-• +1 to two additional skills of your choice<br>
-
-<b>Core System</b><br><br>
-
-<b>Overclock (OC)</b><br>
-Overclock represents how far you are pushing your cybernetics.<br><br>
-
-Max OC: (suggest: 5–10 depending on scaling)<br><br>
-
-Gain +1 OC when:<br>
-• You deal melee damage<br>
-• You take damage<br>
-• You defeat an enemy<br><br>
-
-Spend OC to:<br>
-• Activate abilities<br>
-• Enter Overclocked state<br><br>
-
-<hr>
-
-<b>Combat Resolution</b><br>
-Attack: 1d20 + STR or DEX<br>
-Vs target Defense<br>
-On hit → deal damage<br><br>
-
-<hr>
-
-<b>Overclocked State</b><br>
-You may enter Overclocked at any time.<br><br>
-
-Cost: 2 OC<br>
-Duration: 3 turns<br><br>
-
-<b>Effects While Overclocked</b><br>
-• Ignore injury penalties<br>
-• Reduce incoming damage<br>
-• Cannot be interrupted or staggered<br><br>
-
-<b>Drawbacks While Overclocked</b><br><br>
-
-<b>1. Target Drift</b><br>
-At the start of your turn:<br>
-Roll 1d20<br><br>
-
-1–5 → Must attack nearest target<br>
-6–20 → Act normally<br><br>
-
-<b>2. Engagement Lock</b><br>
-You cannot disengage or retreat<br>
-You must continue attacking while enemies are present<br><br>
-
-<b>3. Strain (Escalation System)</b><br>
-Each turn while Overclocked:<br>
-Gain +1 Strain<br><br>
-
-<hr>
-
-<b>Instability System</b><br><br>
-
-When Overclock ends, roll:<br>
-Instability Check<br>
-1d20 + Strain vs Threshold 10<br><br>
-
-<b>Results</b><br><br>
-
-10+ → Stable — no effect<br>
-7–9 → Agitated — disadvantage on next roll<br>
-4–6 → Unstable — lose control for 1 turn<br>
-1–3 → Cyberpsychosis — lose control for 2 turns<br><br>
-
-<b>Loss of Control Rules</b><br>
-While unstable or cyberpsychotic:<br>
-• You must attack nearest target<br>
-• If no enemy → attack nearest entity/object<br>
-• You cannot use abilities<br>
-• Only basic attacks<br><br>
-
-<hr>
-
-<b>Augmented Physiology</b><br>
-• Unarmed strikes count as weapons<br>
-• Integrated weapons cannot be disarmed<br><br>
-
-<b>Close-Quarters Specialist</b><br>
-• No penalties in tight combat<br>
-• Gain advantage (or +X bonus) in melee range<br>
-</div>
+<a href="mercenaries.html" class="classBtn">Mercenaries</a>
 
 </div>
+</div>
 
-<hr>
+<!-- ===== FUTURE ===== -->
+<div class="section">
+<div class="sectionTitle">More Classes (Coming Later)</div>
 
+<div class="list">
 
+<div class="classBtn locked">???</div>
+<div class="classBtn locked">???</div>
+<div class="classBtn locked">???</div>
 
-<a href="codex.html" class="backBtn">← Back to Codex</a>
+</div>
+</div>
 
 </div>
 

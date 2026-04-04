@@ -35,9 +35,18 @@ background:black;border:2px solid #39ff14;color:#39ff14;
 button{
 width:100%;padding:14px;margin-top:15px;
 background:black;border:2px solid #39ff14;color:#39ff14;
+cursor:pointer;
 }
 
-.link{margin-top:15px;color:#888;cursor:pointer;}
+.link{
+margin-top:15px;
+color:#888;
+cursor:pointer;
+}
+
+.link:hover{
+color:#39ff14;
+}
 </style>
 </head>
 
@@ -49,7 +58,12 @@ background:black;border:2px solid #39ff14;color:#39ff14;
 <div class="box">
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
+
 <button onclick="login()">LOGIN</button>
+
+<!-- NEW -->
+<div class="link" onclick="forgotPassword()">Forgot Password?</div>
+
 <div class="link" onclick="location.href='signup.html'">Create Account</div>
 </div>
 
@@ -59,7 +73,8 @@ import {
 getAuth,
 signInWithEmailAndPassword,
 setPersistence,
-browserLocalPersistence
+browserLocalPersistence,
+sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -71,13 +86,12 @@ messagingSenderId:"574109223643",
 appId:"1:574109223643:web:1d713a3c5f1503c7fbdafe"
 };
 
-/* 🔥 SINGLE APP NAME */
 const app = initializeApp(firebaseConfig, "MAIN");
 const auth = getAuth(app);
 
-/* 🔥 FORCE PERSISTENCE */
 await setPersistence(auth, browserLocalPersistence);
 
+/* LOGIN */
 window.login = async ()=>{
 let email=document.getElementById("email").value;
 let pass=document.getElementById("password").value;
@@ -86,6 +100,24 @@ try{
 let user=await signInWithEmailAndPassword(auth,email,pass);
 if(user) location.href="profile.html";
 }catch(e){alert(e.message);}
+};
+
+/* 🔥 FORGOT PASSWORD */
+window.forgotPassword = async ()=>{
+let email = document.getElementById("email").value;
+
+if(!email){
+email = prompt("Enter your email:");
+}
+
+if(!email) return;
+
+try{
+await sendPasswordResetEmail(auth, email);
+alert("Password reset email sent!");
+}catch(e){
+alert(e.message);
+}
 };
 </script>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codex - Elves</title>
+<title>Codex - Dwarves</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
@@ -19,19 +19,19 @@ background:#050505;
 color:#d8d8d8;
 }
 
-/* ===== SIDEBAR (STATS) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar{
 position:fixed;
 top:0;
 right:0;
 width:280px;
 height:100vh;
+overflow-y:auto;
 background:#000;
 padding:20px;
 border-left:2px solid #39ff14;
 }
 
-/* Back button */
 .backBtn{
 display:block;
 margin-bottom:20px;
@@ -55,7 +55,6 @@ padding:40px;
 padding-right:320px;
 }
 
-/* ===== TITLE ===== */
 .title{
 text-align:center;
 color:#39ff14;
@@ -64,7 +63,6 @@ margin-bottom:30px;
 text-shadow:0 0 10px #39ff14;
 }
 
-/* ===== CARDS ===== */
 .card{
 background:rgba(0,0,0,0.6);
 padding:20px;
@@ -80,14 +78,12 @@ color:#39ff14;
 margin-bottom:10px;
 }
 
-/* ===== GRID ===== */
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:20px;
 }
 
-/* ===== MOBILE ===== */
 @media(max-width:900px){
 
 .sidebar{
@@ -114,22 +110,23 @@ grid-template-columns:1fr;
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
+
 <a href="codex.html" class="backBtn">← Back to Codex</a>
+
 <div class="card">
-<div class="sectionTitle">Base Stats</a>
+<div class="sectionTitle">Base Stats</div>
+
 <b>Base Hit Points:</b> 10 + Constitution<br>
-<b>Size:</b> Meduim <br>
+<b>Size:</b> Medium<br>
 <b>Speed:</b> 25 ft<br><br>
 
 <b>Attribute Modifiers:</b><br>
 +2 Constitution, +1 Strength<br><br>
 
 <b>Senses:</b><br>
-Darkvision - You can see in darkness up to 60ft as if it were dim light.<br>
-
-<b>Structural Sense:</b> You have an innate awareness of structural integrity and stone, allowing you to detect weaknesses in structure, hidden passages or shifts in terrain within a short range<br>
-
-<b>Enduring Physiology</b> +1 Bonus against poison, +2 against fatigue, and enviromental hazards.<br><br>
+Darkvision — You can see in darkness up to 60ft as if it were dim light.<br>
+Structural Sense — You have an innate awareness of structural integrity and stone, allowing you to detect weaknesses in structures, hidden passages, or shifts in terrain within a short range.<br>
+Enduring Physiology — +1 bonus against poison, +2 against fatigue, and environmental hazards.<br><br>
 
 <b>Languages:</b><br>
 Common, Dwarven, +1 additional of your choice
@@ -138,14 +135,84 @@ Common, Dwarven, +1 additional of your choice
 </div>
 
 <!-- ===== MAIN ===== -->
-<div class="main"
+<div class="main">
 
 <div class="title">Dwarves</div>
 
+<!-- ===== LORE ===== -->
 <div class="card">
-Dwarven Lore Goes Here. <br><br>
+
+Dwarves are a subterranean species whose origins predate the Reawakening. While other races adapted to the sudden emergence of magic, dwarves had long since developed their own relationship with it. Like elves, they are highly attuned to magical forces—but rather than expressing it outwardly, dwarves channel that power into their craft.<br><br>
+
+To a dwarf, magic is not something to wield—it is something to shape.<br><br>
+
+Their creations, whether tools, structures, or weapons, often carry subtle enchantments born not from spellcasting, but from precision, intention, and an innate connection to the materials themselves.<br><br>
+
+Dwarves are deeply attuned to stone and structural integrity. Their senses extend beyond sight, allowing them to perceive density, stress, and instability in the world around them. They can detect weaknesses in terrain, hidden passages, or shifts within structures with uncanny accuracy.<br><br>
+
+To a dwarf, stone is not an obstacle—it is a language.
+
 </div>
 
+<!-- ===== COMMON TRAITS ===== -->
+<div class="card">
+<div class="sectionTitle">Common Traits</div>
+
+• Short and stocky build, with dense musculature and a low center of gravity<br>
+• Exceptional physical resilience, capable of enduring harsh environments and prolonged strain<br>
+• Skin tones often darker or earthen in hue, reflecting their subterranean origins<br>
+• Males commonly grow thick beards, often braided and adorned with beads or metalwork<br>
+• Beard beads and braiding patterns serve as indicators of social status—greater complexity reflects higher standing<br>
+• These adornments frequently trace familial lineage, with styles tied to clan identity<br>
+• Naturally attuned to stone and structural integrity, allowing them to sense weaknesses or shifts in terrain<br>
+
+</div>
+
+<!-- ===== CLANS ===== -->
+<div class="card">
+<div class="sectionTitle">Dwarven Clans</div>
+Dwarven society is structured around clans, each defined by their mastery of a particular craft. These clans are more than families—they are legacies passed through generations. A dwarf’s clan determines their role, reputation, and influence within society.
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="sectionTitle">Mahurki Clan</div>
+Dedicated weaponsmiths whose creations are among the most sought after in all of Cyrene.<br><br>
+
+<b>Bead Colors:</b><br>
+Blue and Red — Symbolizing warcraft and mastery of forged weapons.<br><br>
+
+<b>Traits:</b><br>
++1 Crafting<br>
++1 Weapons Proficiency
+</div>
+
+<div class="card">
+<div class="sectionTitle">Denaturi</div>
+Masters of alchemy, producing the highest quality potions in existence. Also the primary source of the illegal substance known as Raze.<br><br>
+
+<b>Bead Colors:</b><br>
+Purple and White — Representing knowledge, transformation, and refined alchemical practice.<br><br>
+
+<b>Traits:</b><br>
++1 Crafting<br>
++1 Poison/Toxin Resistance
+</div>
+
+<div class="card">
+<div class="sectionTitle">Fenratali</div>
+Specialists in armor and cybernetic crafting, often employed by ANCR or SYNAPSE. Many black-market armor operations are run by them.<br><br>
+
+<b>Bead Colors:</b><br>
+Black and Silver — Denoting resilience, augmentation, and the fusion of metal and flesh.<br><br>
+
+<b>Traits:</b><br>
++1 Armor Crafting<br>
+Access to Cybernetic Modifications
+</div>
+
+</div>
 
 </div>
 
