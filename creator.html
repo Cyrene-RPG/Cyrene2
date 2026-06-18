@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Character Creator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Orbitron', sans-serif;
+background:#050505;
+color:#39ff14;
+text-align:center;
+}
+
+/* MAIN */
+.main{
+padding:40px 20px;
+}
+
+/* TITLE */
+.title{
+font-size:32px;
+margin-bottom:20px;
+text-shadow:0 0 12px #39ff14;
+}
+
+/* CREATOR */
+.creatorBox{
+border:2px solid #39ff14;
+padding:20px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+background:black;
+}
+
+/* INPUTS */
+input, select{
+width:100%;
+padding:10px;
+margin:10px 0;
+background:black;
+border:2px solid #39ff14;
+color:#39ff14;
+}
+
+/* BUTTON */
+button{
+margin-top:15px;
+padding:12px;
+width:100%;
+border:2px solid #39ff14;
+background:black;
+color:#39ff14;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popupBox{
+background:black;
+border:2px solid #39ff14;
+padding:25px;
+border-radius:15px;
+max-width:300px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 CREATOR UI -->
+<div id="creatorUI" class="main">
+
+<div class="title">Character Creator</div>
+
+<div class="creatorBox">
+
+<input placeholder="Character Name">
+
+<select>
+<option>Select Class</option>
+<option>Kenzai</option>
+<option>Assassin</option>
+<option>Sosenja</option>
+</select>
+
+<select>
+<option>Select Origin</option>
+<option>Human</option>
+<option>

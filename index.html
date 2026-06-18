@@ -34,14 +34,25 @@
 </script>
 
 <style>
+*{
+box-sizing:border-box;
+}
+
+html{
+min-height:100%;
+}
+
 body{
 margin:0;
 font-family:'Orbitron', Arial;
 color:white;
 text-align:center;
+min-height:100vh;
+overflow-x:hidden;
 
 background:
-linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+radial-gradient(circle at top, rgba(168,85,255,0.25), transparent 35%),
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.95)),
 url('City.jpg');
 
 background-size:cover;
@@ -49,101 +60,237 @@ background-position:center;
 background-attachment:fixed;
 }
 
+/* GAME ATMOSPHERE */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+background-size:42px 42px;
+opacity:0.25;
+z-index:-2;
+}
+
+body::after{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.035) 0px,
+rgba(255,255,255,0.035) 1px,
+transparent 2px,
+transparent 6px
+);
+mix-blend-mode:screen;
+opacity:0.12;
+z-index:20;
+}
+
+.pageWrap{
+position:relative;
+padding-bottom:70px;
+}
+
+.pageWrap::before,
+.pageWrap::after{
+content:"";
+position:fixed;
+width:260px;
+height:260px;
+border-radius:50%;
+filter:blur(70px);
+opacity:0.35;
+pointer-events:none;
+z-index:-1;
+}
+
+.pageWrap::before{
+left:-80px;
+top:160px;
+background:#7a00ff;
+}
+
+.pageWrap::after{
+right:-80px;
+bottom:120px;
+background:#39ff14;
+}
+
 /* TITLE */
 .title{
-margin-top:60px;
-font-size:48px;
-color:#a855ff;
-text-shadow:0 0 20px #7a00ff, 0 0 40px #7a00ff;
+margin-top:70px;
+font-size:56px;
+letter-spacing:8px;
+color:#d7b4ff;
+text-shadow:
+0 3px 0 #29004d,
+0 0 20px #7a00ff,
+0 0 45px #7a00ff,
+0 0 90px #a855ff;
+animation:titlePulse 3s infinite alternate;
+}
+
+@keyframes titlePulse{
+from{
+filter:drop-shadow(0 0 4px #7a00ff);
+}
+to{
+filter:drop-shadow(0 0 18px #a855ff);
+}
 }
 
 .subtitle{
 color:#39ff14;
-margin-top:10px;
+margin-top:12px;
 font-size:18px;
-text-shadow:0 0 10px #39ff14;
+letter-spacing:2px;
+text-shadow:
+0 0 8px #39ff14,
+0 0 18px #39ff14;
 }
 
-/* MAIN BOX (EXACT FROM SIGNUP) */
-.systemBox{
+/* MAIN BOX */
+.systemBox,
+.infoBox{
+position:relative;
 margin:60px auto;
 width:90%;
-max-width:400px;
-padding:30px;
+max-width:430px;
+padding:32px;
 
 border:2px solid #7a00ff;
-border-radius:12px;
+border-radius:16px;
 
 box-shadow:
-0 0 10px #7a00ff,
-0 0 40px #7a00ff,
-inset 0 0 10px #7a00ff;
+0 18px 0 rgba(0,0,0,0.75),
+0 22px 35px rgba(0,0,0,0.9),
+0 0 14px #7a00ff,
+0 0 45px rgba(122,0,255,0.8),
+inset 0 0 18px rgba(122,0,255,0.75),
+inset 0 0 60px rgba(57,255,20,0.06);
 
-background:rgba(0,0,0,0.6);
+background:
+linear-gradient(145deg, rgba(35,0,65,0.85), rgba(0,0,0,0.82) 45%, rgba(0,35,20,0.65)),
+rgba(0,0,0,0.75);
+
+transform:perspective(900px) rotateX(2deg);
+backdrop-filter:blur(5px);
+}
+
+.systemBox::before,
+.infoBox::before{
+content:"";
+position:absolute;
+inset:10px;
+border:1px solid rgba(57,255,20,0.35);
+border-radius:10px;
+pointer-events:none;
+box-shadow:inset 0 0 16px rgba(57,255,20,0.18);
+}
+
+.systemBox::after,
+.infoBox::after{
+content:"";
+position:absolute;
+top:-8px;
+left:24px;
+right:24px;
+height:14px;
+background:linear-gradient(90deg, transparent, #39ff14, transparent);
+opacity:0.65;
+filter:blur(1px);
 }
 
 /* TEXT */
 .systemText{
 color:#39ff14;
-margin-bottom:20px;
+margin-bottom:22px;
 font-size:14px;
+line-height:1.7;
+letter-spacing:1px;
+text-shadow:0 0 10px #39ff14;
 }
 
 /* BUTTONS */
 .menuButton{
+position:relative;
 width:100%;
-padding:14px;
-margin-top:15px;
+padding:15px;
+margin-top:16px;
 
-background:black;
+background:
+linear-gradient(180deg, rgba(57,255,20,0.12), rgba(0,0,0,0.95));
 border:2px solid #39ff14;
+border-radius:8px;
 color:#39ff14;
 
+font-family:'Orbitron', Arial;
+letter-spacing:1px;
 cursor:pointer;
 
-box-shadow:0 0 10px #39ff14;
+box-shadow:
+0 7px 0 #0b4d08,
+0 0 12px #39ff14,
+inset 0 0 12px rgba(57,255,20,0.25);
+
+text-shadow:0 0 8px #39ff14;
+transition:0.15s ease;
 }
 
 .menuButton:hover{
-background:#39ff14;
+background:
+linear-gradient(180deg, #39ff14, #1c8f11);
 color:black;
+transform:translateY(-3px);
+box-shadow:
+0 10px 0 #0b4d08,
+0 0 24px #39ff14,
+0 0 45px rgba(57,255,20,0.65);
+text-shadow:none;
+}
+
+.menuButton:active{
+transform:translateY(5px);
+box-shadow:
+0 2px 0 #0b4d08,
+0 0 14px #39ff14;
 }
 
 /* INFO BOXES */
-.infoBox{
-margin:60px auto;
-width:90%;
-max-width:400px;
-padding:30px;
-
-border:2px solid #7a00ff;
-border-radius:12px;
-
-box-shadow:
-0 0 10px #7a00ff,
-0 0 40px #7a00ff,
-inset 0 0 10px #7a00ff;
-
-background:rgba(0,0,0,0.6);
-}
-
 .infoTitle{
 color:#39ff14;
-margin-bottom:20px;
+margin-bottom:22px;
 font-size:16px;
+letter-spacing:2px;
+text-shadow:0 0 10px #39ff14;
 }
 
 .infoText{
-color:#ccc;
+color:#d8d8d8;
 font-size:14px;
-line-height:1.6;
+line-height:1.75;
+text-shadow:0 0 6px rgba(255,255,255,0.15);
+}
+
+.infoText strong{
+color:white;
+text-shadow:
+0 0 8px #a855ff,
+0 0 16px #a855ff;
 }
 
 .devBanner{
 position:relative;
 width:100%;
-padding:14px 40px 14px 16px;
-background:rgba(0,0,0,0.92);
+padding:14px 44px 14px 16px;
+background:
+linear-gradient(90deg, rgba(0,0,0,0.96), rgba(35,0,65,0.96), rgba(0,0,0,0.96));
 color:#39ff14;
 text-align:center;
 font-size:14px;
@@ -151,7 +298,9 @@ line-height:1.5;
 text-shadow:0 0 6px #39ff14;
 border-top:2px solid #a020f0;
 border-bottom:2px solid #a020f0;
-box-shadow:0 0 14px #a020f0;
+box-shadow:
+0 0 14px #a020f0,
+0 8px 25px rgba(0,0,0,0.75);
 }
 
 /* close button */
@@ -172,6 +321,29 @@ text-shadow:0 0 6px #a020f0;
 color:#ff4dff;
 }
 
+/* MOBILE */
+@media(max-width:600px){
+.title{
+font-size:42px;
+letter-spacing:5px;
+margin-top:50px;
+}
+
+.subtitle{
+font-size:15px;
+}
+
+.systemBox,
+.infoBox{
+padding:26px 22px;
+margin:45px auto;
+transform:none;
+}
+
+.devBanner{
+font-size:12px;
+}
+}
 </style>
 </head>
 
@@ -183,6 +355,8 @@ color:#ff4dff;
   </span>
   <button onclick="closeBanner()">✕</button>
 </div>
+
+<div class="pageWrap">
 
 <div class="title">CYRENE</div>
 <div class="subtitle">The Sleepless City of Sin</div>
@@ -260,6 +434,8 @@ Cyrene is not just a game.<br>
 It is a system that remembers.<br><br>
 
 And it is always watching.
+</div>
+
 </div>
 
 </div>
