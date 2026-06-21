@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Rajdhani", "Orbitron", Arial, sans-serif;
+  color: white;
+  background: #030008;
+  overflow: hidden;
+}
+
+.devShortcuts {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 99999;
+  display: flex;
+  gap: 6px;
+}
+
+.devShortcuts__btn,
+.devRefresh {
+  padding: 8px 12px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.devShortcuts__btn:hover,
+.devRefresh:hover {
+  opacity: 1;
+  border-color: rgba(168, 85, 255, 0.85);
+  color: #d7b4ff;
+}
+
+.devShortcuts__btn--active {
+  border-color: rgba(57, 255, 20, 0.65);
+  color: rgba(57, 255, 20, 0.9);
+}
+
+.devShortcuts__btn--highlight {
+  border-color: rgba(168, 85, 255, 0.85);
+  color: #e9d5ff;
+  opacity: 0.85;
+}

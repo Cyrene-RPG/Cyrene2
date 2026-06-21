@@ -1,0 +1,118 @@
+.diceRoller3d {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  border-radius: 10px;
+  border: 1px solid rgba(122, 0, 255, 0.28);
+  background:
+    radial-gradient(ellipse at 50% 85%, rgba(57, 255, 20, 0.08), transparent 55%),
+    radial-gradient(ellipse at 50% 20%, rgba(122, 0, 255, 0.16), transparent 58%),
+    rgba(0, 0, 0, 0.42);
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.diceRoller3d__canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.diceRoller3d__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.diceRoller3d__faceLabels {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 52px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.diceRoller3d__faceLabels--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.diceRoller3d__faceLabel {
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.45);
+}
+
+.diceRoller3d__faceLabel--dropped {
+  color: rgba(255, 120, 120, 0.85);
+  text-decoration: line-through;
+  text-shadow: none;
+  opacity: 0.65;
+}
+
+.diceRoller3d__totalBadge {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 0.85;
+  transition: opacity 0.25s ease, border-color 0.25s ease;
+}
+
+.diceRoller3d__totalBadge--visible {
+  border-color: rgba(57, 255, 20, 0.65);
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.18);
+}
+
+.diceRoller3d__totalBadge--rolling {
+  border-color: rgba(168, 85, 255, 0.65);
+  animation: diceRollingPulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes diceRollingPulse {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+.diceRoller3d__rollingText,
+.diceRoller3d__prompt,
+.diceRoller3d__keptLabel,
+.diceRoller3d__totalValue {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.diceRoller3d__rollingText {
+  color: #d7b4ff;
+}
+
+.diceRoller3d__prompt {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.diceRoller3d__keptLabel {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.diceRoller3d__totalValue {
+  color: #39ff14;
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}

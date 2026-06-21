@@ -1,0 +1,421 @@
+.loadScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #020006;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loadScreen--poweron .loadScreen__content,
+.loadScreen--poweron .loadScreen__bootLog,
+.loadScreen--poweron .loadScreen__ring {
+  opacity: 0;
+}
+
+.loadScreen--powered .loadScreen__content,
+.loadScreen--powered .loadScreen__bootLog {
+  animation: loadContentIn 0.6s ease forwards;
+}
+
+.loadScreen__flicker {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.loadScreen--poweron .loadScreen__flicker {
+  animation: powerFlicker 0.5s ease forwards;
+}
+
+@keyframes powerFlicker {
+  0% { opacity: 0; }
+  10% { opacity: 0.08; }
+  20% { opacity: 0; }
+  35% { opacity: 0.15; }
+  50% { opacity: 0; }
+  70% { opacity: 0.05; }
+  100% { opacity: 0; }
+}
+
+.loadScreen__bootLog {
+  position: absolute;
+  left: 36px;
+  bottom: 56px;
+  z-index: 4;
+  text-align: left;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0;
+}
+
+.loadScreen__bootLine {
+  color: rgba(57, 255, 20, 0.55);
+  margin-bottom: 4px;
+  animation: bootFadeIn 0.2s ease forwards;
+}
+
+.loadScreen__bootPrompt {
+  color: rgba(168, 85, 255, 0.7);
+  margin-right: 6px;
+}
+
+@keyframes bootFadeIn {
+  from { opacity: 0; transform: translateX(-4px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
+.loadScreen--exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loadScreen__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(122, 0, 255, 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse at 30% 70%, rgba(57, 255, 20, 0.08) 0%, transparent 40%),
+    #020006;
+}
+
+.loadScreen__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(122, 0, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 0, 255, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  animation: loadGridPulse 4s ease-in-out infinite;
+}
+
+@keyframes loadGridPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.loadScreen__scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(57, 255, 20, 0.04) 48%,
+    rgba(57, 255, 20, 0.12) 50%,
+    rgba(57, 255, 20, 0.04) 52%,
+    transparent 100%
+  );
+  background-size: 100% 200%;
+  animation: loadScan 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes loadScan {
+  from { background-position: 0 -100%; }
+  to { background-position: 0 100%; }
+}
+
+.loadScreen__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
+}
+
+.loadScreen__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.loadScreen__ring--1 {
+  width: 420px;
+  height: 420px;
+  border-color: rgba(122, 0, 255, 0.15);
+  animation: loadRingSpin 12s linear infinite;
+}
+
+.loadScreen__ring--2 {
+  width: 520px;
+  height: 520px;
+  border-top-color: rgba(57, 255, 20, 0.25);
+  border-right-color: rgba(57, 255, 20, 0.05);
+  animation: loadRingSpin 8s linear infinite reverse;
+}
+
+.loadScreen__ring--3 {
+  width: 620px;
+  height: 620px;
+  border-bottom-color: rgba(0, 212, 255, 0.2);
+  border-left-color: rgba(0, 212, 255, 0.05);
+  animation: loadRingSpin 16s linear infinite;
+}
+
+@keyframes loadRingSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.loadScreen__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: min(520px, 90vw);
+  animation: loadContentIn 0.8s ease forwards;
+}
+
+@keyframes loadContentIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loadScreen__eyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: rgba(57, 255, 20, 0.6);
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.loadScreen__logo {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(56px, 12vw, 88px);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #e8d0ff;
+  text-shadow:
+    0 0 30px rgba(168, 85, 255, 0.9),
+    0 0 80px rgba(122, 0, 255, 0.5),
+    0 4px 0 #29004d;
+  animation: loadLogoPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes loadLogoPulse {
+  from {
+    text-shadow:
+      0 0 20px rgba(168, 85, 255, 0.7),
+      0 0 60px rgba(122, 0, 255, 0.4),
+      0 4px 0 #29004d;
+  }
+  to {
+    text-shadow:
+      0 0 50px rgba(168, 85, 255, 1),
+      0 0 100px rgba(122, 0, 255, 0.7),
+      0 0 30px rgba(57, 255, 20, 0.2),
+      0 4px 0 #29004d;
+  }
+}
+
+.loadScreen__logo--glitch {
+  animation: loadLogoGlitch 0.12s steps(2) 1;
+}
+
+@keyframes loadLogoGlitch {
+  0% { transform: translate(0); }
+  50% { transform: translate(-4px, 2px); filter: hue-rotate(90deg); }
+  100% { transform: translate(0); filter: hue-rotate(0deg); }
+}
+
+.loadScreen__tagline {
+  margin: 12px 0 48px;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(57, 255, 20, 0.7);
+}
+
+.loadScreen__progressWrap {
+  margin-bottom: 28px;
+}
+
+.loadScreen__progressMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.loadScreen__step {
+  color: rgba(255, 255, 255, 0.55);
+  text-align: left;
+}
+
+.loadScreen__pct {
+  color: #39ff14;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+  min-width: 40px;
+  text-align: right;
+}
+
+.loadScreen__progressTrack {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(122, 0, 255, 0.4);
+  overflow: visible;
+}
+
+.loadScreen__progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #7a00ff, #39ff14);
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.6);
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.loadScreen__progressFill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 6px,
+    rgba(0, 0, 0, 0.2) 6px,
+    rgba(0, 0, 0, 0.2) 7px
+  );
+}
+
+.loadScreen__progressGlow {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 20px;
+  background: #fff;
+  box-shadow: 0 0 12px #39ff14, 0 0 24px #39ff14;
+  transform: translate(-50%, -50%);
+  transition: left 0.1s linear;
+}
+
+.loadScreen__segments {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.loadScreen__segment {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.loadScreen__segment--lit {
+  background: rgba(168, 85, 255, 0.6);
+  box-shadow: 0 0 6px rgba(168, 85, 255, 0.4);
+}
+
+.loadScreen__tip {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.04em;
+  min-height: 24px;
+  animation: loadTipFade 0.5s ease;
+}
+
+@keyframes loadTipFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loadScreen__tipLabel {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: rgba(168, 85, 255, 0.7);
+  margin-right: 10px;
+}
+
+.loadScreen__ready {
+  margin-top: 24px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: #39ff14;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  animation: loadReadyFlash 0.6s ease forwards;
+}
+
+@keyframes loadReadyFlash {
+  0% { opacity: 0; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.loadScreen__corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.loadScreen__corner--tl {
+  top: 24px; left: 24px;
+  border-top: 2px solid rgba(122, 0, 255, 0.5);
+  border-left: 2px solid rgba(122, 0, 255, 0.5);
+}
+.loadScreen__corner--tr {
+  top: 24px; right: 24px;
+  border-top: 2px solid rgba(57, 255, 20, 0.4);
+  border-right: 2px solid rgba(57, 255, 20, 0.4);
+}
+.loadScreen__corner--bl {
+  bottom: 48px; left: 24px;
+  border-bottom: 2px solid rgba(57, 255, 20, 0.4);
+  border-left: 2px solid rgba(57, 255, 20, 0.4);
+}
+.loadScreen__corner--br {
+  bottom: 48px; right: 24px;
+  border-bottom: 2px solid rgba(122, 0, 255, 0.5);
+  border-right: 2px solid rgba(122, 0, 255, 0.5);
+}
+
+.loadScreen__footer {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.2);
+  z-index: 3;
+}
+
+@media (max-width: 480px) {
+  .loadScreen__ring--1 { width: 280px; height: 280px; }
+  .loadScreen__ring--2 { width: 340px; height: 340px; }
+  .loadScreen__ring--3 { width: 400px; height: 400px; }
+
+  .loadScreen__footer {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+}

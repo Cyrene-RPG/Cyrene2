@@ -1,0 +1,816 @@
+.magicShop {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+}
+
+.magicShop__bg {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(122, 0, 255, 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(57, 255, 20, 0.08) 0%, transparent 42%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, #030008 72%),
+    url("/City.jpg") center / cover no-repeat;
+  animation: magicShopBg 20s ease-in-out infinite alternate;
+}
+
+@keyframes magicShopBg {
+  from { transform: scale(1.06); }
+  to { transform: scale(1.1); }
+}
+
+.magicShop__mist {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(168, 85, 255, 0.1) 0%, transparent 42%);
+  animation: magicShopMist 8s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes magicShopMist {
+  from { opacity: 0.45; }
+  to { opacity: 0.85; }
+}
+
+.magicShop__scanlines,
+.magicShop__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.magicShop__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  z-index: 2;
+  opacity: 0.35;
+}
+
+.magicShop__vignette {
+  background: radial-gradient(ellipse at center, transparent 18%, rgba(0, 0, 0, 0.82) 100%);
+  z-index: 1;
+}
+
+.magicShop__frame {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.magicShop__frame--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 2px solid rgba(122, 0, 255, 0.55);
+  border-left: 2px solid rgba(122, 0, 255, 0.55);
+}
+
+.magicShop__frame--tr {
+  top: 14px;
+  right: 14px;
+  border-top: 2px solid rgba(57, 255, 20, 0.4);
+  border-right: 2px solid rgba(57, 255, 20, 0.4);
+}
+
+.magicShop__frame--bl {
+  bottom: 14px;
+  left: 14px;
+  border-bottom: 2px solid rgba(57, 255, 20, 0.4);
+  border-left: 2px solid rgba(57, 255, 20, 0.4);
+}
+
+.magicShop__frame--br {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 2px solid rgba(122, 0, 255, 0.55);
+  border-right: 2px solid rgba(122, 0, 255, 0.55);
+}
+
+.magicShop__hud {
+  position: absolute;
+  z-index: 10;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.magicShop__hud--tl { top: 24px; left: 28px; }
+.magicShop__hud--tr { top: 24px; right: 28px; align-items: flex-end; }
+.magicShop__hud--bl { bottom: 24px; left: 28px; }
+.magicShop__hud--br { bottom: 24px; right: 28px; align-items: flex-end; }
+
+.magicShop__hudVal {
+  color: #8ecfff;
+}
+
+.magicShop__hudVal--live {
+  color: #39ff14;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+}
+
+.magicShop__hudVal--accent {
+  color: #d7b4ff;
+  text-shadow: 0 0 8px rgba(168, 85, 255, 0.4);
+}
+
+.magicShop__main {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 48px 48px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.magicShop__scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: visible;
+}
+
+.magicShop__scene--interior {
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.magicShop__main--interior {
+  position: relative;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 36px 40px 28px;
+  overflow: hidden;
+}
+
+.shopInterior {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.shopInterior__merchant {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.shopInterior__portrait {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.shopInterior__portraitImg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 185px;
+  max-height: 240px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.shopInterior__dialogue {
+  flex: 1;
+  min-width: 0;
+  max-width: 520px;
+  padding: 12px 14px 13px;
+  border: 2px solid rgba(122, 0, 255, 0.55);
+  background:
+    linear-gradient(155deg, rgba(35, 0, 65, 0.97), rgba(0, 0, 0, 0.98)),
+    rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 0 32px rgba(122, 0, 255, 0.22),
+    inset 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+.shopInterior__dialogue .magicShop__dialogueLine {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.shopFloor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.shopFloor__ambient {
+  position: absolute;
+  inset: 8% 4% 24%;
+  background:
+    linear-gradient(90deg, rgba(122, 0, 255, 0.12) 0%, transparent 18%, transparent 82%, rgba(57, 255, 20, 0.06) 100%),
+    repeating-linear-gradient(
+      180deg,
+      rgba(168, 85, 255, 0.04) 0,
+      rgba(168, 85, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 72px
+    );
+  border: 1px solid rgba(122, 0, 255, 0.18);
+  pointer-events: none;
+}
+
+.shopFloor__header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(122, 0, 255, 0.28);
+}
+
+.shopFloor__eyebrow {
+  margin: 0 0 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.shopFloor__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #d7b4ff;
+  text-shadow: 0 0 18px rgba(168, 85, 255, 0.35);
+}
+
+.shopFloor__hint {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #39ff14;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.35);
+}
+
+.shopFloor__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  align-content: start;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+.shopFloor__grid--scanning {
+  opacity: 0.42;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.shopFloor__card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 108px;
+  padding: 14px 16px 13px;
+  border: 1px solid rgba(168, 85, 255, 0.28);
+  background:
+    linear-gradient(145deg, rgba(35, 0, 65, 0.72), rgba(0, 0, 0, 0.88));
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.shopFloor__card::before,
+.shopFloor__card::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(122, 0, 255, 0.45);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.shopFloor__card::before {
+  top: 7px;
+  left: 7px;
+  border-width: 1px 0 0 1px;
+}
+
+.shopFloor__card::after {
+  right: 7px;
+  bottom: 7px;
+  border-width: 0 1px 1px 0;
+}
+
+.shopFloor__cardGlyph {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  font-size: 16px;
+  color: #8ecfff;
+  border: 1px solid rgba(142, 207, 255, 0.35);
+  background: rgba(0, 0, 0, 0.45);
+  text-shadow: 0 0 10px rgba(142, 207, 255, 0.45);
+}
+
+.shopFloor__card--potion .shopFloor__cardGlyph {
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.4);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.45);
+}
+
+.shopFloor__card--charm .shopFloor__cardGlyph {
+  color: #d7b4ff;
+  border-color: rgba(215, 180, 255, 0.45);
+  text-shadow: 0 0 12px rgba(168, 85, 255, 0.55);
+}
+
+.shopFloor__cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.shopFloor__cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.shopFloor__cardTag {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.shopFloor__cardPrice {
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #39ff14;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.35);
+  white-space: nowrap;
+}
+
+.shopFloor__cardName {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(16px, 1.8vw, 19px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.shopFloor__cardDesc {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.shopFloor__nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.shopFloor__nav .magicShop__action {
+  flex: 0 1 auto;
+  min-width: 160px;
+}
+
+.magicShop__compose {
+  position: relative;
+  display: inline-block;
+  max-width: min(92vw, 475px);
+  overflow: visible;
+}
+
+.magicShop__portraitStage {
+  display: block;
+  background: transparent;
+  line-height: 0;
+  isolation: isolate;
+}
+
+.magicShop__portrait {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 475px);
+  max-height: min(68vh, 525px);
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.magicShop__dialogue {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: min(640px, 96vw);
+  padding: 14px 18px 16px;
+  border: 2px solid rgba(122, 0, 255, 0.55);
+  background:
+    linear-gradient(155deg, rgba(35, 0, 65, 0.97), rgba(0, 0, 0, 0.98)),
+    rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 0 32px rgba(122, 0, 255, 0.22),
+    inset 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+.magicShop__dialogueHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #d7b4ff;
+  text-shadow: 0 0 12px rgba(168, 85, 255, 0.45);
+}
+
+.magicShop__dot {
+  width: 7px;
+  height: 7px;
+  background: #39ff14;
+  box-shadow: 0 0 8px #39ff14;
+  animation: magicShopDot 1.5s ease-in-out infinite;
+}
+
+@keyframes magicShopDot {
+  50% { opacity: 0.4; }
+}
+
+.magicShop__dialogueLine {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(16px, 1.8vw, 19px);
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.magicShop__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  transition: opacity 0.25s ease;
+}
+
+.magicShop__actions--waiting {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.magicShop__action {
+  flex: 1 1 140px;
+  padding: 10px 12px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.magicShop__action--primary {
+  background: rgba(57, 255, 20, 0.08);
+  border: 2px solid #39ff14;
+  color: #39ff14;
+}
+
+.magicShop__action--primary:hover:not(:disabled) {
+  background: #39ff14;
+  color: #000;
+  box-shadow: 0 0 24px rgba(57, 255, 20, 0.45);
+}
+
+.magicShop__action--primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.magicShop__action--ghost {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  color: #d7b4ff;
+}
+
+.magicShop__action--ghost:hover {
+  border-color: rgba(168, 85, 255, 0.8);
+  background: rgba(122, 0, 255, 0.12);
+  color: #fff;
+}
+
+.magicShop__cursor {
+  display: inline-block;
+  color: #39ff14;
+  text-shadow: 0 0 8px #39ff14;
+  animation: magicShopBlink 0.8s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes magicShopBlink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 700px) {
+  .magicShop__main {
+    padding: 52px 20px 32px;
+  }
+
+  .magicShop__main--interior {
+    padding: 32px 20px 24px;
+  }
+
+  .shopInterior__merchant {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .shopInterior__portraitImg {
+    max-width: 160px;
+    max-height: 200px;
+  }
+
+  .shopInterior__dialogue {
+    width: 100%;
+    max-width: none;
+  }
+
+  .shopFloor__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shopFloor__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shopFloor__nav {
+    flex-direction: column;
+  }
+
+  .shopFloor__nav .magicShop__action {
+    width: 100%;
+  }
+
+  .magicShop__portrait {
+    max-height: min(56vh, 525px);
+  }
+
+  .magicShop__dialogue {
+    padding: 12px 14px 14px;
+  }
+
+  .magicShop__actions {
+    flex-direction: column;
+  }
+
+  .magicShop__action {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
+.magicShop__scene--select {
+  width: 100%;
+  max-width: 880px;
+}
+
+.shopSelect {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.shopSelect__merchant {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.shopSelect__panel {
+  padding: 18px 20px 16px;
+  border: 2px solid rgba(122, 0, 255, 0.45);
+  background:
+    linear-gradient(155deg, rgba(35, 0, 65, 0.92), rgba(0, 0, 0, 0.96));
+  box-shadow:
+    0 0 28px rgba(122, 0, 255, 0.18),
+    inset 0 0 24px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.35s ease;
+}
+
+.shopSelect__panel--waiting {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.shopSelect__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(122, 0, 255, 0.28);
+}
+
+.shopSelect__eyebrow {
+  margin: 0 0 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.shopSelect__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #d7b4ff;
+}
+
+.shopSelect__hint {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #39ff14;
+}
+
+.shopSelect__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.shopSelect__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  text-align: left;
+  border: 1px solid rgba(168, 85, 255, 0.28);
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.shopSelect__card:hover {
+  border-color: rgba(168, 85, 255, 0.65);
+  background: rgba(122, 0, 255, 0.1);
+}
+
+.shopSelect__card--selected {
+  border-color: #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.15);
+}
+
+.shopSelect__cardGlyph {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  color: #d7b4ff;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(35, 0, 65, 0.55);
+}
+
+.shopSelect__card--selected .shopSelect__cardGlyph {
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.55);
+}
+
+.shopSelect__cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.shopSelect__cardSlot {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.shopSelect__cardName {
+  font-family: "Orbitron", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+.shopSelect__cardSpecies {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  color: rgba(215, 180, 255, 0.75);
+}
+
+.shopSelect__empty {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.shopSelect__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.shopFloor__avatarTag {
+  margin: 6px 0 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(57, 255, 20, 0.85);
+}
+
+@media (max-width: 720px) {
+  .shopSelect__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shopSelect__merchant {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .shopSelect__actions {
+    flex-direction: column;
+  }
+}

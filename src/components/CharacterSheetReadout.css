@@ -1,0 +1,329 @@
+.pfSheet {
+  --pf-parchment: rgba(232, 210, 168, 0.08);
+  --pf-ink: rgba(245, 235, 210, 0.92);
+  --pf-ink-muted: rgba(210, 190, 155, 0.72);
+  --pf-border: rgba(168, 120, 72, 0.55);
+  --pf-border-strong: rgba(198, 145, 88, 0.85);
+  --pf-accent: rgba(122, 0, 255, 0.35);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  border: 2px solid var(--pf-border-strong);
+  outline: 1px solid rgba(0, 0, 0, 0.65);
+  outline-offset: 3px;
+  background:
+    linear-gradient(180deg, rgba(36, 24, 14, 0.55), rgba(8, 4, 2, 0.82)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 23px,
+      rgba(255, 255, 255, 0.018) 23px,
+      rgba(255, 255, 255, 0.018) 24px
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.pfSheet__banner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--pf-border);
+  background:
+    linear-gradient(90deg, rgba(122, 0, 255, 0.14), transparent 55%),
+    var(--pf-parchment);
+}
+
+.pfSheet__bannerMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pfSheet__bannerEyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.pfSheet__bannerTitle {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--pf-ink);
+  text-transform: uppercase;
+}
+
+.pfSheet__bannerMark {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-width: 72px;
+  padding-left: 12px;
+  border-left: 1px solid var(--pf-border);
+}
+
+.pfSheet__bannerMark span {
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--pf-border-strong), transparent);
+}
+
+.pfSheet__panel {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--pf-border);
+}
+
+.pfSheet__panel--identity {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+
+.pfSheet__panel--physique {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.pfSheet__panel--abilities {
+  padding-bottom: 18px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.pfSheet__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pfSheet__field--name {
+  grid-column: 1 / -1;
+}
+
+.pfSheet__fieldLabel,
+.pfSheet__miniLabel,
+.pfSheet__sectionTitle,
+.pfSheet__sectionHint {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pf-ink-muted);
+}
+
+.pfSheet__fieldValue {
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid var(--pf-border);
+  border-bottom-width: 2px;
+  background: rgba(0, 0, 0, 0.28);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--pf-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pfSheet__field--name .pfSheet__fieldValue {
+  font-size: 24px;
+  letter-spacing: 0.03em;
+}
+
+.pfSheet__miniField {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.pfSheet__miniValue {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--pf-ink);
+}
+
+.pfSheet__sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(168, 120, 72, 0.35);
+}
+
+.pfSheet__sectionTitle {
+  font-size: 13px;
+  color: var(--pf-ink);
+}
+
+.pfSheet__sectionHint {
+  font-size: 9px;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.pfSheet__abilityRow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pfSheet__abilityBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 6px 8px;
+  border: 1px solid var(--pf-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.pfSheet__abilityAbbr {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--pf-ink);
+}
+
+.pfSheet__abilityName {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--pf-ink-muted);
+  line-height: 1.2;
+  min-height: 22px;
+}
+
+.pfSheet__abilityScoreBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 58px;
+  aspect-ratio: 1;
+  margin-top: 2px;
+  border: 2px solid var(--pf-border-strong);
+  background: rgba(8, 4, 2, 0.55);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.pfSheet__abilityScore {
+  font-family: "Orbitron", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #f0e2c8;
+  text-shadow: 0 0 12px rgba(168, 85, 255, 0.25);
+}
+
+.pfSheet__abilityModBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 28px;
+  padding: 2px 10px;
+  border: 2px solid var(--pf-border);
+  border-radius: 999px;
+  background: rgba(36, 24, 14, 0.65);
+}
+
+.pfSheet__abilityMod {
+  font-family: "Orbitron", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #39ff14;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.35);
+}
+
+.pfSheet__abilityRacial {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: rgba(168, 85, 255, 0.85);
+  min-height: 12px;
+}
+
+.pfSheet__abilityRacial--empty {
+  opacity: 0.25;
+}
+
+.pfSheet__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 18px 12px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(210, 190, 155, 0.45);
+}
+
+@media (max-width: 900px) {
+  .pfSheet__panel--identity {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pfSheet__field--name {
+    grid-column: 1 / -1;
+  }
+
+  .pfSheet__abilityRow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .pfSheet__banner {
+    flex-direction: column;
+  }
+
+  .pfSheet__bannerMark {
+    flex-direction: row;
+    min-width: 0;
+    padding-left: 0;
+    padding-top: 8px;
+    border-left: none;
+    border-top: 1px solid var(--pf-border);
+  }
+
+  .pfSheet__bannerMark span {
+    flex: 1;
+    height: 2px;
+  }
+
+  .pfSheet__panel--identity {
+    grid-template-columns: 1fr;
+  }
+
+  .pfSheet__abilityRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

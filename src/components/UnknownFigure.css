@@ -1,0 +1,305 @@
+.unknownFigure {
+  position: relative;
+  width: 200px;
+  height: 360px;
+  margin: -16px auto 0;
+}
+
+.unknownFigure__glow {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 180px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(122, 0, 255, 0.25) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: figureGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes figureGlow {
+  from { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.unknownFigure__img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center 6%;
+  transform: translateY(-24px);
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+  pointer-events: none;
+  user-select: none;
+}
+
+.unknownFigure__nameSlot {
+  position: absolute;
+  top: 118px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  min-width: 140px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.unknownFigure__marks {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.unknownFigure__q {
+  font-family: "Orbitron", sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #39ff14;
+  text-shadow:
+    0 0 12px rgba(57, 255, 20, 0.8),
+    0 0 24px rgba(57, 255, 20, 0.4);
+  animation: qFlicker 2s ease-in-out infinite;
+}
+
+.unknownFigure__q--2 { animation-delay: 0.2s; font-size: 24px; color: #d7b4ff; text-shadow: 0 0 12px rgba(168, 85, 255, 0.8); }
+.unknownFigure__q--3 { animation-delay: 0.4s; }
+.unknownFigure__q--4 { animation-delay: 0.6s; font-size: 20px; opacity: 0.85; }
+
+@keyframes qFlicker {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(-2px); }
+}
+
+.unknownFigure__label {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.3);
+  white-space: nowrap;
+}
+
+.unknownFigure--idCard {
+  width: min(100%, 280px);
+  height: auto;
+  margin: 0;
+}
+
+.unknownFigure__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(57, 255, 20, 0.32);
+  border-radius: 4px;
+  background:
+    linear-gradient(165deg, rgba(10, 18, 14, 0.96), rgba(0, 0, 0, 0.98)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(57, 255, 20, 0.025) 3px,
+      rgba(57, 255, 20, 0.025) 4px
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(142, 207, 255, 0.08),
+    0 0 28px rgba(57, 255, 20, 0.1),
+    0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.unknownFigure__card::before,
+.unknownFigure__card::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.unknownFigure__card::before {
+  top: 6px;
+  left: 6px;
+  border-top: 1px solid rgba(79, 168, 102, 0.55);
+  border-left: 1px solid rgba(79, 168, 102, 0.55);
+}
+
+.unknownFigure__card::after {
+  right: 6px;
+  bottom: 6px;
+  border-right: 1px solid rgba(142, 207, 255, 0.45);
+  border-bottom: 1px solid rgba(142, 207, 255, 0.45);
+}
+
+.unknownFigure__cardSerial {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: rgba(142, 207, 255, 0.38);
+}
+
+.unknownFigure__cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.18);
+}
+
+.unknownFigure__cardMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.unknownFigure__cardOrg {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: rgba(142, 207, 255, 0.72);
+}
+
+.unknownFigure__cardType {
+  font-family: "Orbitron", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(79, 168, 102, 0.9);
+  white-space: nowrap;
+}
+
+.unknownFigure--idCard .unknownFigure__photoFrame {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  border: 1px solid rgba(57, 255, 20, 0.22);
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(142, 207, 255, 0.08) 0%, transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.unknownFigure--idCard .unknownFigure__photoFrame::after {
+  content: "BIOMETRIC SLOT";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 6px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: rgba(142, 207, 255, 0.45);
+  border: 1px solid rgba(142, 207, 255, 0.14);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.unknownFigure--idCard .unknownFigure__glow {
+  top: 46%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(57, 255, 20, 0.16) 0%, transparent 70%);
+}
+
+.unknownFigure--idCard .unknownFigure__img {
+  height: 100%;
+  object-position: center 18%;
+  transform: translateY(16px);
+  mix-blend-mode: screen;
+}
+
+.unknownFigure--idCard .unknownFigure__nameSlot {
+  top: 108px;
+}
+
+.unknownFigure__fields {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.unknownFigure__field {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.unknownFigure__field dt {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.unknownFigure__field dd {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.unknownFigure__fieldVal--warn {
+  color: #4fa866;
+  text-shadow: 0 0 8px rgba(79, 168, 102, 0.35);
+}
+
+.unknownFigure__cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.unknownFigure__stamp {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border: 1px solid rgba(79, 168, 102, 0.45);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: rgba(79, 168, 102, 0.88);
+  background: rgba(57, 255, 20, 0.06);
+  transform: rotate(-2deg);
+}
+
+.unknownFigure__barcode {
+  display: block;
+  height: 22px;
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.72) 0,
+      rgba(255, 255, 255, 0.72) 2px,
+      transparent 2px,
+      transparent 4px,
+      rgba(255, 255, 255, 0.45) 4px,
+      rgba(255, 255, 255, 0.45) 5px,
+      transparent 5px,
+      transparent 9px
+    );
+  opacity: 0.28;
+}
+
+.unknownFigure--idCard .unknownFigure__label {
+  position: static;
+  transform: none;
+  align-self: center;
+  font-size: 8px;
+  color: rgba(142, 207, 255, 0.42);
+}

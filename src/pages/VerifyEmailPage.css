@@ -1,0 +1,355 @@
+.verifyEmail {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+}
+
+.verifyEmail__bg {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(122, 0, 255, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(57, 255, 20, 0.1) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, #030008 80%),
+    url("/City.jpg") center / cover no-repeat;
+  animation: verifyBg 18s ease-in-out infinite alternate;
+}
+
+@keyframes verifyBg {
+  from { transform: scale(1.06); }
+  to { transform: scale(1.1) translate(-1%, -0.5%); }
+}
+
+.verifyEmail__scanlines,
+.verifyEmail__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.verifyEmail__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  z-index: 2;
+  opacity: 0.35;
+}
+
+.verifyEmail__vignette {
+  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.82) 100%);
+  z-index: 1;
+}
+
+.verifyEmail__hud {
+  position: absolute;
+  z-index: 10;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.verifyEmail__hud--tl { top: 24px; left: 28px; }
+.verifyEmail__hud--tr { top: 24px; right: 28px; align-items: flex-end; }
+
+.verifyEmail__hudVal {
+  color: #8ecfff;
+}
+
+.verifyEmail__hudVal--wait {
+  color: #d7b4ff;
+  text-shadow: 0 0 8px rgba(168, 85, 255, 0.5);
+}
+
+.verifyEmail__back {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(168, 85, 255, 0.7);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid rgba(168, 85, 255, 0.25);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.verifyEmail__back:hover {
+  color: #d7b4ff;
+  border-color: rgba(168, 85, 255, 0.55);
+}
+
+.verifyEmail__main {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 32px 32px;
+  gap: 20px;
+}
+
+.verifyEmail__header {
+  text-align: center;
+}
+
+.verifyEmail__eyebrow {
+  margin: 0 0 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: rgba(57, 255, 20, 0.65);
+}
+
+.verifyEmail__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #e8d0ff;
+  text-shadow: 0 0 40px rgba(168, 85, 255, 0.7);
+}
+
+.verifyEmail__subtitle {
+  margin: 8px 0 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(57, 255, 20, 0.7);
+}
+
+.verifyEmail__body {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+.verifyEmail__figureWrap {
+  position: relative;
+  flex-shrink: 0;
+  align-self: start;
+  margin-top: -8px;
+}
+
+.verifyEmail__signal {
+  position: absolute;
+  top: 48px;
+  right: -10px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verifyEmail__signalRing {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #39ff14;
+  border-radius: 50%;
+  animation: verifyRing 2s ease-out infinite;
+}
+
+@keyframes verifyRing {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+.verifyEmail__signalIcon {
+  font-size: 22px;
+  z-index: 1;
+  filter: drop-shadow(0 0 8px #39ff14);
+}
+
+.verifyEmail__panel {
+  padding: 28px;
+  border: 2px solid rgba(122, 0, 255, 0.55);
+  background:
+    linear-gradient(155deg, rgba(35, 0, 65, 0.92), rgba(0, 0, 0, 0.94)),
+    rgba(0, 0, 0, 0.85);
+  box-shadow: 0 0 40px rgba(122, 0, 255, 0.2);
+}
+
+.verifyEmail__panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 18px;
+}
+
+.verifyEmail__dot {
+  width: 7px;
+  height: 7px;
+  background: #39ff14;
+  box-shadow: 0 0 8px #39ff14;
+  animation: verifyDot 1.5s ease-in-out infinite;
+}
+
+@keyframes verifyDot {
+  50% { opacity: 0.4; }
+}
+
+.verifyEmail__statusBox {
+  padding: 16px;
+  border-left: 2px solid rgba(57, 255, 20, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  margin-bottom: 18px;
+}
+
+.verifyEmail__statusLine {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: rgba(57, 255, 20, 0.65);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.verifyEmail__statusLine--blink {
+  animation: verifyBlink 1.2s step-end infinite;
+}
+
+@keyframes verifyBlink {
+  50% { opacity: 0.35; }
+}
+
+.verifyEmail__prompt {
+  color: rgba(168, 85, 255, 0.85);
+  margin-right: 8px;
+}
+
+.verifyEmail__email,
+.verifyEmail__handle {
+  color: #d7b4ff;
+  text-shadow: 0 0 8px rgba(168, 85, 255, 0.4);
+  word-break: break-all;
+}
+
+.verifyEmail__instructions {
+  margin: 0 0 18px;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.verifyEmail__steps {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.verifyEmail__step {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.verifyEmail__step span {
+  display: block;
+  color: rgba(168, 85, 255, 0.8);
+  margin-bottom: 4px;
+  font-size: 10px;
+}
+
+.verifyEmail__resend {
+  width: 100%;
+  padding: 13px 18px;
+  background: rgba(57, 255, 20, 0.06);
+  border: 1px solid rgba(57, 255, 20, 0.45);
+  color: #39ff14;
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.verifyEmail__resend:hover:not(:disabled) {
+  background: rgba(57, 255, 20, 0.15);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+.verifyEmail__resend:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.verifyEmail__error {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 68, 102, 0.45);
+  background: rgba(255, 34, 68, 0.08);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: #ff8899;
+}
+
+.verifyEmail__resent {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(57, 255, 20, 0.4);
+  background: rgba(57, 255, 20, 0.08);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: #39ff14;
+}
+
+.verifyEmail__warning {
+  margin: 0;
+  max-width: 700px;
+  text-align: center;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 13px;
+  color: rgba(255, 100, 120, 0.65);
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 68, 102, 0.25);
+  background: rgba(255, 34, 68, 0.05);
+}
+
+@media (max-width: 800px) {
+  .verifyEmail__body {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .verifyEmail__statusBox {
+    text-align: left;
+  }
+
+  .verifyEmail__steps {
+    flex-direction: column;
+  }
+}
