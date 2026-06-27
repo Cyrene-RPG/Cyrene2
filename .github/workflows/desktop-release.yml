@@ -68,16 +68,29 @@ jobs:
       - name: Stage release assets
         shell: pwsh
         run: |
+          $installer = "release/Cyrene-Setup-$env:APP_VERSION.exe"
+          $blockmap = "$installer.blockmap"
+          if (-not (Test-Path $installer)) {
+            Write-Error "Missing installer: $installer"
+            Get-ChildItem release
+            exit 1
+          }
+          if (-not (Test-Path release/latest.yml) -and -not (Test-Path release/beta.yml)) {
+            Write-Error "Missing update metadata in release/"
+            Get-ChildItem release
+            exit 1
+          }
+
           New-Item -ItemType Directory -Force -Path release-upload | Out-Null
-          Copy-Item "release/Cyrene Setup $env:APP_VERSION.exe" release-upload/
-          Copy-Item "release/Cyrene Setup $env:APP_VERSION.exe.blockmap" release-upload/
+          Copy-Item $installer release-upload/
+          Copy-Item $blockmap release-upload/
           if (Test-Path release/latest.yml) {
             Copy-Item release/latest.yml release-upload/
           }
           if (Test-Path release/beta.yml) {
             Copy-Item release/beta.yml release-upload/
           }
-          Get-ChildItem release-upload
+          Get-ChildItem release-upload | Format-Table Name, Length
 
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
