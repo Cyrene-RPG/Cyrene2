@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import {
+  checkDesktopUpdates,
+  formatUpdateStatus,
+  getDesktopAppInfo,
+  installDesktopUpdate,
+  subscribeDesktopUpdates,
+  type DesktopAppInfo,
+  type DesktopUpdateStatus,
+} from "../lib/desktop-updates";
+import {
   getFullscreen,
   setFullscreen,
   subscribeFullscreenChange,
@@ -14,7 +23,19 @@ type Props = {
 export default function GameSettingsPanel({ open, onClose }: Props) {
   const [fullscreen, setFullscreenOn] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [appInfo, setAppInfo] = useState<DesktopAppInfo | null>(null);
+  const [updateStatus, setUpdateStatus] = useState<DesktopUpdateStatus>({
+    state: "idle",
+  });
+  const [updateBusy, setUpdateBusy] = useState(false);
   const isDesktop = Boolean(window.cyreneDesktop?.isDesktop);
+
+  useEffect(() => {
+    if (!open || !isDesktop) return;
+
+    void getDesktopAppInfo().then(setAppInfo);
+    return subscribeDesktopUpdates(setUpdateStatus);
+  }, [open, isDesktop]);
 
   useEffect(() => {
     if (!open) return;
@@ -48,6 +69,21 @@ export default function GameSettingsPanel({ open, onClose }: Props) {
       setBusy(false);
     }
   }
+
+  async function handleCheckUpdates() {
+    if (updateBusy || !appInfo?.updatesEnabled) return;
+
+    setUpdateBusy(true);
+    try {
+      const info = await checkDesktopUpdates();
+      if (info) setAppInfo(info);
+    } finally {
+      setUpdateBusy(false);
+    }
+  }
+
+  const updateReady = updateStatus.state === "ready";
+  const updateLabel = formatUpdateStatus(updateStatus);
 
   if (!open) return null;
 
@@ -96,6 +132,40 @@ export default function GameSettingsPanel({ open, onClose }: Props) {
               </span>
             </button>
           </div>
+
+          {isDesktop && appInfo?.updatesEnabled ? (
+            <div className="gameSettingsRow gameSettingsRow--stacked">
+              <div className="gameSettingsRow__copy">
+                <span className="gameSettingsRow__label">CLIENT UPDATES</span>
+                <span className="gameSettingsRow__hint">
+                  Version {appInfo.version} · channel {appInfo.channel}
+                </span>
+                <span className="gameSettingsUpdateStatus">{updateLabel}</span>
+              </div>
+              <div className="gameSettingsUpdateActions">
+                {updateReady ? (
+                  <button
+                    type="button"
+                    className="gameSettingsUpdateBtn gameSettingsUpdateBtn--primary"
+                    onClick={() => void installDesktopUpdate()}
+                  >
+                    RESTART &amp; UPDATE
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="gameSettingsUpdateBtn"
+                    disabled={updateBusy || updateStatus.state === "checking"}
+                    onClick={() => void handleCheckUpdates()}
+                  >
+                    {updateBusy || updateStatus.state === "checking"
+                      ? "CHECKING..."
+                      : "CHECK FOR UPDATES"}
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <div className="gameSettingsPanel__footer">

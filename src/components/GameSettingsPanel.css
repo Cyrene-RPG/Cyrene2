@@ -147,6 +147,59 @@
   color: rgba(57, 255, 20, 0.9);
 }
 
+.gameSettingsRow--stacked {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gameSettingsUpdateStatus {
+  display: block;
+  margin-top: 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(0, 212, 255, 0.78);
+}
+
+.gameSettingsUpdateActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gameSettingsUpdateBtn {
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.78);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.gameSettingsUpdateBtn:hover:not(:disabled) {
+  border-color: rgba(0, 212, 255, 0.45);
+  color: rgba(0, 212, 255, 0.92);
+}
+
+.gameSettingsUpdateBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.gameSettingsUpdateBtn--primary {
+  border-color: rgba(57, 255, 20, 0.45);
+  color: rgba(57, 255, 20, 0.92);
+}
+
+.gameSettingsUpdateBtn--primary:hover {
+  border-color: rgba(57, 255, 20, 0.75);
+  background: rgba(57, 255, 20, 0.08);
+}
+
 .gameSettingsPanel__footer {
   display: flex;
   align-items: center;

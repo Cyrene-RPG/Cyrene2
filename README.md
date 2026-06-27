@@ -115,6 +115,41 @@ npm run dist:win
 
 When it finishes, find the installer in the `release/` folder (`.exe` setup file).
 
+### Install Cyrene on your PC (auto-updating)
+
+1. Open [GitHub Releases](https://github.com/Cyrene-RPG/Cyrene2/releases)
+2. Download the latest **`Cyrene Setup x.x.x.exe`** from the release matching your track:
+   - **`main` releases** → stable channel (`latest`)
+   - **`test` releases** → beta channel (pre-releases)
+3. Run the installer and launch Cyrene from the Start Menu or desktop shortcut
+
+The installed app checks GitHub for updates on launch. You can also open **System Settings** from the main menu and use **Check for updates**. When a build is ready, click **Restart & update**.
+
+**How updates ship**
+
+| Branch | Channel | When it publishes |
+| --- | --- | --- |
+| `main` | `latest` (stable) | Every push to `main` |
+| `test` | `beta` (pre-release) | Every push to `test` |
+
+CI builds version `0.1.<build-number>`, uploads the Windows installer to GitHub Releases, and the desktop client pulls from there automatically.
+
+**Publish manually from your machine** (requires a GitHub token with repo access):
+
+```bash
+set GH_TOKEN=your_github_token
+npm run publish:win
+```
+
+Beta track:
+
+```bash
+set GH_TOKEN=your_github_token
+npm run publish:win:beta
+```
+
+Windows may show SmartScreen on first install until the app is code-signed — that is expected for unsigned builds.
+
 ---
 
 ## Scripts
@@ -125,7 +160,10 @@ When it finishes, find the installer in the `release/` folder (`.exe` setup file
 | `npm run dev:web` | Browser dev server only |
 | `npm run build` | Production web build |
 | `npm run app` | Run built app without installer |
-| `npm run dist:win` | Build Windows `.exe` installer |
+| `npm run dist:win` | Build Windows `.exe` installer (stable channel) |
+| `npm run dist:win:beta` | Build Windows installer for beta update channel |
+| `npm run publish:win` | Build + upload stable release to GitHub |
+| `npm run publish:win:beta` | Build + upload beta pre-release to GitHub |
 
 ---
 
@@ -142,6 +180,6 @@ Cyrene2/
 
 ## What's next
 
-- Migrate login/signup pages from Firebase to Supabase Auth
-- Migrate profile and game data to Postgres
+- Code-sign the Windows installer to reduce SmartScreen warnings
+- Migrate remaining legacy HTML pages to React
 - Remove legacy Firebase files when migration is complete

@@ -1,6 +1,12 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  attachUpdaterWindow,
+  checkForUpdatesManually,
+  getAppInfo,
+  installUpdateNow,
+} from "./updater";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROTOCOL = "cyrene";
@@ -88,6 +94,9 @@ function createWindow() {
 
   mainWindow.once("ready-to-show", () => {
     mainWindow?.show();
+    if (mainWindow && !VITE_DEV_SERVER_URL) {
+      attachUpdaterWindow(mainWindow);
+    }
   });
 
   mainWindow.on("enter-full-screen", () => {
@@ -111,6 +120,14 @@ function registerWindowIpc() {
 
   ipcMain.handle("cyrene:window-leave", () => {
     app.quit();
+  });
+
+  ipcMain.handle("cyrene:get-app-info", () => getAppInfo());
+
+  ipcMain.handle("cyrene:check-for-updates", () => checkForUpdatesManually());
+
+  ipcMain.handle("cyrene:install-update", () => {
+    installUpdateNow();
   });
 }
 

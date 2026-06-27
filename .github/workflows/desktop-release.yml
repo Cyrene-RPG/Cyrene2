@@ -1,0 +1,63 @@
+name: Desktop Release
+
+on:
+  push:
+    branches:
+      - main
+      - test
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure release channel
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF_NAME -eq 'test') {
+            echo "CYRENE_UPDATE_CHANNEL=beta" >> $env:GITHUB_ENV
+            echo "RELEASE_SUFFIX= (beta)" >> $env:GITHUB_ENV
+          } else {
+            echo "CYRENE_UPDATE_CHANNEL=latest" >> $env:GITHUB_ENV
+            echo "RELEASE_SUFFIX=" >> $env:GITHUB_ENV
+          }
+
+      - name: Set build version
+        shell: pwsh
+        run: |
+          $version = "0.1.$env:GITHUB_RUN_NUMBER"
+          npm version $version --no-git-tag-version --allow-same-version
+          echo "APP_VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Build and publish installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          npm run build
+          if ($env:CYRENE_UPDATE_CHANNEL -eq 'beta') {
+            npx electron-builder --win --publish always --config.publish.channel=beta --config.publish.releaseType=prerelease
+          } else {
+            npx electron-builder --win --publish always
+          }
+
+      - name: Release summary
+        shell: pwsh
+        run: |
+          Write-Host "Published Cyrene $env:APP_VERSION$env:RELEASE_SUFFIX for $env:GITHUB_REF_NAME."

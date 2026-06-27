@@ -11,10 +11,15 @@
     "preview": "vite preview",
     "app": "npm run build && electron .",
     "app:dev": "vite",
-    "dist:win": "npm run build && electron-builder --win"
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:win:beta": "cross-env CYRENE_UPDATE_CHANNEL=beta npm run build && cross-env CYRENE_UPDATE_CHANNEL=beta electron-builder --win --config.publish.channel=beta --config.publish.releaseType=prerelease",
+    "publish:win": "npm run build && electron-builder --win --publish always",
+    "publish:win:beta": "cross-env CYRENE_UPDATE_CHANNEL=beta npm run build && cross-env CYRENE_UPDATE_CHANNEL=beta electron-builder --win --publish always --config.publish.channel=beta --config.publish.releaseType=prerelease"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8",
+    "electron-log": "^5.4.3",
+    "electron-updater": "^6.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
@@ -27,6 +32,7 @@
     "@vitejs/plugin-react": "^4.5.2",
     "electron": "^36.5.0",
     "electron-builder": "^26.0.12",
+    "cross-env": "^7.0.3",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-electron": "^0.29.0"
@@ -42,15 +48,23 @@
       "dist-electron/**/*",
       "public/favicon.png"
     ],
+    "publish": {
+      "provider": "github",
+      "owner": "Cyrene-RPG",
+      "repo": "Cyrene2"
+    },
+    "generateUpdatesFilesForAllChannels": true,
     "win": {
       "target": [
         "nsis"
-      ],
-      "icon": "public/favicon.png"
+      ]
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }
