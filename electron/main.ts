@@ -89,7 +89,18 @@ function createWindow() {
       devReloadAttempts = 0;
     });
   } else {
-    mainWindow.loadFile(path.join(RENDERER_DIST, "index.html"));
+    const indexPath = path.join(RENDERER_DIST, "index.html");
+    mainWindow.loadFile(indexPath);
+
+    mainWindow.webContents.on("did-fail-load", (_event, errorCode, description) => {
+      console.error("Renderer failed to load:", errorCode, description, indexPath);
+    });
+
+    mainWindow.webContents.on("console-message", (_event, level, message) => {
+      if (level >= 2) {
+        console.error("[renderer]", message);
+      }
+    });
   }
 
   mainWindow.once("ready-to-show", () => {

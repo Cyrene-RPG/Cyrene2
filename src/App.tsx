@@ -111,6 +111,7 @@ export default function App() {
             <Route path="/avatar-forge" element={<AvatarForgePage />} />
           </>
         )}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );}

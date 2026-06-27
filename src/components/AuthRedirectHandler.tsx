@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isDevLandForgeEnabled } from "../lib/dev-shortcuts";
 import { hasPendingLinkUp } from "../lib/app-url";
 import { supabase } from "../lib/supabase";
 
 export default function AuthRedirectHandler() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!supabase) return;
@@ -15,7 +16,7 @@ export default function AuthRedirectHandler() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) return;
 
-      const pathname = window.location.pathname;
+      const pathname = location.pathname;
       const onOnboardingRoute =
         pathname === "/link-up" ||
         pathname === "/avatar-forge" ||
@@ -33,7 +34,7 @@ export default function AuthRedirectHandler() {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [location.pathname, navigate]);
 
   return null;
 }
