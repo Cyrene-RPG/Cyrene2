@@ -17,7 +17,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Cold-resistant intellect",
     description:
       "Elves adapted to frozen climates and arcane study. Their minds stay sharp under pressure and magical strain.",
-    bonuses: ["+1 Intelligence", "+2 Wisdom"],
+    bonuses: ["+1 Intelligence", "+1 Wisdom"],
     disadvantages: ["Less physical durability than warrior elven lines"],
   },
   {
@@ -27,7 +27,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Agile warriors",
     description:
       "A martial elven line built for speed, presence, and battlefield awareness in Cyrene's outer districts.",
-    bonuses: ["+1 Intelligence", "+1 Wisdom", "+1 Charisma"],
+    bonuses: ["+1 Wisdom", "+1 Charisma"],
     disadvantages: ["Less specialized for deep arcane research"],
   },
   // Dwarves — clans
@@ -100,7 +100,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Armored bulk",
     description:
       "Heavily built with layered scales like natural armor. Breath weapons span fire, acid, lightning, or frost.",
-    bonuses: ["+2 Strength", "+2 Constitution", "Elemental breath (varied)"],
+    bonuses: ["Elemental breath (varied)", "Layered natural armor"],
     disadvantages: ["Large frame — poor stealth profile"],
   },
   {
@@ -110,7 +110,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Serpent aggression",
     description:
       "The most serpent-like dragonborn — sinuous, hooded, and often poison or fire breath.",
-    bonuses: ["+2 Strength", "Poison or fire breath"],
+    bonuses: ["Poison or fire breath", "Serpent agility"],
     disadvantages: ["Aggressive temperament — social friction"],
   },
   {
@@ -171,7 +171,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Dual bloodline",
     description:
       "Human adaptability blended with elven arcane sensitivity. Caught between two worlds.",
-    bonuses: ["+1 Dexterity", "+1 Intelligence", "Flexible stat allocation"],
+    bonuses: ["+1 Dexterity", "+1 Charisma", "Flexible stat allocation"],
     disadvantages: ["Identity questioned by purist factions"],
   },
   {
@@ -181,7 +181,7 @@ export const SUBSPECIES: Subspecies[] = [
     tagline: "Conflict forged",
     description:
       "Human resilience merged with orcish force. Built for survival in hostile districts.",
-    bonuses: ["+2 Strength", "+1 Constitution"],
+    bonuses: ["+1 Strength", "+1 Constitution"],
     disadvantages: ["Social prejudice in upper city sectors"],
   },
 ];

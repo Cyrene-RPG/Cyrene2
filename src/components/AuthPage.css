@@ -536,6 +536,61 @@
   font-size: 11px;
 }
 
+.authNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  background: rgba(57, 255, 20, 0.06);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: rgba(57, 255, 20, 0.85);
+  text-align: left;
+}
+
+.authNotice__icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(57, 255, 20, 0.45);
+  color: #39ff14;
+  font-size: 11px;
+}
+
+.authForm__linkRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -2px;
+}
+
+.authForm__linkBtn {
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(0, 212, 255, 0.75);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.authForm__linkBtn:hover:not(:disabled) {
+  color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.45);
+}
+
+.authForm__linkBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .authSuccess {
   text-align: center;
   padding: 20px 10px;

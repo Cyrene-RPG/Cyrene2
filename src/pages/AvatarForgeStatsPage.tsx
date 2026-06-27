@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CharacterSheetReadout from "../components/CharacterSheetReadout";
 import UnknownFigure from "../components/UnknownFigure";
@@ -13,6 +13,7 @@ import { classHasSubclasses, formatClassLabel } from "../data/classes";
 import { getSpeciesById } from "../data/species";
 import { getSubspeciesById } from "../data/subspecies";
 import { useAuth } from "../hooks/useAuth";
+import { useAvatarDraft } from "../hooks/useAvatarDraft";
 import { PROFILE_PATH } from "../lib/avatar-forge-config";
 import { clearPersonalAiHud } from "../lib/avatar-forge-hud";
 import {
@@ -22,20 +23,25 @@ import {
   formatHeight,
   loadAvatarDraft,
   saveAvatarDraft,
+  syncStatDiceRolls,
   validateIdentity,
 } from "../lib/avatar-draft";
-import { saveOperatorAvatar } from "../lib/operator-avatars";
+import { saveOperatorAvatar, getAvatarDisplayName, getAvatarIdentificationNumber, resolveIdentificationForDraft } from "../lib/operator-avatars";
 import {
   ABILITIES,
   ABILITY_LABELS,
   applyAbilityModifiers,
+  clampPreRacialScores,
   createEmptyAbilityScores,
   formatAbilityRoll,
+  formatOperatorIdentificationNumber,
   getSpeciesAbilityModifiers,
   HUMAN_BONUS_POINTS,
   REROLLS_PER_ABILITY,
   rollAbilityScore,
   speciesUsesBonusPoints,
+  trimStatDiceRollsFromIndex,
+  omitStatDiceRoll,
   type Ability,
   type AbilityRollResult,
   type AbilityScores,
@@ -43,7 +49,7 @@ import {
 import "./AvatarForgePage.css";
 
 const TUTORIAL_MESSAGE =
-  "Roll your core abilities — four dice, keep the highest three. Your first roll is free; you may reroll twice if you want. Species bonuses apply after the rolls.";
+  "Roll your core abilities — four dice, keep the highest three. Your first roll is free; you may reroll once if you want. Rolled scores cap at 16 before species bonuses apply.";
 
 type ForgePhase = "rolling" | "human-bonus" | "finalize";
 
@@ -56,7 +62,7 @@ function isClassStepComplete(draft: ReturnType<typeof loadAvatarDraft>) {
 export default function AvatarForgeStatsPage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
-  const draft = loadAvatarDraft();
+  const draft = useAvatarDraft();
 
   const [charIndex, setCharIndex] = useState(0);
   const [messageDone, setMessageDone] = useState(false);
@@ -78,6 +84,11 @@ export default function AvatarForgeStatsPage() {
   const [diceRolling, setDiceRolling] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const currentRollRef = useRef(currentRoll);
+
+  useEffect(() => {
+    currentRollRef.current = currentRoll;
+  }, [currentRoll]);
 
   const displayedMessage = TUTORIAL_MESSAGE.slice(0, charIndex);
   const isTyping = charIndex < TUTORIAL_MESSAGE.length;
@@ -122,6 +133,25 @@ export default function AvatarForgeStatsPage() {
     return () => clearTimeout(timer);
   }, [charIndex]);
 
+  useEffect(() => {
+    if (phase !== "finalize" || !user) return;
+
+    let cancelled = false;
+
+    resolveIdentificationForDraft(loadAvatarDraft())
+      .then((resolved) => {
+        if (cancelled || !resolved) return;
+        saveAvatarDraft({ resolvedIdentificationNumber: resolved });
+      })
+      .catch(() => {
+        // Preview resolution is best-effort; save will retry.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [phase, user]);
+
   function handleRoll() {
     if (phase !== "rolling") return;
 
@@ -139,6 +169,9 @@ export default function AvatarForgeStatsPage() {
         delete next[currentAbility];
         return next;
       });
+      syncStatDiceRolls(
+        omitStatDiceRoll(loadAvatarDraft().statDiceRolls, currentAbility),
+      );
     }
   }
 
@@ -156,6 +189,14 @@ export default function AvatarForgeStatsPage() {
       ...stats,
       [currentAbility]: total,
     }));
+
+    const kept = currentRollRef.current?.kept;
+    if (kept?.length) {
+      syncStatDiceRolls({
+        ...loadAvatarDraft().statDiceRolls,
+        [currentAbility]: kept,
+      });
+    }
   }
 
   function handleNextAbility() {
@@ -169,8 +210,9 @@ export default function AvatarForgeStatsPage() {
       }, createEmptyAbilityScores());
 
       if (speciesUsesBonusPoints(draft.speciesId)) {
-        setHumanRolledBase(base);
-        setWorkingStats(base);
+        const capped = clampPreRacialScores(base);
+        setHumanRolledBase(capped);
+        setWorkingStats(capped);
         setBonusPointsLeft(HUMAN_BONUS_POINTS);
         setPhase("human-bonus");
         return;
@@ -212,6 +254,7 @@ export default function AvatarForgeStatsPage() {
     setRollTrigger(0);
     setDiceRolling(false);
     setDiceResetKey((key) => key + 1);
+    syncStatDiceRolls(undefined);
   }
 
   function handleBack() {
@@ -231,9 +274,16 @@ export default function AvatarForgeStatsPage() {
         delete next[ABILITIES[abilityIndex]];
         return next;
       });
+      syncStatDiceRolls(
+        trimStatDiceRollsFromIndex(
+          loadAvatarDraft().statDiceRolls,
+          abilityIndex,
+        ),
+      );
       return;
     }
 
+    syncStatDiceRolls(undefined);
     navigate("/avatar-forge/class");
   }
 
@@ -251,10 +301,19 @@ export default function AvatarForgeStatsPage() {
 
     try {
       saveAvatarDraft({ stats: finalStats });
-      await saveOperatorAvatar(user.id, loadAvatarDraft());
+      const saved = await saveOperatorAvatar(user.id, loadAvatarDraft());
       clearAvatarDraft();
       clearPersonalAiHud();
-      navigate(PROFILE_PATH, { replace: true });
+      navigate(PROFILE_PATH, {
+        replace: true,
+        state: {
+          savedAvatar: {
+            id: saved.id,
+            name: getAvatarDisplayName(saved),
+            identificationNumber: getAvatarIdentificationNumber(saved),
+          },
+        },
+      });
     } catch (err) {
       setSaveError(
         err instanceof Error ? err.message : "Failed to save avatar.",
@@ -277,6 +336,9 @@ export default function AvatarForgeStatsPage() {
   const heightLabel = formatHeight(draft.heightFt, draft.heightIn);
   const weightLabel =
     draft.weightLb != null ? `${draft.weightLb} lbs` : null;
+  const identificationLabel =
+    draft.resolvedIdentificationNumber ??
+    formatOperatorIdentificationNumber(draft.statDiceRolls).value;
 
   const canRoll =
     phase === "rolling" &&
@@ -466,18 +528,24 @@ export default function AvatarForgeStatsPage() {
                 ) : null}
 
                 {phase === "finalize" && finalStats ? (
-                  <CharacterSheetReadout
-                    characterName={characterName}
-                    lineageLabel={lineageLabel}
-                    classLabel={classLabel}
-                    genderLabel={genderLabel}
-                    operatorLabel={username.toUpperCase()}
-                    stats={finalStats}
-                    speciesModifiers={speciesModifiers}
-                    age={draft.age}
-                    heightLabel={heightLabel !== "—" ? heightLabel : null}
-                    weightLabel={weightLabel}
-                  />
+                  <div className="avatarForge__sheetWrap">
+                    <CharacterSheetReadout
+                      variant="landscape"
+                      characterName={characterName}
+                        lineageLabel={lineageLabel}
+                        classLabel={classLabel}
+                        classId={draft.classId}
+                        subclassId={draft.subclassId}
+                        genderLabel={genderLabel}
+                        operatorLabel={username.toUpperCase()}
+                        identificationNumber={identificationLabel}
+                        stats={finalStats}
+                        speciesModifiers={speciesModifiers}
+                        age={draft.age}
+                        heightLabel={heightLabel !== "—" ? heightLabel : null}
+                        weightLabel={weightLabel}
+                      />
+                  </div>
                 ) : null}
               </div>
             </div>
@@ -531,7 +599,7 @@ export default function AvatarForgeStatsPage() {
                   onClick={handleFinish}
                 >
                   <span className="avatarForge__continueCursor">▶</span>
-                  {saving ? "SAVING..." : "COMPLETE AVATAR"}
+                  {saving ? "SAVING..." : "SAVE TO OPERATOR FILE"}
                 </button>
               ) : null}
             </div>

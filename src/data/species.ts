@@ -14,7 +14,7 @@ export const SPECIES: Species[] = [
     tagline: "Adaptive survivors",
     description:
       "The most widespread species in Cyrene. Humans compensate for a lack of raw biological edge with flexibility, ingenuity, and cultural adaptation.",
-    bonuses: ["+3 stat points to distribute freely"],
+    bonuses: ["+2 stat points to distribute freely"],
     disadvantages: [
       "No built-in physical or magical edge",
       "Must rely on allocation and training to stay competitive",
@@ -34,11 +34,11 @@ export const SPECIES: Species[] = [
   },
   {
     id: "dwarves",
-    name: "Dwarves",
+    name: "Dwarf",
     tagline: "Forged endurance",
     description:
       "Compact, durable, and engineered for survival in hostile environments. Dwarves excel where others break under pressure.",
-    bonuses: ["+1 Strength", "+1 Constitution", "+1 Intelligence"],
+    bonuses: ["+1 Strength", "+1 Constitution"],
     disadvantages: [
       "Reduced mobility compared to agile species",
       "Less suited to stealth and finesse builds",
@@ -46,11 +46,11 @@ export const SPECIES: Species[] = [
   },
   {
     id: "cambions",
-    name: "Cambions",
+    name: "Cambion",
     tagline: "Demonic bloodline",
     description:
       "Born of infernal heritage. Cambions carry unnatural resilience and a presence that unsettles both allies and enemies.",
-    bonuses: ["+1 Constitution", "+1 Strength", "+1 Wisdom", "+1 Intelligence"],
+    bonuses: ["+1 Strength", "+1 Constitution"],
     disadvantages: [
       "Social stigma in certain districts of Cyrene",
       "Volatile reputation can affect faction interactions",
@@ -74,7 +74,7 @@ export const SPECIES: Species[] = [
     tagline: "Dragon descendants",
     description:
       "Scaled inheritors of draconic legacy. Dragonborn project power through sheer physical presence and elemental ancestry.",
-    bonuses: ["+2 Strength", "+2 Constitution"],
+    bonuses: ["+2 Strength"],
     disadvantages: [
       "Large frame draws attention in stealth scenarios",
       "Elemental affinity locked by subspecies later",

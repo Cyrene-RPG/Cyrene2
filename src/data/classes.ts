@@ -22,7 +22,7 @@ export const CLASSES: CharacterClass[] = [
     tagline: "Arcane specialist",
     description:
       "Channelers of structured magic. Mages bend Cyrene's arcane currents through study, ritual, and raw will — then specialize in healing or combat casting.",
-    bonuses: ["+1 Arcana"],
+    bonuses: ["+3 Cybertech"],
   },
   {
     id: "kenzai",
@@ -31,10 +31,10 @@ export const CLASSES: CharacterClass[] = [
     description:
       "Cybernetically enhanced fighters built for direct engagements. Kenzai blend martial discipline with athletic dominance, survival instinct, and digital intrusion.",
     bonuses: [
-      "+1 Athletics",
-      "+1 Acrobatics",
-      "+1 Hacking",
-      "+1 Survival",
+      "+3 Athletics",
+      "+3 Acrobatics",
+      "+3 Hacking",
+      "+3 Survival",
     ],
   },
   {
@@ -43,7 +43,7 @@ export const CLASSES: CharacterClass[] = [
     tagline: "Social operator",
     description:
       "Performers and manipulators who weaponize presence. Bards move crowds, open doors, and read the arcane undertones others miss.",
-    bonuses: ["+1 Performance", "+1 Arcana"],
+    bonuses: ["+3 Performance", "+3 Cybertech"],
   },
   {
     id: "shaman",
@@ -51,7 +51,7 @@ export const CLASSES: CharacterClass[] = [
     tagline: "Spirit broker",
     description:
       "Intermediaries between nature, faith, and the unseen. Shamans draw power from old rites and the living world around Cyrene.",
-    bonuses: ["+1 Arcana", "+1 Nature", "+1 Religion"],
+    bonuses: ["+3 Cybertech", "+3 Survival", "+3 Streetwise"],
   },
   {
     id: "assassin",
@@ -59,7 +59,7 @@ export const CLASSES: CharacterClass[] = [
     tagline: "Ghost in the grid",
     description:
       "Precision predators trained for silence and sudden violence. Assassins excel at infiltration, pursuit, and lethal exits.",
-    bonuses: ["+1 Stealth", "+2 Athletics", "+1 Acrobatics"],
+    bonuses: ["+3 Stealth", "+3 Athletics", "+3 Acrobatics"],
   },
   {
     id: "rigger",
@@ -67,7 +67,7 @@ export const CLASSES: CharacterClass[] = [
     tagline: "Machine whisperer",
     description:
       "Engineers of drones, rigs, and improvised hardware. Riggers keep the city's machines — and their operators — alive under fire.",
-    bonuses: ["+2 Crafting"],
+    bonuses: ["+3 Mechanics", "+3 Drone Control"],
   },
 ];
 
@@ -79,7 +79,7 @@ export const CLASS_SUBCLASSES: ClassSubclass[] = [
     tagline: "Restoration path",
     description:
       "Mages who channel magic into mending flesh, stabilizing trauma, and keeping allies upright in the worst firefights.",
-    bonuses: ["+2 Medicine"],
+    bonuses: ["+3 Cybertech"],
   },
   {
     id: "combat",
@@ -88,7 +88,7 @@ export const CLASS_SUBCLASSES: ClassSubclass[] = [
     tagline: "War casting",
     description:
       "Mages who prioritize destructive output, battlefield control, and arcane dominance over support work.",
-    bonuses: ["+1 Arcana"],
+    bonuses: ["+3 Demolitions"],
   },
 ];
 

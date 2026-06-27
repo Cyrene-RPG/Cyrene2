@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import GameSettingsPanel from "../components/GameSettingsPanel";
 import { useAuth } from "../hooks/useAuth";
 import { leaveCity } from "../lib/desktop-controls";
+import { LOGIN_PATH, SIGNUP_PATH } from "../lib/auth-routes";
 import { PROFILE_PATH } from "../lib/avatar-forge-config";
+import { CITY_PATH } from "../lib/city-config";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "./HomePage.css";
 
@@ -45,8 +47,8 @@ export default function HomePage() {
         {
           id: "enter",
           label: "ENTER CYRENE",
-          sublabel: "Resume your story in the city",
-          href: "/city.html",
+          sublabel: "Open the city map",
+          href: CITY_PATH,
           accent: "green",
         },
         {
@@ -71,14 +73,14 @@ export default function HomePage() {
         id: "signup",
         label: "NEW IDENTITY",
         sublabel: "Register and enter the city",
-        href: "/signup",
+        href: SIGNUP_PATH,
         accent: "green",
       },
       {
         id: "login",
         label: "RESUME SESSION",
         sublabel: "Log in to an existing operator",
-        href: "/login.html",
+        href: LOGIN_PATH,
         accent: "cyan",
       },
       {

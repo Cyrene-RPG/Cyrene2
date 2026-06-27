@@ -1,12 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { isAvatarForgePaused } from "../lib/avatar-forge-config";
-import { goToMainMenu } from "../lib/avatar-forge-nav";
+import { redirectToLogin } from "../lib/auth-routes";
+import {
+  getProfileAvatarPath,
+  isAvatarForgePaused,
+} from "../lib/avatar-forge-config";
+import { CITY_PATH, MISSIONS_PATH } from "../lib/city-config";
+import { goToMainMenu, startNewAvatarForge } from "../lib/avatar-forge-nav";
 import {
   fetchOperatorAvatars,
   getAvatarClassLabel,
   getAvatarDisplayName,
+  getAvatarIdentificationNumber,
   getAvatarInitial,
   MAX_AVATAR_SLOTS,
   type OperatorAvatar,
@@ -15,6 +21,16 @@ import { fetchProfile, signOutOperator, type Profile } from "../lib/profiles";
 import "./ProfilePage.css";
 
 const CHARACTER_SLOTS = MAX_AVATAR_SLOTS;
+
+type SavedAvatarNotice = {
+  id: string;
+  name: string;
+  identificationNumber: string;
+};
+
+type ProfileLocationState = {
+  savedAvatar?: SavedAvatarNotice;
+};
 
 type NavLink = {
   id: string;
@@ -29,15 +45,15 @@ const NAV_LINKS: NavLink[] = [
   {
     id: "city",
     label: "ENTER CYRENE",
-    sublabel: "Resume your story in the city",
-    href: "/city.html",
+    sublabel: "Open the city map and travel between districts",
+    href: CITY_PATH,
     accent: "green",
   },
   {
     id: "missions",
     label: "MISSIONS",
-    sublabel: "Active contracts and objectives",
-    href: "/missions.html",
+    sublabel: "Resume your story and active contracts",
+    href: MISSIONS_PATH,
     accent: "cyan",
   },
   {
@@ -81,6 +97,7 @@ function formatJoinedDate(iso: string) {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, loading } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
@@ -89,6 +106,9 @@ export default function ProfilePage() {
   const [selectedNav, setSelectedNav] = useState(0);
   const [avatars, setAvatars] = useState<OperatorAvatar[]>([]);
   const [avatarsLoading, setAvatarsLoading] = useState(true);
+  const [savedAvatarNotice, setSavedAvatarNotice] = useState<SavedAvatarNotice | null>(
+    () => (location.state as ProfileLocationState | null)?.savedAvatar ?? null,
+  );
 
   const displayName = useMemo(() => {
     if (profile?.username) return profile.username.toUpperCase();
@@ -100,6 +120,13 @@ export default function ProfilePage() {
   }, [profile?.username, user]);
 
   const avatarInitial = displayName.charAt(0) || "?";
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      redirectToLogin(navigate, location.pathname);
+    }
+  }, [loading, location.pathname, navigate, user]);
 
   useEffect(() => {
     if (!user) {
@@ -161,6 +188,12 @@ export default function ProfilePage() {
     };
   }, [user]);
 
+  useEffect(() => {
+    if (!savedAvatarNotice) return;
+    const timer = window.setTimeout(() => setSavedAvatarNotice(null), 8000);
+    return () => clearTimeout(timer);
+  }, [savedAvatarNotice]);
+
   const slotsAvailable = CHARACTER_SLOTS - avatars.length;
 
   function openHref(href: string, external?: boolean) {
@@ -185,67 +218,18 @@ export default function ProfilePage() {
 
   function handleCreateCharacter() {
     if (isAvatarForgePaused() || avatars.length >= CHARACTER_SLOTS) return;
-    navigate("/avatar-forge");
+    startNewAvatarForge(navigate);
   }
 
-  if (loading) {
+  function handleOpenAvatar(avatar: OperatorAvatar) {
+    navigate(getProfileAvatarPath(avatar.id));
+  }
+
+  if (loading || !user) {
     return (
       <div className="profilePage">
         <div className="profilePage__bg" />
         <div className="profilePage__loading">SCANNING OPERATOR FILE...</div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="profilePage">
-        <div className="profilePage__bg" />
-        <div className="profilePage__scanlines" />
-        <div className="profilePage__vignette" />
-
-        <main className="profilePage__main profilePage__main--gate">
-          <header className="profilePage__header">
-            <p className="profilePage__eyebrow">IDENTITY RECORD</p>
-            <h1 className="profilePage__title">OPERATOR FILE</h1>
-            <p className="profilePage__subtitle">No active session</p>
-          </header>
-
-          <div className="profilePage__gate">
-            <p className="profilePage__gateMessage">
-              You need to sign in before your operator file can load. The
-              profile page is here — your session just is not active in this
-              window.
-            </p>
-
-            <div className="profilePage__gateActions">
-              <button
-                type="button"
-                className="profilePage__gateBtn profilePage__gateBtn--green"
-                onClick={() => navigate("/signup")}
-              >
-                NEW IDENTITY
-              </button>
-              <button
-                type="button"
-                className="profilePage__gateBtn profilePage__gateBtn--cyan"
-                onClick={() => {
-                  window.location.href = "/login.html";
-                }}
-              >
-                RESUME SESSION
-              </button>
-              <button
-                type="button"
-                className="profilePage__backBtn"
-                onClick={() => goToMainMenu(navigate)}
-              >
-                <span className="profilePage__backCursor">◀</span>
-                MAIN MENU
-              </button>
-            </div>
-          </div>
-        </main>
       </div>
     );
   }
@@ -368,6 +352,18 @@ export default function ProfilePage() {
               </p>
             ) : null}
 
+            {savedAvatarNotice ? (
+              <div className="profilePage__saveNotice" role="status">
+                <span className="profilePage__saveNoticeLabel">AVATAR REGISTERED</span>
+                <span className="profilePage__saveNoticeName">
+                  {savedAvatarNotice.name}
+                </span>
+                <span className="profilePage__saveNoticeId">
+                  ID {savedAvatarNotice.identificationNumber}
+                </span>
+              </div>
+            ) : null}
+
             <div className="profilePage__slots">
               {Array.from({ length: CHARACTER_SLOTS }, (_, index) => {
                 const avatar = avatars.find(
@@ -378,9 +374,11 @@ export default function ProfilePage() {
 
                 if (avatar) {
                   return (
-                    <div
+                    <button
                       key={avatar.id}
+                      type="button"
                       className="profilePage__slot profilePage__slot--filled"
+                      onClick={() => handleOpenAvatar(avatar)}
                     >
                       <span className="profilePage__slotIndex">
                         {String(index + 1).padStart(2, "0")}
@@ -394,7 +392,11 @@ export default function ProfilePage() {
                       <span className="profilePage__slotMeta">
                         {getAvatarClassLabel(avatar)}
                       </span>
-                    </div>
+                      <span className="profilePage__slotId">
+                        ID {getAvatarIdentificationNumber(avatar)}
+                      </span>
+                      <span className="profilePage__slotAction">CONTINUE</span>
+                    </button>
                   );
                 }
 
@@ -415,7 +417,7 @@ export default function ProfilePage() {
                         ? "FORGE OFFLINE"
                         : slotsFull
                           ? "SLOTS FULL"
-                          : "CREATE AVATAR"}
+                          : "NEW AVATAR"}
                     </span>
                   </button>
                 );

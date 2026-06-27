@@ -133,7 +133,7 @@ const msg = document.getElementById("msg");
 /* ===== 🔐 BLOCK ACCESS ===== */
 onAuthStateChanged(auth, (user)=>{
   if(!user){
-    window.location.href = "login.html";
+    window.location.href = "/login";
   }
 });
 
@@ -190,7 +190,7 @@ window.updatePassword = async function(){
 
     setTimeout(async ()=>{
       await signOut(auth);
-      window.location.href = "login.html";
+      window.location.href = "/login";
     }, 1500);
 
   }catch(e){

@@ -1,0 +1,397 @@
+.gateNine {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #030008;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gateNine::-webkit-scrollbar {
+  display: none;
+}
+
+.gateNine__bg {
+  position: absolute;
+  inset: -5%;
+  background:
+    radial-gradient(ellipse at 30% 62%, rgba(255, 120, 40, 0.12) 0%, transparent 48%),
+    radial-gradient(ellipse at 72% 38%, rgba(0, 212, 255, 0.1) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.82) 100%),
+    url("/City.jpg") center / cover no-repeat;
+}
+
+.gateNine__scanlines,
+.gateNine__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gateNine__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  z-index: 2;
+  opacity: 0.22;
+}
+
+.gateNine__vignette {
+  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.75) 100%);
+  z-index: 1;
+}
+
+.gateNine__loading {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.gateNine__hud {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.gateNine__hud--tl {
+  top: 18px;
+  left: 20px;
+}
+
+.gateNine__hud--tr {
+  top: 18px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.gateNine__hudVal {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.gateNine__hudVal--accent {
+  color: rgba(255, 180, 100, 0.9);
+}
+
+.gateNine__main {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 72px 24px 48px;
+  box-sizing: border-box;
+}
+
+.gateNine__panel {
+  width: min(100%, 680px);
+  max-height: calc(100vh - 120px);
+  padding: 28px 28px 24px;
+  border: 1px solid rgba(255, 160, 60, 0.28);
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 0 32px rgba(255, 120, 40, 0.05),
+    0 0 28px rgba(0, 0, 0, 0.35);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gateNine__panel::-webkit-scrollbar {
+  display: none;
+}
+
+.gateNine__eyebrow {
+  margin: 0 0 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 180, 100, 0.75);
+}
+
+.gateNine__title {
+  margin: 0 0 8px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(22px, 4vw, 32px);
+  letter-spacing: 0.12em;
+  color: #fff;
+}
+
+.gateNine__tag {
+  margin: 0 0 18px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: rgba(168, 85, 255, 0.8);
+}
+
+.gateNine__prose {
+  margin: 0 0 24px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: pre-line;
+}
+
+.gateNine__prose strong {
+  font-weight: 700;
+  color: rgba(255, 210, 150, 0.95);
+}
+
+.gateNine__prose--typing {
+  cursor: pointer;
+}
+
+.gateNine__cursor {
+  display: inline-block;
+  color: rgba(255, 180, 100, 0.95);
+  text-shadow: 0 0 8px rgba(255, 120, 40, 0.65);
+  animation: gateNineBlink 0.8s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes gateNineBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.gateNine__actions--waiting {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.gateNine__btn:disabled {
+  cursor: not-allowed;
+}
+
+.gateNine__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.gateNine__btn {
+  min-width: 140px;
+  flex: 0 1 auto;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.gateNine__btn--enter {
+  border-color: rgba(255, 160, 60, 0.55);
+  background: rgba(255, 120, 40, 0.12);
+  color: rgba(255, 210, 150, 0.95);
+}
+
+.gateNine__btn--enter:hover {
+  background: rgba(255, 120, 40, 0.2);
+  border-color: rgba(255, 180, 80, 0.75);
+}
+
+.gateNine__btn--leave {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.gateNine__btn--leave:hover {
+  border-color: rgba(0, 212, 255, 0.35);
+  color: rgba(0, 212, 255, 0.85);
+}
+
+.gateNine__btn--enter:disabled {
+  opacity: 0.45;
+}
+
+.gateNine__bookingLead {
+  margin: 0 0 22px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.gateNine__bookingSection {
+  margin-bottom: 20px;
+}
+
+.gateNine__bookingHeading {
+  margin: 0 0 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 180, 100, 0.8);
+  text-transform: uppercase;
+}
+
+.gateNine__optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gateNine__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.28);
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.gateNine__option:hover {
+  border-color: rgba(255, 160, 60, 0.35);
+}
+
+.gateNine__option--selected {
+  border-color: rgba(255, 160, 60, 0.55);
+  background: rgba(255, 120, 40, 0.1);
+  box-shadow: inset 0 0 16px rgba(255, 120, 40, 0.06);
+}
+
+.gateNine__optionTitle {
+  font-family: "Orbitron", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 210, 150, 0.95);
+}
+
+.gateNine__optionMeta {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.gateNine__optionDesc {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.gateNine__durationRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gateNine__duration {
+  min-width: 88px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.28);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.gateNine__duration:hover {
+  border-color: rgba(255, 160, 60, 0.35);
+}
+
+.gateNine__duration--selected {
+  border-color: rgba(255, 160, 60, 0.55);
+  background: rgba(255, 120, 40, 0.1);
+  color: rgba(255, 210, 150, 0.95);
+}
+
+.gateNine__upgrade {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+}
+
+.gateNine__upgrade input {
+  margin-top: 3px;
+  accent-color: rgba(255, 160, 60, 0.85);
+}
+
+.gateNine__bookingSummary {
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255, 160, 60, 0.22);
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.gateNine__summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.gateNine__summaryRow:last-child {
+  margin-bottom: 0;
+}
+
+.gateNine__summaryRow--total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: rgba(255, 210, 150, 0.95);
+}
+
+.gateNine__timeNote {
+  margin: 0 0 22px;
+  padding: 12px 14px;
+  border-left: 2px solid rgba(168, 85, 255, 0.45);
+  background: rgba(168, 85, 255, 0.06);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 720px) {
+  .gateNine__actions {
+    flex-direction: column;
+  }
+
+  .gateNine__btn {
+    width: 100%;
+  }
+}

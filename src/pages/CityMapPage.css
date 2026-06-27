@@ -1,0 +1,668 @@
+.cityMapPage {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+}
+
+.cityMapPage__bg {
+  position: absolute;
+  inset: -6%;
+  background:
+    radial-gradient(ellipse at 22% 68%, rgba(0, 212, 255, 0.16) 0%, transparent 45%),
+    radial-gradient(ellipse at 78% 28%, rgba(122, 0, 255, 0.22) 0%, transparent 48%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.72) 100%),
+    url("/City.jpg") center / cover no-repeat;
+}
+
+.cityMapPage__scanlines,
+.cityMapPage__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cityMapPage__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  z-index: 2;
+  opacity: 0.28;
+}
+
+.cityMapPage__vignette {
+  background: radial-gradient(ellipse at center, transparent 18%, rgba(0, 0, 0, 0.78) 100%);
+  z-index: 1;
+}
+
+.cityMapPage__loading {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.cityMapPage__hud {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.cityMapPage__hud--tl {
+  top: 18px;
+  left: 20px;
+}
+
+.cityMapPage__hud--tr {
+  top: 18px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.cityMapPage__hud--bl {
+  bottom: 18px;
+  left: 20px;
+}
+
+.cityMapPage__hud--br {
+  bottom: 18px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.cityMapPage__hudVal--admin {
+  color: rgba(255, 180, 60, 0.9);
+}
+
+.cityMapPage__hudVal {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.cityMapPage__hudVal--accent {
+  color: rgba(57, 255, 20, 0.85);
+}
+
+.cityMapPage__main {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 16px;
+  height: 100%;
+  padding: 44px 28px 24px;
+}
+
+.cityMapPage__header {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cityMapPage__eyebrow {
+  margin: 0 0 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(0, 212, 255, 0.65);
+}
+
+.cityMapPage__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: 0.18em;
+  color: #fff;
+  text-shadow: 0 0 24px rgba(57, 255, 20, 0.25);
+}
+
+.cityMapPage__subtitle {
+  margin: 10px 0 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.cityMapPage__stage {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr) 220px;
+  gap: 16px;
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.cityMapPage__levels {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 12px;
+  border: 1px solid rgba(0, 212, 255, 0.22);
+  background: rgba(0, 0, 0, 0.48);
+  min-height: 0;
+  overflow: auto;
+}
+
+.cityMapPage__levelsTitle {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.cityMapPage__levelsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cityMapPage__levelsGroupLabel {
+  margin: 0 0 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.cityMapPage__levelBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.cityMapPage__levelBtn--upper {
+  border-color: rgba(168, 85, 255, 0.12);
+}
+
+.cityMapPage__levelBtn--active {
+  border-color: rgba(57, 255, 20, 0.55);
+  background: rgba(57, 255, 20, 0.08);
+  box-shadow: inset 0 0 16px rgba(57, 255, 20, 0.06);
+}
+
+.cityMapPage__levelBtn--locked {
+  opacity: 0.55;
+}
+
+.cityMapPage__levelShort {
+  flex-shrink: 0;
+  width: 28px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(0, 212, 255, 0.9);
+}
+
+.cityMapPage__levelBtn--upper .cityMapPage__levelShort {
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.cityMapPage__levelCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cityMapPage__levelName {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cityMapPage__levelMeta {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.cityMapPage__mapHeader {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  right: 14px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.cityMapPage__mapRegion {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.cityMapPage__mapLevelLabel {
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.cityMapPage__block {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  background: rgba(57, 255, 20, 0.04);
+  pointer-events: none;
+}
+
+.cityMapPage__block--offline {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cityMapPage__blockLabel {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.cityMapPage__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(168, 85, 255, 0.28);
+  background: rgba(0, 0, 0, 0.45);
+  min-height: 0;
+  overflow: auto;
+}
+
+.cityMapPage__detailEyebrow {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.cityMapPage__detailTitle {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+.cityMapPage__detailTag {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.cityMapPage__detailBody {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.cityMapPage__detailAction {
+  margin-top: auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(57, 255, 20, 0.5);
+  background: rgba(57, 255, 20, 0.08);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #39ff14;
+  cursor: pointer;
+}
+
+.cityMapPage__detailAction:hover {
+  background: rgba(57, 255, 20, 0.14);
+}
+
+.cityMapPage__pin--selected .cityMapPage__pinDot {
+  transform: scale(1.25);
+}
+
+.cityMapPage__pin--selected .cityMapPage__pinLabel {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+}
+
+.cityMapPage__mapShell {
+  position: relative;
+  min-height: 0;
+  border: 1px solid rgba(0, 212, 255, 0.28);
+  background:
+    radial-gradient(circle at 50% 55%, rgba(0, 212, 255, 0.08), transparent 55%),
+    rgba(0, 0, 0, 0.42);
+  box-shadow:
+    inset 0 0 40px rgba(0, 212, 255, 0.06),
+    0 0 30px rgba(122, 0, 255, 0.12);
+  overflow: hidden;
+}
+
+.cityMapPage__mapGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+}
+
+.cityMapPage__mapPulse {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  box-shadow: 0 0 40px rgba(57, 255, 20, 0.08);
+  animation: cityMapPulse 4s ease-in-out infinite;
+}
+
+@keyframes cityMapPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+.cityMapPage__pin {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 132px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.cityMapPage__pinDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  box-shadow: 0 0 14px currentColor;
+}
+
+.cityMapPage__pinLabel {
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+.cityMapPage__pinTag {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.cityMapPage__pin--open {
+  color: #39ff14;
+}
+
+.cityMapPage__pin--story {
+  color: #00d4ff;
+}
+
+.cityMapPage__pin--locked {
+  color: rgba(255, 255, 255, 0.35);
+  cursor: default;
+}
+
+.cityMapPage__pin--open:hover .cityMapPage__pinDot,
+.cityMapPage__pin--story:hover .cityMapPage__pinDot,
+.cityMapPage__pin--locked:hover .cityMapPage__pinDot {
+  transform: scale(1.1);
+}
+
+.cityMapPage__pin--locked {
+  cursor: pointer;
+}
+
+.cityMapPage__pin--lodging {
+  z-index: 4;
+  width: 78px;
+  gap: 2px;
+}
+
+.cityMapPage__pin--lodging .cityMapPage__pinDot {
+  width: 7px;
+  height: 7px;
+  border-width: 1.5px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.cityMapPage__pin--lodging .cityMapPage__pinLabel {
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  max-width: 72px;
+}
+
+.cityMapPage__pin--lodging .cityMapPage__pinTag {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: rgba(168, 85, 255, 0.75);
+}
+
+.cityMapPage__pin--lodging.cityMapPage__pin--selected .cityMapPage__pinLabel {
+  color: rgba(168, 85, 255, 0.95);
+}
+
+.cityMapPage__pin--lodging.cityMapPage__pin--admin {
+  color: rgba(255, 180, 60, 0.75);
+  cursor: pointer;
+}
+
+.cityMapPage__pin--admin.cityMapPage__pin--locked {
+  color: rgba(255, 180, 60, 0.55);
+  cursor: pointer;
+}
+
+.cityMapPage__detailAction--admin {
+  border-color: rgba(255, 180, 60, 0.55);
+  background: rgba(255, 120, 40, 0.1);
+  color: rgba(255, 200, 120, 0.95);
+}
+
+.cityMapPage__detailAction--admin:hover {
+  background: rgba(255, 120, 40, 0.16);
+}
+
+.cityMapPage__detail .cityMapPage__legendList {
+  margin-top: 8px;
+}
+
+.cityMapPage__legendList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.cityMapPage__legendList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cityMapPage__legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cityMapPage__legendSwatch--open {
+  background: #39ff14;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.8);
+}
+
+.cityMapPage__legendSwatch--story {
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+}
+
+.cityMapPage__legendSwatch--locked {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.cityMapPage__notice {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  background: rgba(0, 212, 255, 0.08);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  line-height: 1.55;
+  color: rgba(0, 212, 255, 0.92);
+}
+
+.cityMapPage__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.cityMapPage__backBtn,
+.cityMapPage__missionsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 180px;
+  padding: 11px 16px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.cityMapPage__backBtn {
+  border-color: rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cityMapPage__backBtn:hover {
+  border-color: rgba(168, 85, 255, 0.85);
+  background: rgba(122, 0, 255, 0.12);
+}
+
+.cityMapPage__missionsBtn {
+  border-color: rgba(57, 255, 20, 0.5);
+  background: rgba(57, 255, 20, 0.08);
+  color: #39ff14;
+}
+
+.cityMapPage__missionsBtn:hover {
+  background: rgba(57, 255, 20, 0.14);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.15);
+}
+
+@media (max-width: 1100px) {
+  .cityMapPage__stage {
+    grid-template-columns: 148px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .cityMapPage__detail {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .cityMapPage__stage {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  .cityMapPage__levels {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .cityMapPage__levelsGroup {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .cityMapPage__mapShell {
+    min-height: 420px;
+  }
+
+  .cityMapPage__main {
+    overflow: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .cityMapPage__actions {
+    flex-direction: column;
+  }
+
+  .cityMapPage__backBtn,
+  .cityMapPage__missionsBtn {
+    width: 100%;
+  }
+}

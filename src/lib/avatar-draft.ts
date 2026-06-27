@@ -1,6 +1,14 @@
 const DRAFT_KEY = "cyrene_avatar_draft";
+export const AVATAR_DRAFT_CHANGE_EVENT = "cyrene:avatar-draft-change";
 
-import type { AbilityScores } from "./avatar-stats";
+function notifyDraftChange(draft: AvatarDraft) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(
+    new CustomEvent<AvatarDraft>(AVATAR_DRAFT_CHANGE_EVENT, { detail: draft }),
+  );
+}
+
+import type { AbilityScores, StatDiceRolls } from "./avatar-stats";
 
 export const AVATAR_GENDERS = [
   { value: "male", label: "Male" },
@@ -21,6 +29,8 @@ export type AvatarDraft = {
   classId: string | null;
   subclassId: string | null;
   stats: AbilityScores | null;
+  statDiceRolls?: StatDiceRolls;
+  resolvedIdentificationNumber?: string;
   age: number | null;
   weightLb: number | null;
   heightFt: number | null;
@@ -85,11 +95,32 @@ export function loadAvatarDraft(): AvatarDraft {
 export function saveAvatarDraft(patch: Partial<AvatarDraft>) {
   const next = { ...loadAvatarDraft(), ...patch };
   sessionStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+  notifyDraftChange(next);
   return next;
+}
+
+export function clearStatDiceRolls() {
+  const next = loadAvatarDraft();
+  delete next.statDiceRolls;
+  delete next.resolvedIdentificationNumber;
+  sessionStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+  notifyDraftChange(next);
+  return next;
+}
+
+export function syncStatDiceRolls(rolls: StatDiceRolls | undefined) {
+  if (!rolls || Object.keys(rolls).length === 0) {
+    return clearStatDiceRolls();
+  }
+  return saveAvatarDraft({
+    statDiceRolls: rolls,
+    resolvedIdentificationNumber: undefined,
+  });
 }
 
 export function clearAvatarDraft() {
   sessionStorage.removeItem(DRAFT_KEY);
+  notifyDraftChange({ ...defaultDraft });
 }
 
 const NAME_PATTERN = /^[a-zA-Z0-9][a-zA-Z0-9' -]{1,23}$/;

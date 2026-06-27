@@ -1,0 +1,399 @@
+.profileAvatarPage {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+}
+
+.profileAvatarPage__bg {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(ellipse at 20% 45%, rgba(122, 0, 255, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 35%, rgba(0, 212, 255, 0.1) 0%, transparent 45%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0.72) 100%),
+    url("/City.jpg") center / cover no-repeat;
+}
+
+.profileAvatarPage__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.14) 2px,
+    rgba(0, 0, 0, 0.14) 4px
+  );
+  z-index: 2;
+  opacity: 0.25;
+}
+
+.profileAvatarPage__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(0, 0, 0, 0.78) 100%);
+  z-index: 1;
+}
+
+.profileAvatarPage__loading {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: rgba(0, 212, 255, 0.75);
+}
+
+.profileAvatarPage__hud {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.profileAvatarPage__hud--tl {
+  top: 18px;
+  left: 20px;
+}
+
+.profileAvatarPage__hud--tr {
+  top: 18px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.profileAvatarPage__hudVal {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.profileAvatarPage__hudVal--accent {
+  color: rgba(57, 255, 20, 0.85);
+}
+
+.profileAvatarPage__main {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  height: 100%;
+  padding: 44px 28px 24px;
+  overflow: hidden;
+}
+
+.profileAvatarPage__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(100%, 1480px);
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.profileAvatarPage__toolbarMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profileAvatarPage__purgeBtn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 80, 120, 0.55);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.profileAvatarPage__purgeBtn:hover {
+  color: rgba(255, 80, 120, 0.95);
+}
+
+.profileAvatarPage__eyebrow {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 212, 255, 0.65);
+}
+
+.profileAvatarPage__sheetWrap {
+  width: min(100%, 1480px);
+  margin: 0 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 4px 0 8px;
+}
+
+.profileAvatarPage__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.profileAvatarPage__backBtn,
+.profileAvatarPage__continueBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+  justify-content: center;
+  padding: 11px 16px;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.profileAvatarPage__backBtn {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.profileAvatarPage__backBtn:hover {
+  border-color: rgba(168, 85, 255, 0.85);
+  background: rgba(122, 0, 255, 0.12);
+}
+
+.profileAvatarPage__continueBtn {
+  border-color: rgba(57, 255, 20, 0.5);
+  color: #39ff14;
+}
+
+.profileAvatarPage__continueBtn:hover {
+  background: rgba(57, 255, 20, 0.1);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.15);
+}
+
+.profileAvatarPage__backCursor,
+.profileAvatarPage__continueCursor {
+  font-size: 11px;
+}
+
+.profileAvatarPage__deleteOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.profileAvatarPage__deleteDialog {
+  width: min(520px, 100%);
+  border: 1px solid rgba(255, 80, 120, 0.45);
+  background:
+    linear-gradient(180deg, rgba(28, 8, 16, 0.96), rgba(4, 4, 8, 0.98)),
+    rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 0 40px rgba(255, 80, 120, 0.16),
+    inset 0 0 30px rgba(255, 80, 120, 0.03);
+}
+
+.profileAvatarPage__deleteHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid rgba(255, 80, 120, 0.25);
+}
+
+.profileAvatarPage__deleteDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5078;
+  box-shadow: 0 0 10px rgba(255, 80, 120, 0.8);
+  flex-shrink: 0;
+}
+
+.profileAvatarPage__deleteEyebrow {
+  margin: 0 0 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 80, 120, 0.78);
+}
+
+.profileAvatarPage__deleteTitle {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  color: #fff;
+}
+
+.profileAvatarPage__deleteBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+}
+
+.profileAvatarPage__deleteLead {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.profileAvatarPage__deleteLead strong {
+  color: rgba(255, 80, 120, 0.95);
+  font-weight: 600;
+}
+
+.profileAvatarPage__deleteLabel {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.profileAvatarPage__deleteInput {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 80, 120, 0.35);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.profileAvatarPage__deleteInput:focus {
+  outline: none;
+  border-color: rgba(255, 80, 120, 0.85);
+  box-shadow: 0 0 0 1px rgba(255, 80, 120, 0.25);
+}
+
+.profileAvatarPage__deleteInput:disabled {
+  opacity: 0.6;
+}
+
+.profileAvatarPage__deleteHint {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.profileAvatarPage__deleteHint span {
+  color: rgba(255, 80, 120, 0.85);
+}
+
+.profileAvatarPage__deleteError {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: rgba(255, 80, 120, 0.95);
+}
+
+.profileAvatarPage__deleteFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 22px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profileAvatarPage__deleteCancelBtn,
+.profileAvatarPage__deleteConfirmBtn {
+  min-width: 130px;
+  padding: 11px 16px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.profileAvatarPage__deleteCancelBtn {
+  border-color: rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.profileAvatarPage__deleteCancelBtn:hover:not(:disabled) {
+  border-color: rgba(168, 85, 255, 0.85);
+  background: rgba(122, 0, 255, 0.12);
+}
+
+.profileAvatarPage__deleteConfirmBtn {
+  border-color: rgba(255, 80, 120, 0.55);
+  background: rgba(255, 80, 120, 0.08);
+  color: rgba(255, 140, 165, 0.95);
+}
+
+.profileAvatarPage__deleteConfirmBtn:hover:not(:disabled) {
+  background: rgba(255, 80, 120, 0.16);
+  box-shadow: 0 0 20px rgba(255, 80, 120, 0.15);
+}
+
+.profileAvatarPage__deleteCancelBtn:disabled,
+.profileAvatarPage__deleteConfirmBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .profileAvatarPage__main {
+    padding-top: 52px;
+    overflow: auto;
+  }
+
+  .profileAvatarPage__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profileAvatarPage__deleteFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profileAvatarPage__deleteCancelBtn,
+  .profileAvatarPage__deleteConfirmBtn {
+    width: 100%;
+  }
+
+  .profileAvatarPage__actions {
+    justify-content: stretch;
+  }
+
+  .profileAvatarPage__backBtn,
+  .profileAvatarPage__continueBtn {
+    flex: 1;
+    min-width: 0;
+  }
+}

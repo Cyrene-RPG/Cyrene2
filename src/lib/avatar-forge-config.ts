@@ -2,6 +2,10 @@ export const AVATAR_FORGE_PAUSED = false;
 
 export const PROFILE_PATH = "/profile";
 
+export function getProfileAvatarPath(avatarId: string) {
+  return `/profile/avatars/${avatarId}`;
+}
+
 export function isAvatarForgePaused() {
   return AVATAR_FORGE_PAUSED;
 }

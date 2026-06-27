@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import AuthRedirectHandler from "./components/AuthRedirectHandler";
 import ForgePausedRedirect from "./components/ForgePausedRedirect";
 import DevBootRedirect from "./components/DevBootRedirect";
@@ -18,8 +18,14 @@ import MagicShopInteriorPage from "./pages/MagicShopInteriorPage";
 import MagicShopAvatarSelectPage from "./pages/MagicShopAvatarSelectPage";
 import MagicShopPage from "./pages/MagicShopPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProfileAvatarPage from "./pages/ProfileAvatarPage";
+import CityMapPage from "./pages/CityMapPage";
+import CityLocationPage from "./pages/CityLocationPage";
+import GateNineMotelPage from "./pages/locations/GateNineMotelPage";
+import MissionsPage from "./pages/MissionsPage";
 import HomePage from "./pages/HomePage";
 import LinkUpPage from "./pages/LinkUpPage";
+import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 function removeBootSplash() {
@@ -61,10 +67,21 @@ export default function App() {
       <AuthRedirectHandler />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login.html" element={<Navigate to="/login" replace />} />
+        <Route path="/signup.html" element={<Navigate to="/signup" replace />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/link-up" element={<LinkUpPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/avatars/:avatarId" element={<ProfileAvatarPage />} />
+        <Route path="/city" element={<CityMapPage />} />
+        <Route
+          path="/city/locations/gate-nine-motel"
+          element={<GateNineMotelPage />}
+        />
+        <Route path="/city/locations/:locationId" element={<CityLocationPage />} />
+        <Route path="/missions" element={<MissionsPage />} />
         <Route path="/magic-shop/browse" element={<MagicShopInteriorPage />} />
         <Route
           path="/magic-shop/select-avatar"

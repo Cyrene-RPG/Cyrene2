@@ -22,6 +22,15 @@ function formatAuthError(message: string): string {
   if (lower.includes("invalid email")) {
     return "Invalid email address.";
   }
+  if (
+    lower.includes("invalid login credentials") ||
+    lower.includes("invalid credentials")
+  ) {
+    return "Invalid email or access key.";
+  }
+  if (lower.includes("email not confirmed")) {
+    return "Confirm your email before signing in.";
+  }
   if (lower.includes("username")) {
     return "That operator name is already taken.";
   }
@@ -94,6 +103,36 @@ export async function signUp({
   return {
     needsEmailConfirmation,
   };
+}
+
+export async function signIn(email: string, password: string) {
+  if (!supabase) {
+    throw new Error("Database offline — Supabase is not configured.");
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.trim().toLowerCase(),
+    password,
+  });
+
+  if (error) throw new Error(formatAuthError(error.message));
+}
+
+export async function sendPasswordReset(email: string) {
+  if (!supabase) {
+    throw new Error("Database offline — Supabase is not configured.");
+  }
+
+  const trimmedEmail = email.trim().toLowerCase();
+  if (!trimmedEmail) {
+    throw new Error("Enter your uplink address first.");
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
+    redirectTo: getAuthRedirectUrl("/profile"),
+  });
+
+  if (error) throw new Error(formatAuthError(error.message));
 }
 
 export async function resendConfirmationEmail(email: string) {

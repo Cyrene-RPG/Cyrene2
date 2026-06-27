@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { useAuth } from "../hooks/useAuth";
 import { signUp } from "../lib/auth";
+import { LOGIN_PATH } from "../lib/auth-routes";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "../components/AuthPage.css";
 
@@ -92,7 +93,7 @@ export default function SignupPage() {
       footer={
         <>
           EXISTING OPERATOR?{" "}
-          <Link to="/login.html">RESUME SESSION →</Link>
+          <Link to={LOGIN_PATH}>RESUME SESSION →</Link>
         </>
       }
     >

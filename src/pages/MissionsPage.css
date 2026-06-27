@@ -1,0 +1,327 @@
+.missionsPage {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+}
+
+.missionsPage__bg {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(ellipse at 18% 62%, rgba(122, 0, 255, 0.24) 0%, transparent 48%),
+    radial-gradient(ellipse at 82% 34%, rgba(57, 255, 20, 0.1) 0%, transparent 42%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.88) 100%),
+    url("/City.jpg") center / cover no-repeat;
+}
+
+.missionsPage__scanlines,
+.missionsPage__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.missionsPage__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  z-index: 2;
+  opacity: 0.3;
+}
+
+.missionsPage__vignette {
+  background: radial-gradient(ellipse at center, transparent 24%, rgba(0, 0, 0, 0.78) 100%);
+  z-index: 1;
+}
+
+.missionsPage__loading {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(57, 255, 20, 0.75);
+}
+
+.missionsPage__hud {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.missionsPage__hud--tl {
+  top: 18px;
+  left: 20px;
+}
+
+.missionsPage__hud--tr {
+  top: 18px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.missionsPage__hudVal {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.missionsPage__hudVal--accent {
+  color: rgba(57, 255, 20, 0.85);
+}
+
+.missionsPage__main {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  height: 100%;
+  padding: 44px 28px 24px;
+  overflow: auto;
+}
+
+.missionsPage__header {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.missionsPage__eyebrow {
+  margin: 0 0 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(168, 85, 255, 0.75);
+}
+
+.missionsPage__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: 0.16em;
+  color: #39ff14;
+  text-shadow: 0 0 18px rgba(57, 255, 20, 0.35);
+}
+
+.missionsPage__subtitle {
+  margin: 10px auto 0;
+  max-width: 520px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.missionsPage__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  align-content: start;
+}
+
+.missionsPage__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 148px;
+  padding: 18px 20px;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 0 16px rgba(168, 85, 255, 0.12),
+    inset 0 0 18px rgba(168, 85, 255, 0.05);
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.missionsPage__cardTitle {
+  font-family: "Orbitron", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #39ff14;
+}
+
+.missionsPage__cardDesc {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.missionsPage__cardAction {
+  margin-top: auto;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 212, 255, 0.85);
+}
+
+.missionsPage__card--active:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 255, 0.85);
+  box-shadow:
+    0 0 22px rgba(168, 85, 255, 0.18),
+    inset 0 0 18px rgba(168, 85, 255, 0.08);
+}
+
+.missionsPage__card--locked,
+.missionsPage__card--hidden {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  cursor: default;
+}
+
+.missionsPage__card--locked .missionsPage__cardTitle,
+.missionsPage__card--hidden .missionsPage__cardTitle {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.missionsPage__card--hidden .missionsPage__cardTitle {
+  letter-spacing: 0.28em;
+}
+
+.missionsPage__card--locked .missionsPage__cardDesc {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.missionsPage__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.missionsPage__backBtn,
+.missionsPage__cityBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 180px;
+  padding: 11px 16px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.missionsPage__backBtn {
+  border-color: rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.missionsPage__backBtn:hover {
+  border-color: rgba(168, 85, 255, 0.85);
+  background: rgba(122, 0, 255, 0.12);
+}
+
+.missionsPage__cityBtn {
+  border-color: rgba(0, 212, 255, 0.45);
+  background: rgba(0, 212, 255, 0.08);
+  color: rgba(0, 212, 255, 0.92);
+}
+
+.missionsPage__cityBtn:hover {
+  background: rgba(0, 212, 255, 0.14);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.12);
+}
+
+.missionsPage__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.missionsPage__dialog {
+  width: min(420px, 100%);
+  padding: 24px 20px;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 0 24px rgba(168, 85, 255, 0.18),
+    inset 0 0 18px rgba(168, 85, 255, 0.05);
+  text-align: center;
+}
+
+.missionsPage__dialogTitle {
+  margin: 0 0 12px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  color: #fff;
+}
+
+.missionsPage__dialogText {
+  margin: 0 0 20px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.missionsPage__dialogActions {
+  display: flex;
+  gap: 12px;
+}
+
+.missionsPage__dialogBtn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.missionsPage__dialogBtn--ghost {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.missionsPage__dialogBtn--primary {
+  border-color: rgba(57, 255, 20, 0.55);
+  background: rgba(57, 255, 20, 0.08);
+  color: #39ff14;
+}
+
+@media (max-width: 720px) {
+  .missionsPage__actions {
+    flex-direction: column;
+  }
+
+  .missionsPage__backBtn,
+  .missionsPage__cityBtn {
+    width: 100%;
+  }
+}

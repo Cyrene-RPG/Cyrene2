@@ -302,16 +302,22 @@
 }
 
 .avatarForge__panel--finalize {
-  max-height: calc(100vh - 168px);
-  padding-bottom: 20px;
+  max-height: none;
+  padding: 12px 16px 10px;
 }
 
 .avatarForge__panel--finalize .avatarForge__message {
   display: none;
 }
 
-.avatarForge__panel--finalize .avatarForge__panelHeader {
-  margin-bottom: 10px;
+.avatarForge__panel--finalize .avatarForge__panelHeader,
+.avatarForge__panel--finalize .avatarForge__speciesHeader {
+  display: none;
+}
+
+.avatarForge__panel--finalize .avatarForge__speciesSection {
+  flex: 1;
+  min-height: 0;
 }
 
 .avatarForge__panelHeader {
@@ -949,16 +955,36 @@
 
 .avatarForge__workArea--finalize {
   grid-template-columns: minmax(0, 1fr);
-  align-items: start;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.avatarForge__sheetWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: stretch;
+}
+
+.avatarForge__sheetWrap .pfSpread {
+  flex: none;
+  width: 100%;
 }
 
 .avatarForge__main--finalize {
-  gap: 12px;
-  padding-bottom: 36px;
+  gap: 8px;
+  padding: 32px 48px 12px;
 }
 
 .avatarForge__main--finalize .avatarForge__header {
-  padding-bottom: 6px;
+  padding-bottom: 4px;
+  gap: 2px;
+}
+
+.avatarForge__main--finalize .avatarForge__title {
+  font-size: clamp(20px, 2.4vw, 28px);
 }
 
 .avatarForge__main--finalize .avatarForge__subtitle {
@@ -1206,7 +1232,7 @@
 
 .avatarForge--personalAi .avatarForge .unknownFigure {
   margin-top: 0;
-  width: min(100%, 280px);
+  width: min(100%, 360px);
   height: auto;
 }
 

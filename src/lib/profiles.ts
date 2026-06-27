@@ -4,6 +4,7 @@ export type Profile = {
   id: string;
   username: string;
   created_at: string;
+  is_admin?: boolean;
 };
 
 export async function fetchProfile(userId: string): Promise<Profile | null> {
@@ -11,7 +12,7 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, username, created_at")
+    .select("id, username, created_at, is_admin")
     .eq("id", userId)
     .maybeSingle();
 

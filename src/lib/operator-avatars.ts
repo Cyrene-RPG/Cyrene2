@@ -8,13 +8,19 @@ import {
   classHasSubclasses,
   formatClassLabel,
 } from "../data/classes";
-import type { AbilityScores } from "./avatar-stats";
-import { hasCompleteAbilityScores } from "./avatar-stats";
+import type { AbilityScores, StatDiceRolls } from "./avatar-stats";
+import {
+  formatOperatorIdentificationNumber,
+  hasCompleteAbilityScores,
+  resolveUniqueIdentificationNumber,
+} from "./avatar-stats";
 import { SPECIES } from "../data/species";
 import { getSubspeciesById } from "../data/subspecies";
 import { supabase } from "./supabase";
 
 export const MAX_AVATAR_SLOTS = 3;
+
+const ACTIVE_AVATAR_KEY = "cyrene_active_avatar_id";
 
 export type OperatorAvatar = {
   id: string;
@@ -27,6 +33,8 @@ export type OperatorAvatar = {
   classId: string | null;
   subclassId?: string | null;
   stats?: AbilityScores;
+  statDiceRolls?: StatDiceRolls;
+  identificationNumber?: string;
   speciesId: string;
   subspeciesId: string | null;
   age?: number | null;
@@ -49,6 +57,8 @@ type OperatorAvatarRow = {
   species_id: string;
   subspecies_id: string | null;
   stats: AbilityScores;
+  stat_dice_rolls: StatDiceRolls | null;
+  identification_number: string | null;
   age: number | null;
   weight_lb: number | null;
   height_ft: number | null;
@@ -75,6 +85,88 @@ function writeAll(userId: string, avatars: OperatorAvatar[]) {
   localStorage.setItem(storageKey(userId), JSON.stringify(avatars));
 }
 
+function activeAvatarStorageKey(userId: string) {
+  return `${ACTIVE_AVATAR_KEY}_${userId}`;
+}
+
+function buildIdentificationFields(
+  draft: AvatarDraft,
+  taken: Set<string>,
+) {
+  const { complete } = formatOperatorIdentificationNumber(draft.statDiceRolls);
+  if (!complete || !draft.statDiceRolls) {
+    return {
+      statDiceRolls: draft.statDiceRolls,
+      identificationNumber: null as string | null,
+    };
+  }
+
+  const identificationNumber = resolveUniqueIdentificationNumber(
+    draft.statDiceRolls,
+    taken,
+  );
+
+  return {
+    statDiceRolls: draft.statDiceRolls,
+    identificationNumber,
+  };
+}
+
+function collectLocalIdentificationNumbers(): Set<string> {
+  const taken = new Set<string>();
+
+  for (let index = 0; index < localStorage.length; index += 1) {
+    const key = localStorage.key(index);
+    if (!key?.startsWith("cyrene_operator_avatars_")) continue;
+
+    try {
+      const avatars = JSON.parse(localStorage.getItem(key) ?? "[]") as OperatorAvatar[];
+      if (!Array.isArray(avatars)) continue;
+
+      for (const avatar of avatars) {
+        if (avatar.identificationNumber) {
+          taken.add(avatar.identificationNumber);
+        }
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  return taken;
+}
+
+export async function fetchTakenIdentificationNumbers(): Promise<Set<string>> {
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("operator_avatars")
+      .select("identification_number")
+      .not("identification_number", "is", null);
+
+    if (error) throw new Error(error.message);
+
+    const taken = new Set<string>();
+    for (const row of data ?? []) {
+      const value = (row as { identification_number: string | null })
+        .identification_number;
+      if (value) taken.add(value);
+    }
+    return taken;
+  }
+
+  return collectLocalIdentificationNumbers();
+}
+
+export async function resolveIdentificationForDraft(
+  draft: AvatarDraft,
+): Promise<string | null> {
+  const { complete } = formatOperatorIdentificationNumber(draft.statDiceRolls);
+  if (!complete || !draft.statDiceRolls) return null;
+
+  const taken = await fetchTakenIdentificationNumbers();
+  return resolveUniqueIdentificationNumber(draft.statDiceRolls, taken);
+}
+
 function rowToAvatar(row: OperatorAvatarRow): OperatorAvatar {
   return {
     id: row.id,
@@ -87,6 +179,8 @@ function rowToAvatar(row: OperatorAvatarRow): OperatorAvatar {
     classId: row.class_id,
     subclassId: row.subclass_id,
     stats: row.stats,
+    statDiceRolls: row.stat_dice_rolls ?? undefined,
+    identificationNumber: row.identification_number ?? undefined,
     speciesId: row.species_id,
     subspeciesId: row.subspecies_id,
     age: row.age,
@@ -101,7 +195,13 @@ function draftToInsertRow(
   userId: string,
   draft: AvatarDraft,
   slotIndex: number,
+  taken: Set<string>,
 ) {
+  const { statDiceRolls, identificationNumber } = buildIdentificationFields(
+    draft,
+    taken,
+  );
+
   return {
     user_id: userId,
     slot_index: slotIndex,
@@ -114,6 +214,8 @@ function draftToInsertRow(
     species_id: draft.speciesId!,
     subspecies_id: draft.subspeciesId,
     stats: draft.stats!,
+    stat_dice_rolls: statDiceRolls ?? null,
+    identification_number: identificationNumber,
     age: draft.age,
     weight_lb: draft.weightLb,
     height_ft: draft.heightFt,
@@ -125,9 +227,15 @@ function draftToAvatar(
   userId: string,
   draft: AvatarDraft,
   slotIndex: number,
+  taken: Set<string>,
   id = crypto.randomUUID(),
   createdAt = new Date().toISOString(),
 ): OperatorAvatar {
+  const { statDiceRolls, identificationNumber } = buildIdentificationFields(
+    draft,
+    taken,
+  );
+
   return {
     id,
     userId,
@@ -139,6 +247,8 @@ function draftToAvatar(
     classId: draft.classId,
     subclassId: draft.subclassId,
     stats: draft.stats ?? undefined,
+    statDiceRolls,
+    identificationNumber: identificationNumber ?? undefined,
     speciesId: draft.speciesId!,
     subspeciesId: draft.subspeciesId,
     age: draft.age,
@@ -158,6 +268,10 @@ function validateDraftForSave(draft: AvatarDraft): void {
   }
   if (!hasCompleteAbilityScores(draft.stats)) {
     throw new Error("Ability scores are incomplete.");
+  }
+  const { complete } = formatOperatorIdentificationNumber(draft.statDiceRolls);
+  if (!complete) {
+    throw new Error("Stat dice imprint is incomplete.");
   }
 }
 
@@ -215,16 +329,24 @@ export async function saveOperatorAvatar(
   }
 
   const slotIndex = pickNextSlotIndex(existing);
+  const taken = await fetchTakenIdentificationNumbers();
+  const draftForSave = {
+    ...draft,
+    resolvedIdentificationNumber:
+      draft.resolvedIdentificationNumber ??
+      resolveUniqueIdentificationNumber(draft.statDiceRolls!, taken),
+  };
 
   if (!supabase) {
-    const avatar = draftToAvatar(userId, draft, slotIndex);
+    const avatar = draftToAvatar(userId, draftForSave, slotIndex, taken);
     writeAll(userId, [...existing, avatar]);
+    setActiveAvatarId(userId, avatar.id);
     return avatar;
   }
 
   const { data, error } = await supabase
     .from("operator_avatars")
-    .insert(draftToInsertRow(userId, draft, slotIndex))
+    .insert(draftToInsertRow(userId, draftForSave, slotIndex, taken))
     .select("*")
     .single();
 
@@ -232,7 +354,75 @@ export async function saveOperatorAvatar(
 
   const saved = rowToAvatar(data as OperatorAvatarRow);
   writeAll(userId, [...existing, saved]);
+  setActiveAvatarId(userId, saved.id);
   return saved;
+}
+
+export function setActiveAvatarId(userId: string, avatarId: string) {
+  localStorage.setItem(activeAvatarStorageKey(userId), avatarId);
+}
+
+export function clearActiveAvatarId(userId: string) {
+  localStorage.removeItem(activeAvatarStorageKey(userId));
+}
+
+export function getAvatarDeleteConfirmationText(avatar: OperatorAvatar): string {
+  return getAvatarDisplayName(avatar).trim();
+}
+
+export function avatarDeleteConfirmationMatches(
+  input: string,
+  avatar: OperatorAvatar,
+): boolean {
+  const expected = getAvatarDeleteConfirmationText(avatar).toLowerCase();
+  return input.trim().toLowerCase() === expected && expected.length > 0;
+}
+
+export async function deleteOperatorAvatar(
+  userId: string,
+  avatarId: string,
+): Promise<void> {
+  const existing = readAll(userId);
+  const target = existing.find((avatar) => avatar.id === avatarId);
+  if (!target) {
+    throw new Error("Character record not found.");
+  }
+
+  if (supabase) {
+    const { error } = await supabase
+      .from("operator_avatars")
+      .delete()
+      .eq("id", avatarId)
+      .eq("user_id", userId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  const remaining = existing.filter((avatar) => avatar.id !== avatarId);
+  writeAll(userId, remaining);
+
+  if (getActiveAvatarId(userId) === avatarId) {
+    clearActiveAvatarId(userId);
+    if (remaining.length > 0) {
+      setActiveAvatarId(userId, remaining[0].id);
+    }
+  }
+}
+
+export function getActiveAvatarId(userId: string): string | null {
+  return localStorage.getItem(activeAvatarStorageKey(userId));
+}
+
+export function getActiveOperatorAvatar(userId: string): OperatorAvatar | null {
+  const avatarId = getActiveAvatarId(userId);
+  if (!avatarId) return null;
+  return getOperatorAvatar(userId, avatarId);
+}
+
+export function getAvatarIdentificationNumber(avatar: OperatorAvatar): string {
+  if (avatar.identificationNumber) return avatar.identificationNumber;
+  const { value } = formatOperatorIdentificationNumber(avatar.statDiceRolls);
+  return value;
 }
 
 /** @deprecated Use saveOperatorAvatar */
@@ -245,7 +435,8 @@ export function registerOperatorAvatar(
     const existing = listOperatorAvatars(userId);
     if (existing.length >= MAX_AVATAR_SLOTS) return null;
     const slotIndex = pickNextSlotIndex(existing);
-    const avatar = draftToAvatar(userId, draft, slotIndex);
+    const taken = collectLocalIdentificationNumbers();
+    const avatar = draftToAvatar(userId, draft, slotIndex, taken);
     writeAll(userId, [...existing, avatar]);
     return avatar;
   } catch {

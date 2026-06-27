@@ -419,6 +419,40 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
+.profilePage__saveNotice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 168, 102, 0.45);
+  border-left-width: 3px;
+  background:
+    linear-gradient(90deg, rgba(79, 168, 102, 0.12), rgba(0, 0, 0, 0.35));
+}
+
+.profilePage__saveNoticeLabel {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(79, 168, 102, 0.88);
+}
+
+.profilePage__saveNoticeName {
+  font-family: "Orbitron", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: rgba(223, 255, 232, 0.92);
+}
+
+.profilePage__saveNoticeId {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(142, 207, 255, 0.72);
+  word-break: break-all;
+}
+
 .profilePage__slots {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -482,7 +516,13 @@
   border-color: rgba(168, 85, 255, 0.55);
   background: rgba(122, 0, 255, 0.1);
   color: #e8d0ff;
-  cursor: default;
+  cursor: pointer;
+}
+
+.profilePage__slot--filled:hover {
+  border-color: rgba(168, 85, 255, 0.85);
+  background: rgba(122, 0, 255, 0.16);
+  box-shadow: 0 0 20px rgba(168, 85, 255, 0.18);
 }
 
 .profilePage__slotAvatar {
@@ -510,6 +550,24 @@
   text-align: center;
   color: rgba(57, 255, 20, 0.75);
   text-transform: uppercase;
+}
+
+.profilePage__slotId {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: rgba(142, 207, 255, 0.55);
+  word-break: break-all;
+  line-height: 1.35;
+}
+
+.profilePage__slotAction {
+  margin-top: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: rgba(223, 255, 232, 0.72);
 }
 
 .profilePage__nav {
