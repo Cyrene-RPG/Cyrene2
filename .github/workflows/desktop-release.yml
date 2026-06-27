@@ -17,14 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Configure git
-        shell: pwsh
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -41,35 +33,49 @@ jobs:
           if ($env:GITHUB_REF_NAME -eq 'test') {
             echo "CYRENE_UPDATE_CHANNEL=beta" >> $env:GITHUB_ENV
             echo "RELEASE_SUFFIX= (beta)" >> $env:GITHUB_ENV
+            echo "PRERELEASE=true" >> $env:GITHUB_ENV
           } else {
             echo "CYRENE_UPDATE_CHANNEL=latest" >> $env:GITHUB_ENV
             echo "RELEASE_SUFFIX=" >> $env:GITHUB_ENV
+            echo "PRERELEASE=false" >> $env:GITHUB_ENV
           }
 
       - name: Set build version
         shell: pwsh
         run: |
+          $run = $env:GITHUB_RUN_NUMBER
           if ($env:CYRENE_UPDATE_CHANNEL -eq 'beta') {
-            $version = "0.1.$env:GITHUB_RUN_NUMBER-beta"
+            $version = "0.1.$run-beta"
           } else {
-            $version = "0.1.$env:GITHUB_RUN_NUMBER"
+            $version = "0.1.$run"
           }
           npm version $version --no-git-tag-version --allow-same-version
           echo "APP_VERSION=$version" >> $env:GITHUB_ENV
 
-      - name: Build and publish installer
+      - name: Build installer
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         shell: pwsh
         run: |
           npm run build
           if ($env:CYRENE_UPDATE_CHANNEL -eq 'beta') {
-            npx electron-builder --win --publish always --config.publish.channel=beta --config.publish.releaseType=prerelease
+            npx electron-builder --win --publish never --config.publish.channel=beta
           } else {
-            npx electron-builder --win --publish always
+            npx electron-builder --win --publish never
           }
+
+      - name: Publish to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.APP_VERSION }}
+          name: ${{ env.APP_VERSION }}${{ env.RELEASE_SUFFIX }}
+          prerelease: ${{ env.PRERELEASE == 'true' }}
+          make_latest: ${{ env.PRERELEASE != 'true' }}
+          files: release/**
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release summary
         shell: pwsh
