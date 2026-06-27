@@ -16,7 +16,7 @@ const LOADING_STEPS: LoadingStep[] = [
 ];
 
 const BOOT_LOG = [
-  "CYRENE OS v0.1.0",
+  "CYRENE OS — AUTO-UPDATE ONLINE",
   "CPU: NEURAL CORE ONLINE",
   "MEM: 16384MB OK",
   "GPU: RENDER PIPELINE OK",
@@ -44,6 +44,7 @@ export default function LoadingScreen({ authReady, onComplete }: Props) {
   const [phase, setPhase] = useState<"loading" | "ready" | "exit">("loading");
   const [glitch, setGlitch] = useState(false);
   const [forceReady, setForceReady] = useState(false);
+  const [buildLabel, setBuildLabel] = useState("BUILD …");
   const finishedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
 
@@ -51,6 +52,12 @@ export default function LoadingScreen({ authReady, onComplete }: Props) {
 
   const canFinish = authReady || forceReady;
   const currentStep = LOADING_STEPS[stepIndex]?.label ?? "FINALIZING";
+
+  useEffect(() => {
+    void window.cyreneDesktop?.getAppInfo().then((info) => {
+      setBuildLabel(`BUILD ${info.version}`);
+    });
+  }, []);
 
   useEffect(() => {
     const powerTimer = setTimeout(() => setPoweredOn(true), 500);
@@ -207,7 +214,7 @@ export default function LoadingScreen({ authReady, onComplete }: Props) {
       <div className="loadScreen__corner loadScreen__corner--br" />
 
       <div className="loadScreen__footer">
-        <span>BUILD 0.1.0</span>
+        <span>{buildLabel}</span>
         <span>CYRENE OS</span>
         <span>{window.cyreneDesktop?.isDesktop ? "DESKTOP CLIENT" : "WEB CLIENT"}</span>
       </div>

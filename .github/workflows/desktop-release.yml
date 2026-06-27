@@ -65,6 +65,20 @@ jobs:
             npx electron-builder --win --publish never
           }
 
+      - name: Stage release assets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release-upload | Out-Null
+          Copy-Item "release/Cyrene Setup $env:APP_VERSION.exe" release-upload/
+          Copy-Item "release/Cyrene Setup $env:APP_VERSION.exe.blockmap" release-upload/
+          if (Test-Path release/latest.yml) {
+            Copy-Item release/latest.yml release-upload/
+          }
+          if (Test-Path release/beta.yml) {
+            Copy-Item release/beta.yml release-upload/
+          }
+          Get-ChildItem release-upload
+
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
@@ -72,7 +86,7 @@ jobs:
           name: ${{ env.APP_VERSION }}${{ env.RELEASE_SUFFIX }}
           prerelease: ${{ env.PRERELEASE == 'true' }}
           make_latest: ${{ env.PRERELEASE != 'true' }}
-          files: release/**
+          files: release-upload/**
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
