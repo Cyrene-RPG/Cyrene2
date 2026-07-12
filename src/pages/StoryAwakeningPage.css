@@ -5,7 +5,7 @@
   overflow: hidden;
   background: #000;
   color: #f4ecff;
-  transition: opacity 1.4s ease;
+  transition: opacity 2.8s ease;
 }
 
 .storyAwakening--fade-out {
@@ -187,7 +187,7 @@
 
 .storyAwakening__stage {
   width: min(100%, 820px);
-  animation: storyAwakeningIn 1.1s ease forwards;
+  animation: storyAwakeningIn 2.4s ease forwards;
 }
 
 @keyframes storyAwakeningIn {
@@ -227,7 +227,7 @@
   background: #050008;
   filter: blur(16px);
   opacity: 1;
-  transition: filter 0.55s ease, opacity 0.55s ease, background 0.55s ease;
+  transition: filter 1.1s ease, opacity 1.1s ease, background 1.1s ease;
 }
 
 .storyAwakening__pov--mood-dark .storyAwakening__povBlur {
@@ -247,7 +247,7 @@
     radial-gradient(ellipse at 45% 35%, rgba(200, 180, 255, 0.28) 0%, transparent 55%),
     linear-gradient(180deg, rgba(24, 16, 36, 0.95) 0%, rgba(4, 2, 8, 1) 100%);
   filter: blur(14px);
-  animation: storyAwakeningVisionDrift 2.2s ease-in-out infinite alternate;
+  animation: storyAwakeningVisionDrift 4.8s ease-in-out infinite alternate;
 }
 
 .storyAwakening__pov--mood-pressure .storyAwakening__povBlur,
@@ -293,7 +293,7 @@
     rgba(255, 240, 200, 0.58) 28%,
     transparent 72%
   );
-  animation: storyAwakeningBrightSting 1.5s ease forwards;
+  animation: storyAwakeningBrightSting 2.8s ease forwards;
 }
 
 @keyframes storyAwakeningBrightSting {
@@ -313,7 +313,7 @@
 
 .storyAwakening__pov--mood-unstable .storyAwakening__povLight {
   opacity: 0.6;
-  animation: storyAwakeningLightFlicker 0.38s steps(2, end) infinite;
+  animation: storyAwakeningLightFlicker 0.9s steps(2, end) infinite;
 }
 
 .storyAwakening__pov--mood-pressure .storyAwakening__povLight,
@@ -347,7 +347,7 @@
 }
 
 .storyAwakening__pov--mood-bright .storyAwakening__povWash {
-  animation: storyAwakeningWashFlash 1.2s ease forwards;
+  animation: storyAwakeningWashFlash 2.4s ease forwards;
 }
 
 @keyframes storyAwakeningWashFlash {
@@ -380,7 +380,7 @@
 .storyAwakening__pov--mood-pressure .storyAwakening__povPulse,
 .storyAwakening__pov--hold .storyAwakening__povPulse {
   opacity: 1;
-  animation: storyAwakeningHeartbeat 1.15s ease-in-out infinite;
+  animation: storyAwakeningHeartbeat 1.8s ease-in-out infinite;
 }
 
 @keyframes storyAwakeningHeartbeat {
@@ -406,7 +406,7 @@
   overflow-y: auto;
   opacity: 0;
   filter: blur(8px);
-  transition: opacity 0.42s ease, filter 0.42s ease;
+  transition: opacity 1.1s ease, filter 1.1s ease;
 }
 
 .storyAwakening__povContent--visible {
@@ -480,11 +480,11 @@
 }
 
 .storyAwakening__pov--eyes-closed .storyAwakening__povLid {
-  transition: height 0.22s cubic-bezier(0.55, 0, 1, 0.45);
+  transition: height 0.55s cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 .storyAwakening__pov--eyes-open .storyAwakening__povLid {
-  transition: height 0.78s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: height 1.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .storyAwakening__povLid--top {

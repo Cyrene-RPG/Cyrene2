@@ -2,12 +2,15 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {
+  AWAKENING_FADE_MS,
   AWAKENING_HOLD_MS,
   BEAT_CHAR_MS_DEFAULT,
   BEAT_HOLD_MS_DEFAULT,
   BLINK_CLOSED_MS_DEFAULT,
+  CONTENT_REVEAL_MS,
   FIRST_CLOSED_MS,
   LID_OPEN_MS_DEFAULT,
+  SETTLE_AFTER_OPEN_MS,
   STORY_AWAKENING_BEATS,
   type AwakeningBeat,
   type AwakeningMood,
@@ -81,12 +84,24 @@ export default function StoryAwakeningPage() {
       setEyesOpen(true);
       setMood(beat.mood);
       setLidOpenPct(beat.lidOpen);
+      setContentVisible(false);
       await waitCinematicMs(
         beat.lidOpenMs ?? LID_OPEN_MS_DEFAULT,
         isCancelled,
         isPaused,
       );
+    }
+
+    async function revealContent(beat: AwakeningBeat) {
+      await waitCinematicMs(
+        beat.settleMs ?? SETTLE_AFTER_OPEN_MS,
+        isCancelled,
+        isPaused,
+      );
+      if (isCancelled()) return;
+
       setContentVisible(true);
+      await waitCinematicMs(CONTENT_REVEAL_MS, isCancelled, isPaused);
     }
 
     async function typeBeat(beat: AwakeningBeat) {
@@ -123,6 +138,9 @@ export default function StoryAwakeningPage() {
         await blinkOpen(beat);
         if (isCancelled()) return;
 
+        await revealContent(beat);
+        if (isCancelled()) return;
+
         await typeBeat(beat);
         if (isCancelled()) return;
 
@@ -143,7 +161,7 @@ export default function StoryAwakeningPage() {
 
       setPhase("fade");
       setFadeOut(true);
-      await waitCinematicMs(1400, isCancelled, isPaused);
+      await waitCinematicMs(AWAKENING_FADE_MS, isCancelled, isPaused);
       if (isCancelled()) return;
 
       navigate("/", { replace: true });
