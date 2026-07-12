@@ -17,10 +17,12 @@ export function redirectToLogin(
   });
 }
 
+const ACTIVE_PATHS = new Set(["/", LOGIN_PATH, SIGNUP_PATH]);
+
 export function getPostLoginPath(state: unknown): string {
   const from = (state as LoginLocationState | null)?.from;
-  if (from && from.startsWith("/") && !from.endsWith(".html")) {
+  if (from && ACTIVE_PATHS.has(from)) {
     return from;
   }
-  return "/profile";
+  return "/";
 }

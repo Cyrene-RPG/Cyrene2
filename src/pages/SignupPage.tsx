@@ -75,7 +75,7 @@ export default function SignupPage() {
         return;
       }
 
-      navigate("/link-up", { replace: true });
+      navigate("/", { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "REGISTRATION FAILED.");
     } finally {

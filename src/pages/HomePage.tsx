@@ -4,8 +4,7 @@ import GameSettingsPanel from "../components/GameSettingsPanel";
 import { useAuth } from "../hooks/useAuth";
 import { leaveCity } from "../lib/desktop-controls";
 import { LOGIN_PATH, SIGNUP_PATH } from "../lib/auth-routes";
-import { PROFILE_PATH } from "../lib/avatar-forge-config";
-import { CITY_PATH } from "../lib/city-config";
+import { signOutOperator } from "../lib/profiles";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "./HomePage.css";
 
@@ -18,7 +17,7 @@ type MenuItem = {
   accent?: "purple" | "green" | "cyan" | "red";
 } & (
   | { href: string }
-  | { action: "settings" | "leave" }
+  | { action: "settings" | "leave" | "logout" }
 );
 
 const LORE_TICKER =
@@ -40,30 +39,17 @@ export default function HomePage() {
   const [visible, setVisible] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [logoutBusy, setLogoutBusy] = useState(false);
 
   const coreMenuItems = useMemo<MenuItem[]>(() => {
     if (user) {
       return [
         {
-          id: "enter",
-          label: "ENTER CYRENE",
-          sublabel: "Open the city map",
-          href: CITY_PATH,
-          accent: "green",
-        },
-        {
-          id: "profile",
-          label: "OPERATOR FILE",
-          sublabel: "View identity and progress",
-          href: "/profile",
-          accent: "cyan",
-        },
-        {
-          id: "creator",
-          label: "CHARACTER FORGE",
-          sublabel: "Profile page — redesign in progress",
-          href: PROFILE_PATH,
-          accent: "purple",
+          id: "logout",
+          label: "SIGN OUT",
+          sublabel: "End operator session and return to title",
+          action: "logout",
+          accent: "red",
         },
       ];
     }
@@ -72,7 +58,7 @@ export default function HomePage() {
       {
         id: "signup",
         label: "NEW IDENTITY",
-        sublabel: "Register and enter the city",
+        sublabel: "Register a new operator uplink",
         href: SIGNUP_PATH,
         accent: "green",
       },
@@ -82,13 +68,6 @@ export default function HomePage() {
         sublabel: "Log in to an existing operator",
         href: LOGIN_PATH,
         accent: "cyan",
-      },
-      {
-        id: "creator",
-        label: "CHARACTER FORGE",
-        sublabel: "Profile page — redesign in progress",
-        href: PROFILE_PATH,
-        accent: "purple",
       },
     ];
   }, [user]);
@@ -134,24 +113,39 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSelect = useCallback((item: MenuItem) => {
-    if ("action" in item) {
-      if (item.action === "settings") {
-        setSettingsOpen(true);
+  const handleSelect = useCallback(
+    async (item: MenuItem) => {
+      if ("action" in item) {
+        if (item.action === "settings") {
+          setSettingsOpen(true);
+          return;
+        }
+        if (item.action === "leave") {
+          setLeaveOpen(true);
+          return;
+        }
+        if (item.action === "logout") {
+          if (logoutBusy || !user) return;
+          setLogoutBusy(true);
+          try {
+            await signOutOperator();
+          } catch {
+            // Keep the menu usable if sign-out fails.
+          } finally {
+            setLogoutBusy(false);
+          }
+        }
         return;
       }
-      if (item.action === "leave") {
-        setLeaveOpen(true);
-      }
-      return;
-    }
 
-    if (item.href.startsWith("/") && !item.href.endsWith(".html")) {
-      navigate(item.href);
-      return;
-    }
-    window.location.href = item.href;
-  }, [navigate]);
+      if (item.href.startsWith("/") && !item.href.endsWith(".html")) {
+        navigate(item.href);
+        return;
+      }
+      window.location.href = item.href;
+    },
+    [logoutBusy, navigate, user],
+  );
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -167,7 +161,7 @@ export default function HomePage() {
       }
       if (e.key === "Enter") {
         e.preventDefault();
-        handleSelect(menuItems[selectedIndex]);
+        void handleSelect(menuItems[selectedIndex]);
       }
     }
 
@@ -215,8 +209,8 @@ export default function HomePage() {
         )}
       </div>
 
-      <div className="hudFrame hudFrame--tl" />
       <div className="hudFrame hudFrame--tr" />
+      <div className="hudFrame hudFrame--tl" />
       <div className="hudFrame hudFrame--bl" />
       <div className="hudFrame hudFrame--br" />
 
@@ -235,7 +229,8 @@ export default function HomePage() {
         >
           <span className="devBanner__icon">!</span>
           <span>
-            ACTIVE DEVELOPMENT — Systems may change without notice
+            CORE BUILD — Home, login, and sign-up only. Pull features from{" "}
+            <code>main-legacy</code>.
           </span>
         </div>
       )}
@@ -292,13 +287,18 @@ export default function HomePage() {
                   index === selectedIndex ? "gameMenuItem--selected" : ""
                 }`}
                 onMouseEnter={() => setSelectedIndex(index)}
-                onClick={() => handleSelect(item)}
+                onClick={() => void handleSelect(item)}
+                disabled={"action" in item && item.action === "logout" && logoutBusy}
               >
                 <span className="gameMenuItem__cursor">
                   {index === selectedIndex ? "▶" : " "}
                 </span>
                 <span className="gameMenuItem__text">
-                  <span className="gameMenuItem__label">{item.label}</span>
+                  <span className="gameMenuItem__label">
+                    {"action" in item && item.action === "logout" && logoutBusy
+                      ? "SIGNING OUT..."
+                      : item.label}
+                  </span>
                   <span className="gameMenuItem__sublabel">{item.sublabel}</span>
                 </span>
                 <span className="gameMenuItem__index">
