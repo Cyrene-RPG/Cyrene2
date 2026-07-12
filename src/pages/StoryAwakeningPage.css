@@ -231,8 +231,9 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 14%;
-  padding: 0 28px;
+  top: auto;
+  bottom: 46%;
+  padding: 0 32px;
   z-index: 3;
   opacity: 0;
   filter: blur(6px);
@@ -251,6 +252,22 @@
     0 0 18px rgba(0, 0, 0, 0.95),
     0 0 28px rgba(40, 120, 150, 0.35);
   max-width: 40ch;
+  font-style: italic;
+  text-align: left;
+}
+
+.storyAwakening__povThought--player {
+  color: #9dff8d;
+}
+
+.storyAwakening__povThoughtLabel {
+  display: block;
+  margin-bottom: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  color: rgba(57, 255, 20, 0.75);
 }
 
 .storyAwakening__stage {

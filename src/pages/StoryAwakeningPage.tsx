@@ -239,16 +239,14 @@ export default function StoryAwakeningPage() {
     ? "PAUSED"
     : isContainment
       ? revealLevel >= 3
-        ? "BREATHING ASSIST"
+        ? "CAN'T BREATHE"
         : revealLevel >= 1
           ? "IMMOBILE"
           : "SUBMERGED"
       : "DISORIENTED";
 
-  const moduleLabel = isContainment ? "IMMERSION" : "CONSCIOUSNESS";
-  const sequenceLabel = isContainment
-    ? "MAIN STORYLINE // SEQUENCE 02"
-    : "MAIN STORYLINE // SEQUENCE 01";
+  const moduleLabel = isContainment ? "CONTACT" : "CONSCIOUSNESS";
+  const sequenceLabel = isContainment ? "SIGNAL UNKNOWN" : "SIGNAL UNKNOWN";
   const titleLabel = isContainment ? "SUBMERGED" : "AWAKENING";
 
   return (
@@ -310,9 +308,13 @@ export default function StoryAwakeningPage() {
           <h1 className="storyAwakening__title">{titleLabel}</h1>
           {isContainment ? (
             <p className="storyAwakening__subtitle">
-              Sensory feed unstable. Do not panic.
+              Blink open — if you still can
             </p>
-          ) : null}
+          ) : (
+            <p className="storyAwakening__subtitle">
+              Blink open — your first thought awaits
+            </p>
+          )}
         </header>
 
         <div className="storyAwakening__stage">
@@ -371,7 +373,8 @@ export default function StoryAwakeningPage() {
                 }`}
               >
                 {beatText && tankVisible ? (
-                  <p className="storyAwakening__povThought storyAwakening__povThought--tank">
+                  <p className="storyAwakening__povThought storyAwakening__povThought--tank storyAwakening__povThought--player">
+                    <span className="storyAwakening__povThoughtLabel">YOU</span>
                     {formatThought(beatText)}
                     {beatTyping ? (
                       <span className="storyAwakening__povCursor" aria-hidden>
