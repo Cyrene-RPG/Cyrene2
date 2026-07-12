@@ -36,19 +36,14 @@ export default function SuspensionTankPOV({ revealLevel }: Props) {
           <span className="tankPov__restraintStrap" />
         </div>
 
-        <div className="tankPov__bodySilhouette" aria-hidden />
-
-        <div className="tankPov__maskAssembly">
-          <div className="tankPov__maskHose" />
-          <div className="tankPov__maskCup">
-            <div className="tankPov__maskSeal" />
-            <div className="tankPov__maskVent" />
-          </div>
-          <div className="tankPov__maskStrap tankPov__maskStrap--left" />
-          <div className="tankPov__maskStrap tankPov__maskStrap--right" />
+        <div className="tankPov__faceOcclusion" aria-hidden>
+          <div className="tankPov__maskRim" />
+          <div className="tankPov__maskFog" />
+          <div className="tankPov__maskBreath" />
+          <div className="tankPov__strapShadow tankPov__strapShadow--left" />
+          <div className="tankPov__strapShadow tankPov__strapShadow--right" />
         </div>
 
-        <div className="tankPov__scanBand" />
         <div className="tankPov__noise" />
       </div>
     </div>

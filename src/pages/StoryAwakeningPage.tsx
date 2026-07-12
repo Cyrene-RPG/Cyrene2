@@ -249,7 +249,7 @@ export default function StoryAwakeningPage() {
   const sequenceLabel = isContainment
     ? "MAIN STORYLINE // SEQUENCE 02"
     : "MAIN STORYLINE // SEQUENCE 01";
-  const titleLabel = isContainment ? "CONTAINMENT" : "AWAKENING";
+  const titleLabel = isContainment ? "SUBMERGED" : "AWAKENING";
 
   return (
     <div
@@ -310,7 +310,7 @@ export default function StoryAwakeningPage() {
           <h1 className="storyAwakening__title">{titleLabel}</h1>
           {isContainment ? (
             <p className="storyAwakening__subtitle">
-              Unknown chamber — identity of enclosure not confirmed
+              Sensory feed unstable. Do not panic.
             </p>
           ) : null}
         </header>

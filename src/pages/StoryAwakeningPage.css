@@ -550,7 +550,6 @@
 .storyAwakening--paused .storyAwakening__pov--mood-pressure .storyAwakening__povPulse,
 .storyAwakening--paused .tankPov--reveal-4,
 .storyAwakening--paused .tankPov__fluid,
-.storyAwakening--paused .tankPov__maskVent,
-.storyAwakening--paused .tankPov__scanBand {
+.storyAwakening--paused .tankPov__maskBreath {
   animation-play-state: paused;
 }
