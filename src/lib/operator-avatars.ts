@@ -17,6 +17,8 @@ import {
 import { SPECIES } from "../data/species";
 import { getSubspeciesById } from "../data/subspecies";
 import { supabase } from "./supabase";
+import { markHasPlayed } from "./player-progress";
+import { clearAvatarMissionProgress } from "./mission-progress";
 
 export const MAX_AVATAR_SLOTS = 3;
 
@@ -341,6 +343,7 @@ export async function saveOperatorAvatar(
     const avatar = draftToAvatar(userId, draftForSave, slotIndex, taken);
     writeAll(userId, [...existing, avatar]);
     setActiveAvatarId(userId, avatar.id);
+    markHasPlayed();
     return avatar;
   }
 
@@ -355,15 +358,18 @@ export async function saveOperatorAvatar(
   const saved = rowToAvatar(data as OperatorAvatarRow);
   writeAll(userId, [...existing, saved]);
   setActiveAvatarId(userId, saved.id);
+  markHasPlayed();
   return saved;
 }
 
 export function setActiveAvatarId(userId: string, avatarId: string) {
   localStorage.setItem(activeAvatarStorageKey(userId), avatarId);
+  localStorage.setItem(ACTIVE_AVATAR_KEY, avatarId);
 }
 
 export function clearActiveAvatarId(userId: string) {
   localStorage.removeItem(activeAvatarStorageKey(userId));
+  localStorage.removeItem(ACTIVE_AVATAR_KEY);
 }
 
 export function getAvatarDeleteConfirmationText(avatar: OperatorAvatar): string {
@@ -400,6 +406,7 @@ export async function deleteOperatorAvatar(
 
   const remaining = existing.filter((avatar) => avatar.id !== avatarId);
   writeAll(userId, remaining);
+  clearAvatarMissionProgress(avatarId);
 
   if (getActiveAvatarId(userId) === avatarId) {
     clearActiveAvatarId(userId);

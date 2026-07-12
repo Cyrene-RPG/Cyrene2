@@ -3,9 +3,17 @@ import { useNavigate } from "react-router-dom";
 import GameSettingsPanel from "../components/GameSettingsPanel";
 import { useAuth } from "../hooks/useAuth";
 import { leaveCity } from "../lib/desktop-controls";
-import { LOGIN_PATH, SIGNUP_PATH } from "../lib/auth-routes";
+import { isBetaDesktopClient } from "../lib/desktop-client";
+import {
+  CONTINUE_PATH,
+  IDENTITY_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH,
+} from "../lib/auth-routes";
 import { PROFILE_PATH } from "../lib/avatar-forge-config";
-import { CITY_PATH } from "../lib/city-config";
+import { fetchOperatorAvatars } from "../lib/operator-avatars";
+import { markHasPlayed } from "../lib/player-progress";
+import { signOutOperator } from "../lib/profiles";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "./HomePage.css";
 
@@ -34,21 +42,74 @@ function getStatusText(loading: boolean, user: { email?: string } | null) {
 export default function HomePage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const isBetaDesktop = isBetaDesktopClient();
   const [bannerVisible, setBannerVisible] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [glitch, setGlitch] = useState(false);
   const [visible, setVisible] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [leaveBusy, setLeaveBusy] = useState(false);
+  const [avatarCount, setAvatarCount] = useState<number | null>(null);
+
+  const betaSimpleMenu =
+    isBetaDesktop && (!user || avatarCount === 0);
+
+  const betaReturningMenu =
+    isBetaDesktop && Boolean(user) && avatarCount !== null && avatarCount > 0;
+
+  const settingsItem = useMemo<MenuItem>(
+    () => ({
+      id: "settings",
+      label: "SYSTEM SETTINGS",
+      sublabel: "Display and client options",
+      action: "settings",
+      accent: "cyan",
+    }),
+    [],
+  );
+
+  const leaveItem = useMemo<MenuItem>(
+    () => ({
+      id: "leave",
+      label: betaSimpleMenu ? "CLOSE GAME" : "LEAVE CITY",
+      sublabel: betaSimpleMenu
+        ? "Exit the Cyrene client"
+        : betaReturningMenu
+          ? "Sign out or close the client"
+          : "Exit Cyrene and return to desktop",
+      action: "leave",
+      accent: "red",
+    }),
+    [betaReturningMenu, betaSimpleMenu],
+  );
 
   const coreMenuItems = useMemo<MenuItem[]>(() => {
+    if (betaSimpleMenu) {
+      return [
+        {
+          id: "identity",
+          label: "NEW IDENTITY",
+          sublabel: user
+            ? "Create your operator record"
+            : "Register or authenticate your uplink",
+          href: user ? PROFILE_PATH : IDENTITY_PATH,
+          accent: "green",
+        },
+      ];
+    }
+
+    if (betaReturningMenu) {
+      return [];
+    }
+
     if (user) {
       return [
         {
           id: "enter",
           label: "ENTER CYRENE",
           sublabel: "Open the city map",
-          href: CITY_PATH,
+          href: "/city",
           accent: "green",
         },
         {
@@ -91,28 +152,49 @@ export default function HomePage() {
         accent: "purple",
       },
     ];
-  }, [user]);
+  }, [betaReturningMenu, betaSimpleMenu, user]);
 
   const menuItems = useMemo<MenuItem[]>(
-    () => [
-      ...coreMenuItems,
-      {
-        id: "settings",
-        label: "SYSTEM SETTINGS",
-        sublabel: "Display and client options",
-        action: "settings",
-        accent: "cyan",
-      },
-      {
-        id: "leave",
-        label: "LEAVE CITY",
-        sublabel: "Exit Cyrene and return to desktop",
-        action: "leave",
-        accent: "red",
-      },
-    ],
-    [coreMenuItems],
+    () => [...coreMenuItems, settingsItem, leaveItem],
+    [coreMenuItems, leaveItem, settingsItem],
   );
+
+  const menuLoading = isBetaDesktop && Boolean(user) && avatarCount === null && !loading;
+
+  useEffect(() => {
+    if (!isBetaDesktop) return;
+    if (loading) return;
+
+    if (!user) {
+      setAvatarCount(null);
+      return;
+    }
+
+    let cancelled = false;
+    setAvatarCount(null);
+
+    void fetchOperatorAvatars(user.id)
+      .then((avatars) => {
+        if (cancelled) return;
+        if (avatars.length > 0) {
+          markHasPlayed();
+        }
+        setAvatarCount(avatars.length);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setAvatarCount(0);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isBetaDesktop, loading, user]);
+
+  useEffect(() => {
+    if (!betaReturningMenu) return;
+    navigate(CONTINUE_PATH, { replace: true });
+  }, [betaReturningMenu, navigate]);
 
   useEffect(() => {
     if (localStorage.getItem(BANNER_STORAGE_KEY) === "true") {
@@ -179,6 +261,34 @@ export default function HomePage() {
     setBannerVisible(false);
     localStorage.setItem(BANNER_STORAGE_KEY, "true");
   }
+
+  async function handleLogout() {
+    if (leaveBusy || !user) return;
+    setLeaveBusy(true);
+    try {
+      await signOutOperator();
+      setLeaveOpen(false);
+      setAvatarCount(null);
+    } catch {
+      // Keep the dialog open if sign-out fails.
+    } finally {
+      setLeaveBusy(false);
+    }
+  }
+
+  const showBetaLogout = isBetaDesktop && Boolean(user);
+  const leavePanelTitle = isBetaDesktop
+    ? betaSimpleMenu
+      ? "CLOSE GAME?"
+      : "LEAVE CITY?"
+    : "LEAVE CITY?";
+  const leavePanelCopy = isBetaDesktop
+    ? showBetaLogout
+      ? betaReturningMenu
+        ? "Close the client and keep your session, or sign out and return to the title screen."
+        : "Close the client, or sign out and return to the title screen."
+      : "The client will close and return you to the desktop."
+    : "Cyrene keeps running without you. Your client will close and return you to the desktop.";
 
   const status = getStatusText(loading, user);
   const operatorId = user?.email?.split("@")[0]?.toUpperCase() ?? "UNKNOWN";
@@ -283,30 +393,34 @@ export default function HomePage() {
             </div>
           )}
 
-          <nav className="gameMenu" aria-label="Main menu">
-            {menuItems.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`gameMenuItem gameMenuItem--${item.accent} ${
-                  index === selectedIndex ? "gameMenuItem--selected" : ""
-                }`}
-                onMouseEnter={() => setSelectedIndex(index)}
-                onClick={() => handleSelect(item)}
-              >
-                <span className="gameMenuItem__cursor">
-                  {index === selectedIndex ? "▶" : " "}
-                </span>
-                <span className="gameMenuItem__text">
-                  <span className="gameMenuItem__label">{item.label}</span>
-                  <span className="gameMenuItem__sublabel">{item.sublabel}</span>
-                </span>
-                <span className="gameMenuItem__index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </button>
-            ))}
-          </nav>
+          {menuLoading || (betaReturningMenu && user) ? (
+            <div className="menuAlert">SCANNING OPERATOR RECORD...</div>
+          ) : (
+            <nav className="gameMenu" aria-label="Main menu">
+              {menuItems.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`gameMenuItem gameMenuItem--${item.accent} ${
+                    index === selectedIndex ? "gameMenuItem--selected" : ""
+                  }`}
+                  onMouseEnter={() => setSelectedIndex(index)}
+                  onClick={() => handleSelect(item)}
+                >
+                  <span className="gameMenuItem__cursor">
+                    {index === selectedIndex ? "▶" : " "}
+                  </span>
+                  <span className="gameMenuItem__text">
+                    <span className="gameMenuItem__label">{item.label}</span>
+                    <span className="gameMenuItem__sublabel">{item.sublabel}</span>
+                  </span>
+                  <span className="gameMenuItem__index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </button>
+              ))}
+            </nav>
+          )}
         </section>
       </main>
 
@@ -340,16 +454,18 @@ export default function HomePage() {
           >
             <p className="gameLeavePanel__eyebrow">DISCONNECT UPLINK</p>
             <h2 id="leaveCityTitle" className="gameLeavePanel__title">
-              LEAVE CITY?
+              {leavePanelTitle}
             </h2>
-            <p className="gameLeavePanel__copy">
-              Cyrene keeps running without you. Your client will close and return
-              you to the desktop.
-            </p>
-            <div className="gameLeavePanel__actions">
+            <p className="gameLeavePanel__copy">{leavePanelCopy}</p>
+            <div
+              className={`gameLeavePanel__actions ${
+                showBetaLogout ? "gameLeavePanel__actions--wide" : ""
+              }`}
+            >
               <button
                 type="button"
                 className="gameLeavePanel__stay"
+                disabled={leaveBusy}
                 onClick={() => setLeaveOpen(false)}
               >
                 STAY
@@ -357,10 +473,21 @@ export default function HomePage() {
               <button
                 type="button"
                 className="gameLeavePanel__leave"
+                disabled={leaveBusy}
                 onClick={() => leaveCity()}
               >
-                LEAVE CITY
+                {isBetaDesktop ? "CLOSE APP" : "LEAVE CITY"}
               </button>
+              {showBetaLogout ? (
+                <button
+                  type="button"
+                  className="gameLeavePanel__logout"
+                  disabled={leaveBusy}
+                  onClick={() => void handleLogout()}
+                >
+                  {leaveBusy ? "SIGNING OUT..." : "LOG OUT"}
+                </button>
+              ) : null}
             </div>
           </section>
         </div>

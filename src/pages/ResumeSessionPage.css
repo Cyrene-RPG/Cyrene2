@@ -1,0 +1,195 @@
+.resumeSession {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.resumeSession .gameMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 32px 96px;
+}
+
+.resumeBrief {
+  width: min(620px, 100%);
+  text-align: center;
+}
+
+.resumeBrief__eyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: rgba(57, 255, 20, 0.75);
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.35);
+  margin-bottom: 14px;
+}
+
+.resumeBrief__title {
+  margin: 0 0 28px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #fff;
+}
+
+.resumeBrief__card {
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 24px 22px;
+  margin-bottom: 24px;
+}
+
+.resumeBrief__avatarRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.resumeBrief__avatarMark {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0, 212, 255, 0.45);
+  background: rgba(0, 212, 255, 0.08);
+  font-family: "Orbitron", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.45);
+}
+
+.resumeBrief__avatarMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resumeBrief__avatarName {
+  font-family: "Orbitron", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+}
+
+.resumeBrief__avatarId {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.resumeBrief__missionLabel {
+  display: block;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: rgba(168, 85, 255, 0.75);
+  margin-bottom: 8px;
+}
+
+.resumeBrief__missionTitle {
+  display: block;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin-bottom: 14px;
+}
+
+.resumeBrief__checkpoint {
+  display: block;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(57, 255, 20, 0.8);
+  margin-bottom: 10px;
+}
+
+.resumeBrief__summary {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 18px;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.resumeBrief__actions {
+  display: grid;
+  gap: 12px;
+}
+
+.resumeBrief__primary,
+.resumeBrief__secondary {
+  width: 100%;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  transition: 0.15s ease;
+}
+
+.resumeBrief__primary {
+  border-left: 3px solid #39ff14;
+  box-shadow: 0 0 24px rgba(57, 255, 20, 0.08);
+}
+
+.resumeBrief__primary:hover {
+  transform: translateX(6px);
+  background: rgba(57, 255, 20, 0.1);
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.16);
+}
+
+.resumeBrief__secondary {
+  border-left: 3px solid rgba(0, 212, 255, 0.55);
+}
+
+.resumeBrief__secondary:hover {
+  transform: translateX(6px);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.resumeBrief__actionLabel {
+  display: block;
+  font-family: "Orbitron", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.resumeBrief__actionHint {
+  display: block;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.resumeBrief__back {
+  margin-top: 18px;
+  background: none;
+  border: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.resumeBrief__back:hover {
+  color: rgba(255, 255, 255, 0.65);
+}

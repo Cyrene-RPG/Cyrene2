@@ -132,6 +132,36 @@ What do you do?
 
 <script>
 
+// ===== MISSION PROGRESS =====
+const MISSION_ID = "welcome";
+const PROGRESS_PREFIX = "cyrene_mission_progress_";
+
+function getActiveAvatarId(){
+return localStorage.getItem("cyrene_active_avatar_id");
+}
+
+function saveMissionCheckpoint(checkpointId){
+const avatarId = getActiveAvatarId();
+if(!avatarId) return;
+
+localStorage.setItem(
+PROGRESS_PREFIX + avatarId,
+JSON.stringify({
+missionId: MISSION_ID,
+checkpointId: checkpointId,
+updatedAt: new Date().toISOString()
+})
+);
+}
+
+(function initMissionProgress(){
+const avatarId = getActiveAvatarId();
+if(!avatarId) return;
+if(!localStorage.getItem(PROGRESS_PREFIX + avatarId)){
+saveMissionCheckpoint("ferry_deck");
+}
+})();
+
 // ===== HISTORY =====
 let historyStack = [];
 
@@ -180,6 +210,7 @@ For a brief moment, the wind shifts—stronger this time, cutting across the dec
 And in that moment, you could swear his attention flickers—just slightly—in your direction.
 Not a full turn, not even enough to be certain. Just the faintest shift. A pause. Like he’s aware of you without needing to look.
 Then, just as quickly, it’s gone. His focus settles back on the water, posture unchanged, as if nothing happened at all.`;
+saveMissionCheckpoint("elf_watch");
 }
 
 // LOOK → WATER
@@ -195,11 +226,13 @@ Their eyes meet yours.
 For a brief moment, everything else seems to fade—the ferry, the city, even the elf beside you—as the nymph’s expression shifts into something playful, almost mischievous. They wink, a quick, knowing gesture, before bringing their fingers to their lips and blowing you a kiss.
 Then, with a sharp twist of their body, they dive.
 The water closes over them instantly, the surface smoothing out as though they were never there at all—leaving behind only ripples that quickly dissolve into the ferry’s wake.`;
+saveMissionCheckpoint("nymph_race");
 }
 
 // LOOK fallback
 else if(isLook){
 response = "You take in your surroundings, the ferry rocking gently as the distant city looms closer.";
+saveMissionCheckpoint("surveying");
 }
 
 // default

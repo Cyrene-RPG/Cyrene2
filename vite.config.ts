@@ -6,6 +6,9 @@ const updateChannel = process.env.CYRENE_UPDATE_CHANNEL ?? "latest";
 
 export default defineConfig({
   base: "./",
+  define: {
+    __CYRENE_UPDATE_CHANNEL__: JSON.stringify(updateChannel),
+  },
   plugins: [
     react(),
     electron({
@@ -24,6 +27,11 @@ export default defineConfig({
       },
       preload: {
         input: "electron/preload.ts",
+        vite: {
+          define: {
+            __UPDATE_CHANNEL__: JSON.stringify(updateChannel),
+          },
+        },
       },
     }),
   ],

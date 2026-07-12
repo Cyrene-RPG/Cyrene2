@@ -1,0 +1,151 @@
+.continueScreen .gameMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 32px 80px;
+}
+
+.continueGate {
+  width: min(540px, 100%);
+  text-align: center;
+}
+
+.continueGate__eyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: rgba(0, 212, 255, 0.75);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.35);
+  margin-bottom: 14px;
+}
+
+.continueGate__title {
+  margin: 0 0 10px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #fff;
+}
+
+.continueGate__copy {
+  margin: 0 0 32px;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.continueChoices {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.continueChoice {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 22px 20px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.15s ease;
+  font-family: inherit;
+  color: inherit;
+}
+
+.continueChoice--selected {
+  transform: translateX(6px);
+}
+
+.continueChoice--resume.continueChoice--selected {
+  border-color: rgba(57, 255, 20, 0.55);
+  border-left: 3px solid #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.12);
+}
+
+.continueChoice--profile.continueChoice--selected {
+  border-color: rgba(0, 212, 255, 0.55);
+  border-left: 3px solid #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.12);
+}
+
+.continueChoice__icon {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 18px;
+  width: 28px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.continueChoice--selected .continueChoice__icon {
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+.continueChoice--profile.continueChoice--selected .continueChoice__icon {
+  color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+}
+
+.continueChoice__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.continueChoice__label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.continueChoice--selected .continueChoice__label {
+  color: #fff;
+}
+
+.continueChoice__hint {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.continueChoice--selected .continueChoice__hint {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.continueGate__footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.continueGate__footerLink {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(168, 85, 255, 0.65);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.continueGate__footerLink:hover {
+  color: #d7b4ff;
+}
+
+.continueGate__footerLink--danger:hover {
+  color: #ff8899;
+}

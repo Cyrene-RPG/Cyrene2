@@ -5,6 +5,7 @@ declare global {
     cyreneDesktop?: {
       platform: string;
       isDesktop: true;
+      updateChannel: "latest" | "beta";
       getAppInfo: () => Promise<{
         version: string;
         channel: string;

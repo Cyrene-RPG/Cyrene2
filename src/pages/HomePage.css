@@ -804,18 +804,31 @@
 
 .gameLeavePanel__actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
 }
 
+.gameLeavePanel__actions--wide {
+  max-width: 100%;
+}
+
 .gameLeavePanel__stay,
-.gameLeavePanel__leave {
+.gameLeavePanel__leave,
+.gameLeavePanel__logout {
   padding: 12px 18px;
   font-family: "Share Tech Mono", monospace;
   font-size: 10px;
   letter-spacing: 0.14em;
   cursor: pointer;
   transition: 0.15s ease;
+}
+
+.gameLeavePanel__stay:disabled,
+.gameLeavePanel__leave:disabled,
+.gameLeavePanel__logout:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .gameLeavePanel__stay {
@@ -839,6 +852,18 @@
   border-color: rgba(255, 68, 102, 0.9);
   background: rgba(255, 68, 102, 0.16);
   color: #ffb4c4;
+}
+
+.gameLeavePanel__logout {
+  border: 1px solid rgba(0, 255, 214, 0.45);
+  background: rgba(0, 255, 214, 0.06);
+  color: #7fffe0;
+}
+
+.gameLeavePanel__logout:hover:not(:disabled) {
+  border-color: rgba(0, 255, 214, 0.75);
+  background: rgba(0, 255, 214, 0.12);
+  color: #cffff4;
 }
 
 @media (max-width: 480px) {

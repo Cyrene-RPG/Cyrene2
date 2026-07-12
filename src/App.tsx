@@ -5,6 +5,7 @@ import ForgePausedRedirect from "./components/ForgePausedRedirect";
 import DevBootRedirect from "./components/DevBootRedirect";
 import DevShortcuts from "./components/DevShortcuts";
 import LoadingScreen from "./components/LoadingScreen";
+import ResumePathTracker from "./components/ResumePathTracker";
 import { useAuth } from "./hooks/useAuth";
 import { applySavedFullscreen } from "./lib/desktop-controls";
 import { isAvatarForgePaused } from "./lib/avatar-forge-config";
@@ -24,6 +25,9 @@ import CityLocationPage from "./pages/CityLocationPage";
 import GateNineMotelPage from "./pages/locations/GateNineMotelPage";
 import MissionsPage from "./pages/MissionsPage";
 import HomePage from "./pages/HomePage";
+import ContinuePage from "./pages/ContinuePage";
+import ResumeSessionPage from "./pages/ResumeSessionPage";
+import IdentityGatePage from "./pages/IdentityGatePage";
 import LinkUpPage from "./pages/LinkUpPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -65,8 +69,12 @@ export default function App() {
       <DevShortcuts />
       <DevBootRedirect />
       <AuthRedirectHandler />
+      <ResumePathTracker />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/continue" element={<ContinuePage />} />
+        <Route path="/resume" element={<ResumeSessionPage />} />
+        <Route path="/identity" element={<IdentityGatePage />} />
         <Route path="/login.html" element={<Navigate to="/login" replace />} />
         <Route path="/signup.html" element={<Navigate to="/signup" replace />} />
         <Route path="/login" element={<LoginPage />} />

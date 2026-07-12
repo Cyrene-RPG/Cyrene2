@@ -6,6 +6,7 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
+    "dev:beta": "cross-env CYRENE_UPDATE_CHANNEL=beta vite",
     "dev:web": "vite --config vite.web.config.ts",
     "build": "tsc -b && vite build",
     "preview": "vite preview",

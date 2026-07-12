@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
+declare const __UPDATE_CHANNEL__: "latest" | "beta";
+
 export type DesktopUpdateStatus =
   | { state: "idle" }
   | { state: "checking" }
@@ -12,6 +14,7 @@ export type DesktopUpdateStatus =
 contextBridge.exposeInMainWorld("cyreneDesktop", {
   platform: process.platform,
   isDesktop: true,
+  updateChannel: __UPDATE_CHANNEL__,
   getAppInfo: () =>
     ipcRenderer.invoke("cyrene:get-app-info") as Promise<{
       version: string;

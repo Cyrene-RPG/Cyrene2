@@ -1,0 +1,134 @@
+.identityScreen .gameMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 32px 80px;
+}
+
+.identityGate {
+  width: min(520px, 100%);
+  text-align: center;
+}
+
+.identityGate__eyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: rgba(168, 85, 255, 0.85);
+  text-shadow: 0 0 12px rgba(168, 85, 255, 0.35);
+  margin-bottom: 16px;
+}
+
+.identityGate__title {
+  margin: 0 0 12px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(168, 85, 255, 0.45);
+}
+
+.identityGate__copy {
+  margin: 0 0 28px;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.55);
+  min-height: 3em;
+}
+
+.identityToggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 28px;
+  border: 1px solid rgba(122, 0, 255, 0.45);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.identityToggle__option {
+  padding: 16px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+  transition: 0.15s ease;
+}
+
+.identityToggle__option + .identityToggle__option {
+  border-left: 1px solid rgba(122, 0, 255, 0.35);
+}
+
+.identityToggle__option--active {
+  color: #fff;
+  background: rgba(57, 255, 20, 0.1);
+  box-shadow: inset 0 0 24px rgba(57, 255, 20, 0.08);
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+}
+
+.identityToggle__option--returning.identityToggle__option--active {
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: inset 0 0 24px rgba(0, 212, 255, 0.08);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.45);
+}
+
+.identityGate__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.identityGate__proceed,
+.identityGate__back {
+  padding: 14px 22px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.identityGate__proceed {
+  border: 1px solid rgba(57, 255, 20, 0.65);
+  background: rgba(57, 255, 20, 0.08);
+  color: #39ff14;
+}
+
+.identityGate__proceed:hover {
+  border-color: rgba(57, 255, 20, 0.9);
+  background: rgba(57, 255, 20, 0.14);
+  color: #c8ff9f;
+}
+
+.identityGate__proceed--returning {
+  border-color: rgba(0, 212, 255, 0.65);
+  background: rgba(0, 212, 255, 0.08);
+  color: #7fe8ff;
+}
+
+.identityGate__proceed--returning:hover {
+  border-color: rgba(0, 212, 255, 0.9);
+  background: rgba(0, 212, 255, 0.14);
+  color: #c8f7ff;
+}
+
+.identityGate__back {
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(168, 85, 255, 0.9);
+}
+
+.identityGate__back:hover {
+  border-color: rgba(168, 85, 255, 0.75);
+  color: #d7b4ff;
+}
+
+.identityGate__footerTicker .loreTicker__track {
+  color: rgba(168, 85, 255, 0.55);
+}
