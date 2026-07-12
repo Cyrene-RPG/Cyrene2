@@ -26,7 +26,7 @@ function formatAuthError(message: string): string {
     lower.includes("invalid login credentials") ||
     lower.includes("invalid credentials")
   ) {
-    return "Invalid email or access key.";
+    return "Invalid handle, uplink address, or access key.";
   }
   if (lower.includes("email not confirmed")) {
     return "Confirm your email before signing in.";
@@ -105,31 +105,80 @@ export async function signUp({
   };
 }
 
-export async function signIn(email: string, password: string) {
+export async function signIn(identifier: string, password: string) {
   if (!supabase) {
     throw new Error("Database offline — Supabase is not configured.");
   }
 
+  const email = await resolveLoginEmail(identifier);
+
   const { error } = await supabase.auth.signInWithPassword({
-    email: email.trim().toLowerCase(),
+    email,
     password,
   });
 
   if (error) throw new Error(formatAuthError(error.message));
 }
 
-export async function sendPasswordReset(email: string) {
+function looksLikeEmail(identifier: string): boolean {
+  return identifier.includes("@");
+}
+
+async function resolveLoginEmail(identifier: string): Promise<string> {
   if (!supabase) {
     throw new Error("Database offline — Supabase is not configured.");
   }
 
-  const trimmedEmail = email.trim().toLowerCase();
-  if (!trimmedEmail) {
-    throw new Error("Enter your uplink address first.");
+  const trimmed = identifier.trim();
+  if (!trimmed) {
+    throw new Error("Enter your operator handle or uplink address.");
+  }
+
+  if (looksLikeEmail(trimmed)) {
+    return trimmed.toLowerCase();
+  }
+
+  const handle = trimmed.toLowerCase();
+  const { data, error } = await supabase.rpc("resolve_login_email", {
+    identifier: handle,
+  });
+
+  if (error) throw new Error(formatAuthError(error.message));
+
+  if (typeof data === "string" && data.length > 0) {
+    return data.toLowerCase();
+  }
+
+  // Avoid leaking whether a handle exists — sign-in will fail with the same message.
+  return `${handle}@cyrene.invalid`;
+}
+
+export async function sendPasswordReset(identifier: string) {
+  if (!supabase) {
+    throw new Error("Database offline — Supabase is not configured.");
+  }
+
+  const trimmed = identifier.trim();
+  if (!trimmed) {
+    throw new Error("Enter your operator handle or uplink address first.");
+  }
+
+  let trimmedEmail: string;
+  if (looksLikeEmail(trimmed)) {
+    trimmedEmail = trimmed.toLowerCase();
+  } else {
+    const { data, error } = await supabase.rpc("resolve_login_email", {
+      identifier: trimmed.toLowerCase(),
+    });
+    if (error) throw new Error(formatAuthError(error.message));
+    if (typeof data !== "string" || !data) {
+      throw new Error("No operator found with that handle.");
+    }
+    trimmedEmail = data.toLowerCase();
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
-    redirectTo: getAuthRedirectUrl("/profile"),
+    redirectTo: getAuthRedirectUrl("/"),
   });
 
   if (error) throw new Error(formatAuthError(error.message));

@@ -15,7 +15,7 @@ const TERMINAL_LINES = [
 ];
 
 const FIELDS = [
-  { id: "email", label: "UPLINK ADDRESS", step: "01" },
+  { id: "identifier", label: "OPERATOR ID", step: "01" },
   { id: "password", label: "ACCESS KEY", step: "02" },
 ] as const;
 
@@ -23,9 +23,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, loading } = useAuth();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [focusedField, setFocusedField] = useState<string>("email");
+  const [focusedField, setFocusedField] = useState<string>("identifier");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -37,7 +37,7 @@ export default function LoginPage() {
     }
   }, [loading, location.state, navigate, user]);
 
-  const filledCount = [email, password].filter((value) => value.length > 0).length;
+  const filledCount = [identifier, password].filter((value) => value.length > 0).length;
   const progress = (filledCount / 2) * 100;
 
   async function handleSubmit(event: FormEvent) {
@@ -53,7 +53,7 @@ export default function LoginPage() {
     setSubmitting(true);
 
     try {
-      await signIn(email, password);
+      await signIn(identifier, password);
       navigate(getPostLoginPath(location.state), { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "SIGN-IN FAILED.");
@@ -74,7 +74,7 @@ export default function LoginPage() {
     setResetting(true);
 
     try {
-      await sendPasswordReset(email);
+      await sendPasswordReset(identifier);
       setNotice("Password reset uplink sent. Check your inbox.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "RESET REQUEST FAILED.");
@@ -129,7 +129,7 @@ export default function LoginPage() {
         <div className="authFields">
           {FIELDS.map((field) => {
             const isFocused = focusedField === field.id;
-            const values: Record<string, string> = { email, password };
+            const values: Record<string, string> = { identifier, password };
             const hasValue = values[field.id].length > 0;
 
             return (
@@ -146,20 +146,22 @@ export default function LoginPage() {
                 </div>
                 <input
                   className="authField__input"
-                  type={field.id === "password" ? "password" : "email"}
+                  type={field.id === "password" ? "password" : "text"}
                   placeholder={
-                    field.id === "email" ? "operator@domain.com" : "••••••••"
+                    field.id === "identifier"
+                      ? "handle or operator@domain.com"
+                      : "••••••••"
                   }
                   value={values[field.id]}
                   onChange={(event) => {
                     const value = event.target.value;
-                    if (field.id === "email") setEmail(value);
+                    if (field.id === "identifier") setIdentifier(value);
                     if (field.id === "password") setPassword(value);
                   }}
                   onFocus={() => setFocusedField(field.id)}
                   disabled={submitting || resetting}
                   autoComplete={
-                    field.id === "email" ? "email" : "current-password"
+                    field.id === "identifier" ? "username" : "current-password"
                   }
                   required
                 />
