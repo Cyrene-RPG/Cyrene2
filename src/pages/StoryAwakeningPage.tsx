@@ -43,7 +43,6 @@ export default function StoryAwakeningPage() {
   const [mood, setMood] = useState<AwakeningMood>("dark");
   const [beatText, setBeatText] = useState("");
   const [beatTyping, setBeatTyping] = useState(false);
-  const [memoryFragments, setMemoryFragments] = useState<string[]>([]);
   const [contentVisible, setContentVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -143,8 +142,6 @@ export default function StoryAwakeningPage() {
 
         await typeBeat(beat);
         if (isCancelled()) return;
-
-        setMemoryFragments((lines) => [...lines, beat.text]);
       }
 
       const lastBeat = STORY_AWAKENING_BEATS[STORY_AWAKENING_BEATS.length - 1];
@@ -258,16 +255,6 @@ export default function StoryAwakeningPage() {
                 contentVisible ? " storyAwakening__povContent--visible" : ""
               }`}
             >
-              {memoryFragments.length > 1 ? (
-                <div className="storyAwakening__povMemory" aria-hidden>
-                  {memoryFragments.slice(0, -1).map((line) => (
-                    <p key={line} className="storyAwakening__povMemoryLine">
-                      {line.replace(/\n/g, " ")}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
-
               {beatText ? (
                 <p className="storyAwakening__povThought">
                   {formatThought(beatText)}
