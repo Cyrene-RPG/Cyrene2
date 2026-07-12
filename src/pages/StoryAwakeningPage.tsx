@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
+import SuspensionTankPOV from "../components/SuspensionTankPOV";
 import { useAuth } from "../hooks/useAuth";
 import {
   AWAKENING_FADE_MS,
-  AWAKENING_HOLD_MS,
   BEAT_CHAR_MS_DEFAULT,
   BEAT_HOLD_MS_DEFAULT,
   BLINK_CLOSED_MS_DEFAULT,
@@ -15,10 +15,19 @@ import {
   type AwakeningBeat,
   type AwakeningMood,
 } from "../data/story-awakening-beats";
+import {
+  CONTAINMENT_CHAR_MS_DEFAULT,
+  CONTAINMENT_FINAL_HOLD_MS,
+  CONTAINMENT_HOLD_MS_DEFAULT,
+  CONTAINMENT_TRANSITION_MS,
+  STORY_CONTAINMENT_BEATS,
+  type ContainmentBeat,
+  type ContainmentRevealLevel,
+} from "../data/story-containment-beats";
 import { waitCinematicMs } from "../lib/cinematic-wait";
 import "./StoryAwakeningPage.css";
 
-type Phase = "beats" | "hold" | "fade";
+type Phase = "beats" | "containment" | "fade";
 
 function formatThought(text: string) {
   return text.split("\n").map((line, index, lines) => (
@@ -38,18 +47,28 @@ export default function StoryAwakeningPage() {
   const [paused, setPaused] = useState(false);
   const [phase, setPhase] = useState<Phase>("beats");
   const [beatIndex, setBeatIndex] = useState(0);
+  const [containmentIndex, setContainmentIndex] = useState(0);
+  const [revealLevel, setRevealLevel] = useState<ContainmentRevealLevel>(0);
   const [eyesOpen, setEyesOpen] = useState(false);
   const [lidOpenPct, setLidOpenPct] = useState(50);
   const [mood, setMood] = useState<AwakeningMood>("dark");
   const [beatText, setBeatText] = useState("");
   const [beatTyping, setBeatTyping] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
+  const [tankVisible, setTankVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
 
   const username =
     user?.user_metadata?.username ??
     user?.email?.split("@")[0] ??
     "UNKNOWN";
+
+  const isContainment = phase === "containment";
+  const totalBeats =
+    STORY_AWAKENING_BEATS.length + STORY_CONTAINMENT_BEATS.length;
+  const currentBeatNumber = isContainment
+    ? STORY_AWAKENING_BEATS.length + containmentIndex + 1
+    : beatIndex + 1;
 
   useEffect(() => {
     pausedRef.current = paused;
@@ -62,7 +81,7 @@ export default function StoryAwakeningPage() {
   }, [loading, navigate, user]);
 
   useEffect(() => {
-    if (loading || !user || phase !== "beats") return;
+    if (loading || !user) return;
 
     const runId = runRef.current + 1;
     runRef.current = runId;
@@ -103,23 +122,41 @@ export default function StoryAwakeningPage() {
       await waitCinematicMs(CONTENT_REVEAL_MS, isCancelled, isPaused);
     }
 
-    async function typeBeat(beat: AwakeningBeat) {
+    async function typeLines(
+      text: string,
+      charMs: number,
+      holdMs: number,
+    ) {
       setBeatTyping(true);
-      const charMs = beat.charMs ?? BEAT_CHAR_MS_DEFAULT;
-      for (let index = 0; index <= beat.text.length; index += 1) {
+      for (let index = 0; index <= text.length; index += 1) {
         if (isCancelled()) return;
-        setBeatText(beat.text.slice(0, index));
+        setBeatText(text.slice(0, index));
         await waitCinematicMs(charMs, isCancelled, isPaused);
       }
       setBeatTyping(false);
-      await waitCinematicMs(
+      await waitCinematicMs(holdMs, isCancelled, isPaused);
+    }
+
+    async function typeAwakeningBeat(beat: AwakeningBeat) {
+      await typeLines(
+        beat.text,
+        beat.charMs ?? BEAT_CHAR_MS_DEFAULT,
         beat.holdMs ?? BEAT_HOLD_MS_DEFAULT,
-        isCancelled,
-        isPaused,
       );
     }
 
-    async function runBeats() {
+    async function typeContainmentBeat(beat: ContainmentBeat) {
+      setRevealLevel(beat.revealLevel);
+      await typeLines(
+        beat.text,
+        beat.charMs ?? CONTAINMENT_CHAR_MS_DEFAULT,
+        beat.holdMs ?? CONTAINMENT_HOLD_MS_DEFAULT,
+      );
+    }
+
+    async function runSequence() {
+      setPhase("beats");
+
       for (let index = 0; index < STORY_AWAKENING_BEATS.length; index += 1) {
         if (isCancelled()) return;
 
@@ -140,20 +177,39 @@ export default function StoryAwakeningPage() {
         await revealContent(beat);
         if (isCancelled()) return;
 
-        await typeBeat(beat);
+        await typeAwakeningBeat(beat);
         if (isCancelled()) return;
       }
 
-      const lastBeat = STORY_AWAKENING_BEATS[STORY_AWAKENING_BEATS.length - 1];
-      setPhase("hold");
-      setMood(lastBeat.mood);
-      setEyesOpen(true);
-      setLidOpenPct(lastBeat.lidOpen);
-      setBeatText(lastBeat.text);
+      await blinkClosed(BLINK_CLOSED_MS_DEFAULT);
+      if (isCancelled()) return;
+
+      setPhase("containment");
+      setTankVisible(true);
+      setBeatText("");
+      setContentVisible(false);
+      setRevealLevel(0);
+      setContainmentIndex(0);
+      await waitCinematicMs(CONTAINMENT_TRANSITION_MS, isCancelled, isPaused);
+      if (isCancelled()) return;
+
       setContentVisible(true);
+
+      for (let index = 0; index < STORY_CONTAINMENT_BEATS.length; index += 1) {
+        if (isCancelled()) return;
+
+        setContainmentIndex(index);
+        await typeContainmentBeat(STORY_CONTAINMENT_BEATS[index]);
+        if (isCancelled()) return;
+      }
+
+      const lastBeat =
+        STORY_CONTAINMENT_BEATS[STORY_CONTAINMENT_BEATS.length - 1];
+      setRevealLevel(lastBeat.revealLevel);
+      setBeatText(lastBeat.text);
       setBeatTyping(false);
 
-      await waitCinematicMs(AWAKENING_HOLD_MS, isCancelled, isPaused);
+      await waitCinematicMs(CONTAINMENT_FINAL_HOLD_MS, isCancelled, isPaused);
       if (isCancelled()) return;
 
       setPhase("fade");
@@ -164,27 +220,44 @@ export default function StoryAwakeningPage() {
       navigate("/", { replace: true });
     }
 
-    void runBeats();
+    void runSequence();
 
     return () => {
       cancelled = true;
     };
-  }, [loading, navigate, phase, user]);
+  }, [loading, navigate, user]);
 
   const povClassName = [
     "storyAwakening__pov",
     eyesOpen ? "storyAwakening__pov--eyes-open" : "storyAwakening__pov--eyes-closed",
     `storyAwakening__pov--mood-${mood}`,
-    phase === "hold" ? "storyAwakening__pov--hold" : "",
   ]
     .filter(Boolean)
     .join(" ");
+
+  const statusLabel = paused
+    ? "PAUSED"
+    : isContainment
+      ? revealLevel >= 3
+        ? "BREATHING ASSIST"
+        : revealLevel >= 1
+          ? "IMMOBILE"
+          : "SUBMERGED"
+      : "DISORIENTED";
+
+  const moduleLabel = isContainment ? "IMMERSION" : "CONSCIOUSNESS";
+  const sequenceLabel = isContainment
+    ? "MAIN STORYLINE // SEQUENCE 02"
+    : "MAIN STORYLINE // SEQUENCE 01";
+  const titleLabel = isContainment ? "CONTAINMENT" : "AWAKENING";
 
   return (
     <div
       className={`storyAwakening${
         paused ? " storyAwakening--paused" : ""
-      }${fadeOut ? " storyAwakening--fade-out" : ""}`}
+      }${fadeOut ? " storyAwakening--fade-out" : ""}${
+        isContainment ? " storyAwakening--containment" : ""
+      }`}
     >
       <div className="storyAwakening__bg" />
       <div className="storyAwakening__scanlines" />
@@ -197,7 +270,7 @@ export default function StoryAwakeningPage() {
 
       <div className="storyAwakening__hud storyAwakening__hud--tl">
         <span>MODULE</span>
-        <span className="storyAwakening__hudVal">CONSCIOUSNESS</span>
+        <span className="storyAwakening__hudVal">{moduleLabel}</span>
       </div>
       <div className="storyAwakening__hud storyAwakening__hud--tr">
         <span>OPERATOR</span>
@@ -208,15 +281,15 @@ export default function StoryAwakeningPage() {
       <div className="storyAwakening__hud storyAwakening__hud--bl">
         <span>STATUS</span>
         <span className="storyAwakening__hudVal storyAwakening__hudVal--live">
-          {paused ? "PAUSED" : phase === "hold" ? "SURFACING" : "DISORIENTED"}
+          {statusLabel}
         </span>
       </div>
       <div className="storyAwakening__hud storyAwakening__hud--br">
         <span>BEAT</span>
         <span className="storyAwakening__hudVal">
-          {String(Math.min(beatIndex + 1, STORY_AWAKENING_BEATS.length)).padStart(2, "0")}
+          {String(currentBeatNumber).padStart(2, "0")}
           <span className="storyAwakening__hudSub">
-            /{String(STORY_AWAKENING_BEATS.length).padStart(2, "0")}
+            /{String(totalBeats).padStart(2, "0")}
           </span>
         </span>
       </div>
@@ -233,42 +306,82 @@ export default function StoryAwakeningPage() {
 
       <main className="storyAwakening__main">
         <header className="storyAwakening__header">
-          <p className="storyAwakening__eyebrow">MAIN STORYLINE // SEQUENCE 01</p>
-          <h1 className="storyAwakening__title">AWAKENING</h1>
+          <p className="storyAwakening__eyebrow">{sequenceLabel}</p>
+          <h1 className="storyAwakening__title">{titleLabel}</h1>
+          {isContainment ? (
+            <p className="storyAwakening__subtitle">
+              Unknown chamber — identity of enclosure not confirmed
+            </p>
+          ) : null}
         </header>
 
         <div className="storyAwakening__stage">
           <div
-            className={povClassName}
-            style={{ "--lid-height": `${lidOpenPct}%` } as CSSProperties}
-            aria-label="First-person awakening view"
+            className={`storyAwakening__viewStack${
+              tankVisible ? " storyAwakening__viewStack--tank" : ""
+            }`}
           >
-            <div className="storyAwakening__povPulse" />
-            <div className="storyAwakening__povAtmosphere">
-              <div className="storyAwakening__povBlur" />
-              <div className="storyAwakening__povLight" />
-              <div className="storyAwakening__povWash" />
+            <div
+              className={povClassName}
+              style={{ "--lid-height": `${lidOpenPct}%` } as CSSProperties}
+              aria-hidden={tankVisible}
+              aria-label="First-person awakening view"
+            >
+              <div className="storyAwakening__povPulse" />
+              <div className="storyAwakening__povAtmosphere">
+                <div className="storyAwakening__povBlur" />
+                <div className="storyAwakening__povLight" />
+                <div className="storyAwakening__povWash" />
+              </div>
+
+              <div
+                className={`storyAwakening__povContent${
+                  contentVisible && !tankVisible
+                    ? " storyAwakening__povContent--visible"
+                    : ""
+                }`}
+              >
+                {beatText && !tankVisible ? (
+                  <p className="storyAwakening__povThought">
+                    {formatThought(beatText)}
+                    {beatTyping ? (
+                      <span className="storyAwakening__povCursor" aria-hidden>
+                        ▌
+                      </span>
+                    ) : null}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="storyAwakening__povLid storyAwakening__povLid--top" />
+              <div className="storyAwakening__povLid storyAwakening__povLid--bottom" />
             </div>
 
             <div
-              className={`storyAwakening__povContent${
-                contentVisible ? " storyAwakening__povContent--visible" : ""
+              className={`storyAwakening__tankWrap${
+                tankVisible ? " storyAwakening__tankWrap--visible" : ""
               }`}
             >
-              {beatText ? (
-                <p className="storyAwakening__povThought">
-                  {formatThought(beatText)}
-                  {beatTyping ? (
-                    <span className="storyAwakening__povCursor" aria-hidden>
-                      ▌
-                    </span>
-                  ) : null}
-                </p>
-              ) : null}
+              <SuspensionTankPOV revealLevel={revealLevel} />
+              <div
+                className={`storyAwakening__tankCaption${
+                  contentVisible && tankVisible
+                    ? " storyAwakening__tankCaption--visible"
+                    : ""
+                }`}
+              >
+                {beatText && tankVisible ? (
+                  <p className="storyAwakening__povThought storyAwakening__povThought--tank">
+                    {formatThought(beatText)}
+                    {beatTyping ? (
+                      <span className="storyAwakening__povCursor" aria-hidden>
+                        ▌
+                      </span>
+                    ) : null}
+                  </p>
+                ) : null}
+              </div>
             </div>
-
-            <div className="storyAwakening__povLid storyAwakening__povLid--top" />
-            <div className="storyAwakening__povLid storyAwakening__povLid--bottom" />
           </div>
         </div>
       </main>
