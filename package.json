@@ -38,8 +38,8 @@
     "vite-plugin-electron": "^0.29.0"
   },
   "build": {
-    "appId": "com.cyrene.rpg",
-    "productName": "Cyrene",
+    "appId": "com.cyrene.rpg.test",
+    "productName": "Cyrene Test",
     "artifactName": "${productName}-Setup-${version}.${ext}",
     "directories": {
       "output": "release"

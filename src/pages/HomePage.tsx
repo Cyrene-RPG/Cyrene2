@@ -203,7 +203,7 @@ export default function HomePage() {
       </div>
       <div className="hud hud--br">
         <span className="hud__label">BUILD</span>
-        <span className="hud__value">0.1.0</span>
+        <span className="hud__value">0.1.0-test</span>
         {window.cyreneDesktop?.isDesktop && (
           <span className="hud__sub">DESKTOP</span>
         )}
@@ -229,8 +229,8 @@ export default function HomePage() {
         >
           <span className="devBanner__icon">!</span>
           <span>
-            CORE BUILD — Home, login, and sign-up only. Pull features from{" "}
-            <code>main-legacy</code>.
+            TEST BUILD — Experimental branch. Do not merge into main unless
+            requested. Pull features from <code>main-legacy</code>.
           </span>
         </div>
       )}
