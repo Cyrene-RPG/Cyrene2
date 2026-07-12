@@ -2,6 +2,8 @@ import type { NavigateFunction } from "react-router-dom";
 
 export const LOGIN_PATH = "/login";
 export const SIGNUP_PATH = "/signup";
+export const STORYLINE_INTRO_PATH = "/storyline-intro";
+export const ADMIN_STORYLINE_PATH = "/admin/storyline";
 
 export type LoginLocationState = {
   from?: string;
@@ -17,12 +19,17 @@ export function redirectToLogin(
   });
 }
 
-const ACTIVE_PATHS = new Set(["/", LOGIN_PATH, SIGNUP_PATH]);
+const ACTIVE_PATHS = new Set([
+  "/",
+  LOGIN_PATH,
+  SIGNUP_PATH,
+  STORYLINE_INTRO_PATH,
+]);
 
 export function getPostLoginPath(state: unknown): string {
   const from = (state as LoginLocationState | null)?.from;
   if (from && ACTIVE_PATHS.has(from)) {
     return from;
   }
-  return "/";
+  return STORYLINE_INTRO_PATH;
 }

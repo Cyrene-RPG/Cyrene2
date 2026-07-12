@@ -1,0 +1,243 @@
+.adminStoryline {
+  position: relative;
+  min-height: 100vh;
+  padding: 28px 24px 40px;
+  background: #030008;
+  color: #f4ecff;
+}
+
+.adminStoryline__bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(122, 0, 255, 0.18) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 80%, rgba(57, 255, 20, 0.08) 0%, transparent 40%),
+    #030008;
+  z-index: 0;
+}
+
+.adminStoryline__scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.adminStoryline__loading,
+.adminStoryline__empty {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.adminStoryline__header,
+.adminStoryline__stats,
+.adminStoryline__panel,
+.adminStoryline__error {
+  position: relative;
+  z-index: 1;
+}
+
+.adminStoryline__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.adminStoryline__eyebrow {
+  margin: 0 0 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(168, 85, 255, 0.75);
+}
+
+.adminStoryline__title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(22px, 4vw, 32px);
+  letter-spacing: 0.08em;
+}
+
+.adminStoryline__back {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(168, 85, 255, 0.9);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.adminStoryline__back:hover {
+  color: #dfc2ff;
+}
+
+.adminStoryline__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.adminStoryline__stat {
+  padding: 14px 16px;
+  border: 1px solid rgba(168, 85, 255, 0.28);
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.adminStoryline__stat strong {
+  font-family: "Orbitron", sans-serif;
+  font-size: 24px;
+  color: #f8f2ff;
+}
+
+.adminStoryline__stat--yes {
+  border-color: rgba(57, 255, 20, 0.35);
+}
+
+.adminStoryline__stat--yes strong {
+  color: #9dff8d;
+}
+
+.adminStoryline__stat--no {
+  border-color: rgba(255, 68, 102, 0.35);
+}
+
+.adminStoryline__stat--no strong {
+  color: #ff9fb0;
+}
+
+.adminStoryline__stat--pending {
+  border-color: rgba(255, 196, 64, 0.35);
+}
+
+.adminStoryline__stat--pending strong {
+  color: #ffd98a;
+}
+
+.adminStoryline__error {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 68, 102, 0.45);
+  background: rgba(255, 68, 102, 0.08);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  color: #ff9fb0;
+}
+
+.adminStoryline__panel {
+  border: 1px solid rgba(168, 85, 255, 0.35);
+  background: rgba(0, 0, 0, 0.42);
+}
+
+.adminStoryline__panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(168, 85, 255, 0.22);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(168, 85, 255, 0.9);
+}
+
+.adminStoryline__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.85);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.65);
+}
+
+.adminStoryline__tableWrap {
+  overflow-x: auto;
+}
+
+.adminStoryline__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+}
+
+.adminStoryline__table th,
+.adminStoryline__table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.adminStoryline__table th {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.adminStoryline__table tbody tr:hover {
+  background: rgba(168, 85, 255, 0.06);
+}
+
+.adminStoryline__badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  letter-spacing: 0.12em;
+}
+
+.adminStoryline__badge--yes {
+  border-color: rgba(57, 255, 20, 0.45);
+  color: #9dff8d;
+  background: rgba(57, 255, 20, 0.08);
+}
+
+.adminStoryline__badge--no {
+  border-color: rgba(255, 68, 102, 0.45);
+  color: #ff9fb0;
+  background: rgba(255, 68, 102, 0.08);
+}
+
+.adminStoryline__badge--pending {
+  border-color: rgba(255, 196, 64, 0.45);
+  color: #ffd98a;
+  background: rgba(255, 196, 64, 0.08);
+}
+
+@media (max-width: 900px) {
+  .adminStoryline__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .adminStoryline__header {
+    flex-direction: column;
+  }
+
+  .adminStoryline__stats {
+    grid-template-columns: 1fr;
+  }
+}

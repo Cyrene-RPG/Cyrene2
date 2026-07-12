@@ -5,6 +5,8 @@ export type Profile = {
   username: string;
   created_at: string;
   is_admin?: boolean;
+  main_storyline_choice?: "yes" | "no" | null;
+  main_storyline_decided_at?: string | null;
 };
 
 export async function fetchProfile(userId: string): Promise<Profile | null> {

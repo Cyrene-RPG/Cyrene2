@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GameSettingsPanel from "../components/GameSettingsPanel";
+import { useAdminAccess } from "../hooks/useAdminAccess";
 import { useAuth } from "../hooks/useAuth";
 import { leaveCity } from "../lib/desktop-controls";
-import { LOGIN_PATH, SIGNUP_PATH } from "../lib/auth-routes";
+import {
+  ADMIN_STORYLINE_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH,
+} from "../lib/auth-routes";
 import { signOutOperator } from "../lib/profiles";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "./HomePage.css";
@@ -33,6 +38,7 @@ function getStatusText(loading: boolean, user: { email?: string } | null) {
 export default function HomePage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { isAdmin } = useAdminAccess();
   const [bannerVisible, setBannerVisible] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [glitch, setGlitch] = useState(false);
@@ -42,8 +48,21 @@ export default function HomePage() {
   const [logoutBusy, setLogoutBusy] = useState(false);
 
   const coreMenuItems = useMemo<MenuItem[]>(() => {
+    const adminItems: MenuItem[] = isAdmin
+      ? [
+          {
+            id: "admin-storyline",
+            label: "STORYLINE ADMIN",
+            sublabel: "View main storyline responses",
+            href: ADMIN_STORYLINE_PATH,
+            accent: "purple",
+          },
+        ]
+      : [];
+
     if (user) {
       return [
+        ...adminItems,
         {
           id: "logout",
           label: "SIGN OUT",
@@ -70,7 +89,7 @@ export default function HomePage() {
         accent: "cyan",
       },
     ];
-  }, [user]);
+  }, [isAdmin, user]);
 
   const menuItems = useMemo<MenuItem[]>(
     () => [

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { useAuth } from "../hooks/useAuth";
 import { signUp } from "../lib/auth";
-import { LOGIN_PATH } from "../lib/auth-routes";
+import { LOGIN_PATH, STORYLINE_INTRO_PATH } from "../lib/auth-routes";
 import { isSupabaseConfigured } from "../lib/supabase";
 import "../components/AuthPage.css";
 
@@ -34,7 +34,7 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/", { replace: true });
+      navigate(STORYLINE_INTRO_PATH, { replace: true });
     }
   }, [loading, user, navigate]);
 
@@ -75,7 +75,7 @@ export default function SignupPage() {
         return;
       }
 
-      navigate("/", { replace: true });
+      navigate(STORYLINE_INTRO_PATH, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "REGISTRATION FAILED.");
     } finally {

@@ -81,7 +81,7 @@ export async function signUp({
     password,
     options: {
       data: { username: trimmedUsername },
-      emailRedirectTo: getAuthRedirectUrl("/link-up"),
+      emailRedirectTo: getAuthRedirectUrl("/storyline-intro"),
     },
   });
 
@@ -144,7 +144,7 @@ export async function resendConfirmationEmail(email: string) {
     type: "signup",
     email: email.trim().toLowerCase(),
     options: {
-      emailRedirectTo: getAuthRedirectUrl("/link-up"),
+      emailRedirectTo: getAuthRedirectUrl("/storyline-intro"),
     },
   });
 

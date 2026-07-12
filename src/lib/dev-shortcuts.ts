@@ -1,6 +1,8 @@
 import { clearPendingLinkUp, setPendingLinkUp } from "./app-url";
+import { STORYLINE_INTRO_PATH } from "./auth-routes";
 import { clearAvatarDraft } from "./avatar-draft";
 import { PROFILE_PATH } from "./avatar-forge-config";
+import { resetStorylineChoiceForDev } from "./storyline";
 
 const DEV_LAND_FORGE_KEY = "cyrene_dev_land_forge";
 
@@ -50,4 +52,13 @@ export function replayPostSignupOnboarding(
   clearAvatarDraft();
   setPendingLinkUp(username);
   navigate("/link-up", { replace: true });
+}
+
+/** Clear storyline choice and open the post-signup prompt for testing. */
+export async function replayStorylinePrompt(
+  navigate: (path: string, options?: { replace?: boolean }) => void,
+) {
+  if (!isDevMode()) return;
+  await resetStorylineChoiceForDev();
+  navigate(STORYLINE_INTRO_PATH, { replace: true });
 }

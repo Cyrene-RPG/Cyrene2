@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import UnknownFigure from "../components/UnknownFigure";
 import { resendConfirmationEmail } from "../lib/auth";
 import { hasPendingLinkUp } from "../lib/app-url";
+import { STORYLINE_INTRO_PATH } from "../lib/auth-routes";
 import { useAuth } from "../hooks/useAuth";
 import "./VerifyEmailPage.css";
 
@@ -32,7 +33,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/link-up", { replace: true });
+      navigate(STORYLINE_INTRO_PATH, { replace: true });
     }
   }, [loading, user, navigate]);
 

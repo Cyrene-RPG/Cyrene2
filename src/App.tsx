@@ -2,11 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import DevShortcuts from "./components/DevShortcuts";
 import LoadingScreen from "./components/LoadingScreen";
+import StorylineGate from "./components/StorylineGate";
 import { useAuth } from "./hooks/useAuth";
 import { applySavedFullscreen } from "./lib/desktop-controls";
 import { isSupabaseConfigured } from "./lib/supabase";
+import AdminStorylinePage from "./pages/AdminStorylinePage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import MainStorylinePromptPage from "./pages/MainStorylinePromptPage";
 import SignupPage from "./pages/SignupPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 
@@ -45,6 +48,7 @@ export default function App() {
   return (
     <>
       <DevShortcuts />
+      <StorylineGate />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login.html" element={<Navigate to="/login" replace />} />
@@ -52,6 +56,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/storyline-intro" element={<MainStorylinePromptPage />} />
+        <Route path="/admin/storyline" element={<AdminStorylinePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

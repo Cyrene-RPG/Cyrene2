@@ -1,0 +1,220 @@
+.storylinePrompt {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #030008;
+  color: #f4ecff;
+}
+
+.storylinePrompt--ready .storylinePrompt__box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.storylinePrompt__bg {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(122, 0, 255, 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 25%, rgba(57, 255, 20, 0.12) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.9) 70%, #030008 100%),
+    url("/City.jpg") center / cover no-repeat;
+  filter: saturate(0.85) brightness(0.55);
+}
+
+.storylinePrompt__vignette,
+.storylinePrompt__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.storylinePrompt__vignette {
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(0, 0, 0, 0.82) 100%);
+}
+
+.storylinePrompt__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.14) 2px,
+    rgba(0, 0, 0, 0.14) 4px
+  );
+  opacity: 0.35;
+}
+
+.storylinePrompt__loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(168, 85, 255, 0.85);
+}
+
+.storylinePrompt__hud {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.storylinePrompt__hud--tl {
+  top: 24px;
+  left: 24px;
+}
+
+.storylinePrompt__hud--tr {
+  top: 24px;
+  right: 24px;
+  text-align: right;
+}
+
+.storylinePrompt__hudVal {
+  color: rgba(168, 85, 255, 0.9);
+}
+
+.storylinePrompt__hudVal--live {
+  color: rgba(57, 255, 20, 0.85);
+}
+
+.storylinePrompt__main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.storylinePrompt__box {
+  width: min(560px, 100%);
+  padding: 28px 26px 24px;
+  border: 1px solid rgba(168, 85, 255, 0.45);
+  background:
+    linear-gradient(180deg, rgba(18, 8, 32, 0.92) 0%, rgba(6, 2, 12, 0.96) 100%);
+  box-shadow:
+    0 0 40px rgba(122, 0, 255, 0.18),
+    inset 0 0 30px rgba(122, 0, 255, 0.06);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.storylinePrompt__eyebrow {
+  margin: 0 0 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(168, 85, 255, 0.75);
+}
+
+.storylinePrompt__title {
+  margin: 0 0 14px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(22px, 4vw, 30px);
+  letter-spacing: 0.08em;
+  color: #f8f2ff;
+}
+
+.storylinePrompt__copy {
+  margin: 0 0 22px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.storylinePrompt__alert,
+.storylinePrompt__error {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.storylinePrompt__alert {
+  border: 1px solid rgba(255, 196, 64, 0.45);
+  background: rgba(255, 196, 64, 0.08);
+  color: #ffd98a;
+}
+
+.storylinePrompt__error {
+  border: 1px solid rgba(255, 68, 102, 0.45);
+  background: rgba(255, 68, 102, 0.08);
+  color: #ff9fb0;
+}
+
+.storylinePrompt__actions {
+  display: grid;
+  gap: 12px;
+}
+
+.storylinePrompt__btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.storylinePrompt__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.storylinePrompt__btnKey {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid currentColor;
+  font-size: 12px;
+}
+
+.storylinePrompt__btn--yes {
+  border-color: rgba(57, 255, 20, 0.45);
+  background: rgba(57, 255, 20, 0.08);
+  color: #9dff8d;
+}
+
+.storylinePrompt__btn--yes:hover:not(:disabled) {
+  border-color: rgba(57, 255, 20, 0.8);
+  background: rgba(57, 255, 20, 0.14);
+}
+
+.storylinePrompt__btn--no {
+  border-color: rgba(255, 68, 102, 0.45);
+  background: rgba(255, 68, 102, 0.08);
+  color: #ff9fb0;
+}
+
+.storylinePrompt__btn--no:hover:not(:disabled) {
+  border-color: rgba(255, 68, 102, 0.8);
+  background: rgba(255, 68, 102, 0.14);
+}
+
+.storylinePrompt__hint {
+  margin: 18px 0 0;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.42);
+  text-align: center;
+}
