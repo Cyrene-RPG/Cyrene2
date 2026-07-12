@@ -11,6 +11,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MainStorylinePromptPage from "./pages/MainStorylinePromptPage";
 import SignupPage from "./pages/SignupPage";
+import StoryAwakeningPage from "./pages/StoryAwakeningPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 function removeBootSplash() {
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/storyline-intro" element={<MainStorylinePromptPage />} />
+        <Route path="/story/awakening" element={<StoryAwakeningPage />} />
         <Route path="/admin/storyline" element={<AdminStorylinePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

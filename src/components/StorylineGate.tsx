@@ -5,12 +5,14 @@ import {
   ADMIN_STORYLINE_PATH,
   LOGIN_PATH,
   SIGNUP_PATH,
+  STORY_AWAKENING_PATH,
   STORYLINE_INTRO_PATH,
 } from "../lib/auth-routes";
 import { fetchStorylineChoice } from "../lib/storyline";
 
 const EXEMPT_PATHS = new Set([
   STORYLINE_INTRO_PATH,
+  STORY_AWAKENING_PATH,
   LOGIN_PATH,
   SIGNUP_PATH,
   "/verify-email",

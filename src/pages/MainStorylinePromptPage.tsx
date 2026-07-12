@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { LOGIN_PATH } from "../lib/auth-routes";
+import { LOGIN_PATH, STORY_AWAKENING_PATH } from "../lib/auth-routes";
 import {
   fetchStorylineChoice,
   saveMainStorylineChoice,
@@ -59,7 +59,9 @@ export default function MainStorylinePromptPage() {
 
       try {
         await saveMainStorylineChoice(choice);
-        navigate("/", { replace: true });
+        navigate(choice === "yes" ? STORY_AWAKENING_PATH : "/", {
+          replace: true,
+        });
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Failed to record your choice.",

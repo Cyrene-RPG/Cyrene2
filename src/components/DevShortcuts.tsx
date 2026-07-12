@@ -1,7 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAdminAccess } from "../hooks/useAdminAccess";
 import { useAuth } from "../hooks/useAuth";
-import { ADMIN_STORYLINE_PATH, STORYLINE_INTRO_PATH } from "../lib/auth-routes";
+import {
+  ADMIN_STORYLINE_PATH,
+  STORY_AWAKENING_PATH,
+} from "../lib/auth-routes";
 import { isDevMode, replayStorylinePrompt } from "../lib/dev-shortcuts";
 
 export default function DevShortcuts() {
@@ -14,7 +17,7 @@ export default function DevShortcuts() {
 
   const onHome = location.pathname === "/";
   const onAdmin = location.pathname === ADMIN_STORYLINE_PATH;
-  const onStoryline = location.pathname === STORYLINE_INTRO_PATH;
+  const onAwakening = location.pathname === STORY_AWAKENING_PATH;
 
   return (
     <div className="devShortcuts">
@@ -35,16 +38,26 @@ export default function DevShortcuts() {
         HOME
       </button>
       {user ? (
-        <button
-          type="button"
-          className={`devShortcuts__btn devShortcuts__btn--highlight${
-            onStoryline ? " devShortcuts__btn--active" : ""
-          }`}
-          onClick={() => void replayStorylinePrompt(navigate)}
-          title="Reset storyline choice and open the Yes/No prompt"
-        >
-          → STORYLINE
-        </button>
+        <>
+          <button
+            type="button"
+            className={`devShortcuts__btn devShortcuts__btn--highlight${
+              onAwakening ? " devShortcuts__btn--active" : ""
+            }`}
+            onClick={() => navigate(STORY_AWAKENING_PATH, { replace: true })}
+            title="Preview the awakening opening"
+          >
+            → AWAKEN
+          </button>
+          <button
+            type="button"
+            className="devShortcuts__btn"
+            onClick={() => void replayStorylinePrompt(navigate)}
+            title="Reset storyline choice and open the Yes/No prompt"
+          >
+            → STORYLINE
+          </button>
+        </>
       ) : null}
       {isAdmin ? (
         <button
